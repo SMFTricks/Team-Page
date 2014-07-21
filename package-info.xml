@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
+<package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
+	<id>smftricks:teampage</id>
+	<name>Team Page</name>
+	<version>4.0</version>
+	<type>modification</type>
+	
+	<!-- SMF 2.0.x Install -->
+	<install for="2.0 - 2.0.99">
+
+		<!-- Mod Readme -->
+		<readme parsebbc="true">README.txt</readme>
+		
+		<!-- Templates, Languages and Images -->
+		<require-dir name="Themes" destination="$boarddir">Theme files</require-dir>
+
+		<!-- Source Files -->
+		<require-file name="Sources/Subs-TeamPage.php" destination="$sourcedir">Source File</require-file>
+		<require-file name="Sources/TeamPage.php" destination="$sourcedir">Source File</require-file>
+		<require-file name="Sources/TeamPageAdmin.php" destination="$sourcedir">Source File</require-file>
+
+		<!-- Database -->
+		<database>install.php</database>
+
+		<!-- Hooks -->
+		<code>hooks.php</code>
+
+	</install>
+	
+	<!-- SMF 2.0.x Uninstall -->
+	<uninstall for="2.0 - 2.0.99">
+
+		<!-- Templates -->
+		<remove-file name="$themedir/TeamPage.template.php" />
+		<remove-file name="$themedir/TeamPageAdmin.template.php" />
+
+		<!-- Sources -->
+		<remove-file name="$sourcedir/Subs-TeamPage.php" />
+		<remove-file name="$sourcedir/TeamPage.php" />
+		<remove-file name="$sourcedir/TeamPageAdmin.php" />
+
+		<!-- Languages -->
+		<remove-file name="$languagedir/TeamPage.english.php" />
+		<remove-file name="$languagedir/TeamPage.spanish_es.php" />
+		<remove-file name="$languagedir/TeamPage.spanish_es-utf8.php" />
+		<remove-file name="$languagedir/TeamPage.spanish_latin.php" />
+		<remove-file name="$languagedir/TeamPage.spanish_latin-utf8.php" />
+
+
+		<!-- Images -->
+		<remove-dir name="$themedir/images/teampage" />
+		<remove-file name="$themedir/images/sort_left.gif" />
+
+		<!-- CSS -->
+		<remove-dir name="$themedir/css/TeamPage.css" />
+
+		<!-- Database -->
+		<database>install.php</database>
+
+		<!-- Hooks Remove -->
+		<code>remove.php</code>
+
+	</uninstall>
+	
+</package-info>
