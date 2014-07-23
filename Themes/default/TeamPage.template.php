@@ -94,7 +94,7 @@ echo '
 							<div class="tp_leftcontent">
 							
 								<div class="tp_avatar">
-									<a href="', $scripturl, '?action=profile;u=', $member['id'], '"><img src="', !empty($member['avatar']['href']) ? $member['avatar']['href'] : ''. $settings['images_url'].'/default_avatar.png', '" alt="" style="width: 60px; height: 60px; border-radius: 100%;" /></a>
+									<a href="', $scripturl, '?action=profile;u=', $member['id'], '"><img src="', !empty($member['avatar']['href']) ? $member['avatar']['href'] : ''. $settings['images_url'].'/teampage/default_avatar.png', '" alt="" style="width: 60px; height: 60px; border-radius: 100%;" /></a>
 								</div><br />
 								
 								<a href="'.$scripturl.'?action=pm;sa=send;u='.$member['id'].'"><img class="tp_imgs" src="'. $settings['default_images_url']. '/teampage/pm.png" alt="'.$txt['TeamPage_pm'].'" title="'.$txt['TeamPage_pm'].'" /></a>
@@ -265,7 +265,7 @@ echo '
 							<div class="tp_leftcontent">
 							
 								<div class="tp_avatar">
-									<a href="', $scripturl, '?action=profile;u=', $member['id'], '"><img src="', !empty($member['avatar']['href']) ? $member['avatar']['href'] : ''. $settings['images_url'].'/default_avatar.png', '" alt="" style="width: 60px; height: 60px; border-radius: 100%;" /></a>
+									<a href="', $scripturl, '?action=profile;u=', $member['id'], '"><img src="', !empty($member['avatar']['href']) ? $member['avatar']['href'] : ''. $settings['images_url'].'/teampage/default_avatar.png', '" alt="" style="width: 60px; height: 60px; border-radius: 100%;" /></a>
 								</div><br />
 								
 								<a href="'.$scripturl.'?action=pm;sa=send;u='.$member['id'].'"><img class="tp_imgs" src="'. $settings['default_images_url']. '/teampage/pm.png" alt="'.$txt['TeamPage_pm'].'" title="'.$txt['TeamPage_pm'].'" /></a>
