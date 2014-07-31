@@ -4,7 +4,7 @@
  * TeamPage.spanish
  *
  * @package Team Page
- * @version 4.0
+ * @version 4.1
  * @author Diego Andrés <diegoandres_cortes@outlook.com>
  * @copyright Copyright (c) 2014 Diego Andrés
  * @license http://www.mozilla.org/MPL/MPL-1.1.html
