@@ -27,7 +27,7 @@ $txt['TeamPage_moderators'] = 'Moderadores';
 $txt['TeamPage_moderators_description'] = 'Estos son los moderadores de '. $context['forum_name']. '';
 $txt['TeamPages_boards_moderating'] = 'Secciones que modera';
 
-// Permission
+// Permissions
 $txt['TeamPage_permissions'] = 'Permisos para la Página de Equipo';
 $txt['groups_view_teampage'] = 'Ver la Página de Equipo';
 $txt['permissionname_view_teampage'] = 'Ver la Página de Equipo';
