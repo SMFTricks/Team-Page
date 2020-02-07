@@ -70,8 +70,8 @@ class Settings
 		global $txt, $context;
 
 		$subactions = [
-			'settings' => $this->Main(),
-			'pages' => Pages::List(),
+			'settings' => 'Settings::Main',
+			'pages' => 'Pages::List',
 		];
 		$sa = isset($_GET['sa'], $subactions[$_GET['sa']]) ? $_GET['sa'] : 'settings';
 
@@ -83,10 +83,10 @@ class Settings
 				'settings' => ['description' => $txt['TeamPage_page_settings_desc']],
 			],
 		];
-		$subactions[$sa];
+		call_helper(__NAMESPACE__ . '\\' . $subactions[$sa]);
 	}
 
-	public function Main($return_config = false)
+	public static function Main($return_config = false)
 	{
 		global $context, $txt, $sourcedir;
 
