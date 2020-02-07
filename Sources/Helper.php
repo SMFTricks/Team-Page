@@ -15,6 +15,24 @@ if (!defined('SMF'))
 
 class Helper
 {
+	public static function Save($config_vars, $return_config, $sa)
+	{
+		global $context, $scripturl;
+
+		if ($return_config)
+			return $config_vars;
+
+		$context['post_url'] = $scripturl . '?action=admin;area=teampage;sa='. $sa. ';save';
+
+		// Saving?
+		if (isset($_GET['save'])) {
+			checkSession();
+			saveDBSettings($config_vars);
+			redirectexit('action=admin;area=teampage;sa='. $sa. '');
+		}
+		prepareDBSettingContext($config_vars);
+	}
+
 	public static function Count($table, $columns)
 	{
 		global $smcFunc;

@@ -65,24 +65,6 @@ class Settings
 		}
 	}
 
-	private function Save($config_vars, $return_config, $sa)
-	{
-		global $context, $scripturl;
-
-		if ($return_config)
-			return $config_vars;
-
-		$context['post_url'] = $scripturl . '?action=admin;area=teampage;sa='. $sa. ';save';
-
-		// Saving?
-		if (isset($_GET['save'])) {
-			checkSession();
-			saveDBSettings($config_vars);
-			redirectexit('action=admin;area=teampage;sa='. $sa. '');
-		}
-		prepareDBSettingContext($config_vars);
-	}
-
 	public function Index()
 	{
 		global $txt, $context;
@@ -129,6 +111,7 @@ class Settings
 			['title', 'TeamPage_permissions'],
 			['permissions', 'teampage_canAccess', 'subtext' => $txt['permissionhelp_teampage_canAccess']],
 		];
-		$this->Save($config_vars, $return_config, 'settings');
+		// Save!
+		Helper::Save($config_vars, $return_config, 'settings');
 	}
 }
