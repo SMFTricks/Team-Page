@@ -3,63 +3,47 @@
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
 	<id>smftricks:teampage</id>
 	<name>Team Page</name>
-	<version>4.0.1</version>
+	<version>5.0</version>
 	<type>modification</type>
-	
-	<!-- SMF 2.0.x Install -->
-	<install for="2.0 - 2.0.99">
-
+	<install for="2.1 - 2.1.99, 2.1 Beta 1 - 3">
 		<!-- Mod Readme -->
-		<readme parsebbc="true">README.txt</readme>
-		
+		<readme lang="english" parsebbc="true" type="file">readme/readme.english.txt</readme>
+		<!-- Credits -->
+		<credits url="https://smftricks.com" license="MPL 2.0" copyright="SMF Tricks" licenseurl="https://www.mozilla.org/en-US/MPL/2.0/">Team Page</credits>
+		<!-- License -->
+		<license type="inline" parsebbc="false">
+			This Source Code Form is subject to the terms of the Mozilla Public
+			License, v. 2.0. If a copy of the MPL was not distributed with this
+			file, You can obtain one at https://www.mozilla.org/en-US/MPL/2.0/.
+		</license>
 		<!-- Templates, Languages and Images -->
 		<require-dir name="Themes" destination="$boarddir">Theme files</require-dir>
-
 		<!-- Source Files -->
-		<require-file name="Sources/Subs-TeamPage.php" destination="$sourcedir">Source File</require-file>
-		<require-file name="Sources/TeamPage.php" destination="$sourcedir">Source File</require-file>
-		<require-file name="Sources/TeamPageAdmin.php" destination="$sourcedir">Source File</require-file>
-
+		<require-dir name="Sources" destination="$boarddir">Source files</require-dir>
+		<!-- Hooks -->
+		<hook hook="integrate_pre_include" file="$sourcedir/TeamPage/TeamPage.php" function="TeamPage\TeamPage::initialize" />
 		<!-- Database -->
 		<database>install.php</database>
-
-		<!-- Hooks -->
-		<code>hooks.php</code>
-
+		<!-- Redirect -->
+		<redirect url="?action=admin;area=teampage">redirect.txt</redirect>
 	</install>
 	
 	<!-- SMF 2.0.x Uninstall -->
-	<uninstall for="2.0 - 2.0.99">
-
+	<uninstall for="2.1 - 2.1.99, 2.1 Beta 1 - 3">
 		<!-- Templates -->
-		<remove-file name="$themedir/TeamPage.template.php" />
-		<remove-file name="$themedir/TeamPageAdmin.template.php" />
-
+		<remove-file name="$themedir/TeamPage.template.php">Main Template</remove-file>
+		<remove-file name="$themedir/TeamPageAdmin.template.php">Admin template</remove-file>
 		<!-- Sources -->
-		<remove-file name="$sourcedir/Subs-TeamPage.php" />
-		<remove-file name="$sourcedir/TeamPage.php" />
-		<remove-file name="$sourcedir/TeamPageAdmin.php" />
-
+		<remove-dir name="$sourcedir/TeamPage">Source files</remove-dir>
 		<!-- Languages -->
-		<remove-file name="$languagedir/TeamPage.english.php" />
-		<remove-file name="$languagedir/TeamPage.spanish_es.php" />
-		<remove-file name="$languagedir/TeamPage.spanish_es-utf8.php" />
-		<remove-file name="$languagedir/TeamPage.spanish_latin.php" />
-		<remove-file name="$languagedir/TeamPage.spanish_latin-utf8.php" />
-
-
-		<!-- Images -->
-		<remove-dir name="$themedir/images/teampage" />
-		<remove-file name="$themedir/images/sort_left.gif" />
-
+		<remove-file name="$languagedir/TeamPage.english.php">Language file</remove-file>
+			<!-- Spanish-->
 		<!-- CSS -->
-		<remove-dir name="$themedir/css/TeamPage.css" />
-
+		<remove-file name="$themedir/css/TeamPage.css" />
+		<!-- Hooks -->
+		<hook hook="integrate_pre_include" file="$sourcedir/TeamPage/TeamPage.php" function="TeamPage\TeamPage::initialize" reverse="true" />
 		<!-- Database -->
 		<database>install.php</database>
-
-		<!-- Hooks Remove -->
-		<code>remove.php</code>
 
 	</uninstall>
 	
