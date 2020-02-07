@@ -4,9 +4,9 @@
  * install.php
  *
  * @package Team Page
- * @version 4.0
+ * @version 5.0
  * @author Diego Andrés <diegoandres_cortes@outlook.com>
- * @copyright Copyright (c) 2014, Diego Andrés
+ * @copyright Copyright (c) 2020, Diego Andrés
  * @license http://www.mozilla.org/MPL/MPL-1.1.html
  */
 
@@ -44,7 +44,7 @@
 					'unsigned' => true,
 				),
 				array(
-					'name' => 'place',
+					'name' => 'position',
 					'type' => 'smallint',
 					'size' => 3,
 					'null' => false,
@@ -52,7 +52,7 @@
 					'unsigned' => true,
 				),
 				array(
-					'name' => 'roworder',
+					'name' => 'order',
 					'type' => 'smallint',
 					'size' => 3,
 					'null' => false,
@@ -83,11 +83,11 @@
 					'auto' => true,
 				),
 				array(
-					'name' => 'name_page',
+					'name' => 'page_name',
 					'type' => 'text',
 				),
 				array(
-					'name' => 'sub_page',
+					'name' => 'page_action',
 					'type' => 'text',
 				),
 				array(
@@ -98,11 +98,11 @@
 					'null' => false,
 				),
 				array(
-					'name' => 'type',
+					'name' => 'page_type',
 					'type' => 'text',
 				),
 				array(
-					'name' => 'body',
+					'name' => 'page_body',
 					'type' => 'text',
 				),
 			),
