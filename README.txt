@@ -1,4 +1,4 @@
-[center][url=http://smftricks.com][img]http://smftricks.com/Themes/SMFHispano/images/theme/logo.png[/img][/url][/center]
+﻿[center][url=http://smftricks.com][img]http://smftricks.com/Themes/SMFHispano/images/theme/logo.png[/img][/url][/center]
 [hr]
 
 [center][b][size=14pt]Team Page[/size][/b]

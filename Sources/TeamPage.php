@@ -23,7 +23,7 @@ if (!defined('SMF'))
 		 TeamPageLoad::TeamPage_Main();
 	}
 
-class TeamPageLoad extends TeamPage
+class TeamPageLoad
 {
 
 	public static function TeamPage_Main()
@@ -33,7 +33,7 @@ class TeamPageLoad extends TeamPage
 		// Set all the page stuff
 		$context['linktree'][] = array(
 			'url' => $scripturl . '?action=teampage',
-			'name' => parent::text('main_button'),
+			'name' => TeamPage::text('main_button'),
 		);
 
 		// Is allowed to view the Team Page?
@@ -48,9 +48,9 @@ class TeamPageLoad extends TeamPage
 		
 		// Load the Page
 		if ((isset($_REQUEST['sa']) && ($_REQUEST['sa'] == 'moderators')) || ((self::CountPages() == 0) && !empty($modSettings['TeamPage_enable_modpage'])))
-			self::LoadModerators();
+			TeamPageLoad::LoadModerators();
 		else
-			self::TP_Load();
+			TeamPageLoad::TP_Load();
 			
 	}
 	
@@ -105,7 +105,7 @@ class TeamPageLoad extends TeamPage
 		global $scripturl, $context, $txt, $smcFunc, $modSettings, $settings;
 		
 		// If there is no subaction in the url, We'll use the first page in the database
-		$countpages = self::CountPages();
+		$countpages = TeamPageLoad::CountPages();
 		// Let's use it for similar purposes too
 		if ($countpages == 1 && empty($modSettings['TeamPage_enable_modpage']))
 		{
@@ -160,7 +160,7 @@ class TeamPageLoad extends TeamPage
 			// Where's the body??
 			$context['page']['body'] = $checkpage['body'];
 			// What do we do with the body??
-			$context['page']['print'] = self::Handle_Types($context['page']['type'],$context['page']['body']);
+			$context['page']['print'] = TeamPageLoad::Handle_Types($context['page']['type'],$context['page']['body']);
 		}
 		
 		// I need the pages for showing them in the Team Page action
@@ -293,7 +293,7 @@ class TeamPageLoad extends TeamPage
 		global $scripturl, $context, $txt, $smcFunc, $modSettings, $settings, $user_info;
 		
 		// If there is no subaction in the url, We'll use the first page in the database
-		$countpages = self::CountPages();
+		$countpages = TeamPageLoad::CountPages();
 		// Let's use it for similar purposes too
 		if ($countpages == 1)
 		{

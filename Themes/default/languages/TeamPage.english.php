@@ -92,6 +92,9 @@ $txt['TeamPage_showm'] = 'Show the last posts';
 $txt['TeamPage_last_login'] = 'Last Login';
 $txt['TeamPage_date_registered'] = 'Date Registered';
 
+// Inside title/confirm strings.
+$txt['list_all_groups'] = 'Group ID listing';
+
 // Inside column/table strings for group inclusion
 $txt['groups_left'] = 'Left Groups';
 $txt['groups_right'] = 'Right Groups';

@@ -19,7 +19,7 @@ if (file_exists(dirname(__FILE__) . '/SSI.php') && !defined('SMF'))
 	// So... looking for something new
 	$hooks = array(
 		'integrate_pre_include' => '$sourcedir/Subs-TeamPage.php',
-		'integrate_menu_buttons' => '$sourcedir/Subs-TeamPage.php|TeamPage::menu',
+		'integrate_menu_buttons' => 'TeamPage::menu',
 		'integrate_admin_areas' => 'TeamPage::admin',
 		'integrate_actions' => 'TeamPage::actions',
 		'integrate_whos_online' =>	'TeamPage::online',

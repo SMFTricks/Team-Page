@@ -127,13 +127,14 @@ class TeamPage
 	 */
 	public static function admin(&$admin_menu)
 	{
-		global $context, $txt, $scripturl, $sourcedir;
+		global $context, $txt, $scripturl;
 
-		include_once($sourcedir. '/TeamPageAdmin.php');
+		loadtemplate('TeamPageAdmin');
+		loadLanguage(self::$name);
 		
 		$admin_menu['config']['areas']['teampage'] = array(
 			'label' => self::text('main_button'),
-			'file' => 'Subs-TeamPage.php',
+			'file' => 'TeamPageAdmin.php',
 			'function' => 'loadAdmin',
 			'icon' => 'server.gif',
 			'subsections' => array(
