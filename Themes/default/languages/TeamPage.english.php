@@ -19,6 +19,7 @@ $txt['TeamPage_button'] = 'Team Page';
 $txt['TeamPage_main_button'] = 'Team';
 $txt['TeamPage_page_main'] = 'Main';
 $txt['TeamPage_page_settings'] = 'Settings';
+$txt['TeamPage_page_settings_desc'] = 'Main settings for the team page, permissions and other options.';
 $txt['TeamPage_page_pages'] = 'Pages';
 $txt['TeamPage_page_page_edit'] = 'Editing Page';
 
@@ -29,9 +30,12 @@ $txt['TeamPages_boards_moderating'] = 'Boards Moderating';
 
 // Permissions
 $txt['TeamPage_permissions'] = 'Permissions for Team Page';
-$txt['groups_view_teampage'] = 'View Team Page';
-$txt['permissionname_view_teampage'] = 'View Team Page';
-$txt['permissionhelp_view_teampage'] = 'Giving this permission lets the membergroup in question access the team page.';
+$txt['permissiongroup_teampage_canAccess'] = 'Team Page permissions';
+$txt['permissionname_teampage_canAccess'] = 'Access Team Page';
+$txt['groups_teampage_canAccess'] = 'Access Team Page';
+$txt['permissionhelp_teampage_canAccess'] = 'If the user can access the team page.';
+$txt['permissionhelp_groups_teampage_canAccess'] = 'If the user can access the team page.';
+$txt['cannot_teampage_canAccess'] = ' You\'re not allowed to access the team page.';
 
 // Errors
 $txt['TeamPage_error_title_sub'] = 'You have to enter a title and a subaction for your new page.';
@@ -48,9 +52,10 @@ $txt['TeamPage_no_members'] = 'No Members Available...';
 $txt['TeamPage_group_no_av'] = 'The group you\'re trying to add/move does not exist or is not available here.';
 $txt['TeamPage_title_editor_empty'] = 'The page body is not defined.';
 
-// Others
+// Pages
 $txt['TeamPage_page_title'] = 'Page title';
 $txt['TeamPage_page_subaction'] = 'Page subaction';
+$txt['TeamPage_page_details'] = 'Details';
 $txt['TeamPage_page_id'] = 'Page ID';
 $txt['TeamPage_page_type_i'] = 'Page Type';
 $txt['TeamPage_page_delete'] = 'Delete Page';
@@ -64,7 +69,7 @@ $txt['TeamPage_page_type'] = 'What type of text is allowed?';
 $txt['TeamPage_page_type_bbc'] = 'BBC';
 $txt['TeamPage_page_type_html'] = 'HTML';
 $txt['TeamPage_page_type_groups'] = 'groups';
-$txt['TeamPage_no_pages'] = 'Currently you have not created pages.';
+$txt['TeamPage_no_pages'] = 'Currently you have not created any custom pages.';
 
 // Descriptions
 $txt['TeamPage_admin_description_settings'] = 'In this section you\'ll be able to handle que main settings of the Team Page mod.';
