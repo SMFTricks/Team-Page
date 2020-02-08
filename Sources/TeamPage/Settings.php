@@ -22,7 +22,7 @@ class Settings
 	 * @param array $admin_areas An array with all the admin areas
 	 * @return
 	 */
-	public function hookAreas(&$admin_areas)
+	public static function hookAreas(&$admin_areas)
 	{
 		global $scripturl, $txt, $modSettings;
 
@@ -30,7 +30,7 @@ class Settings
 		
 		$admin_areas['config']['areas']['teampage'] = [
 			'label' => $txt['TeamPage_button'],
-			'function' => __NAMESPACE__ . '\Settings::Index#',
+			'function' => __NAMESPACE__ . '\Settings::Index',
 			'icon' => 'server',
 			'subsections' => [
 				'settings' => [$txt['TeamPage_page_settings']],
@@ -54,24 +54,29 @@ class Settings
 	{
 		global $txt;
 
-		$shop_permissions = [
+		$permissions = [
 			'teampage_canAccess' => false,
 		];
 
 		$permissionGroups['membergroup'] = ['teampage'];
-		foreach ($shop_permissions as $p => $s) {
+		foreach ($permissions as $p => $s) {
 			$permissionList['membergroup'][$p] = [$s,'teampage','teampage'];
 			$hiddenPermissions[] = $p;
 		}
 	}
 
-	public function Index()
+	public static function Index()
 	{
 		global $txt, $context;
+
+		loadTemplate('TeamPage-Admin');
 
 		$subactions = [
 			'settings' => 'Settings::Main',
 			'pages' => 'Pages::List',
+			'edit' => 'Pages::Edit',
+			'save' => 'Pages::Save',
+			'delete' => 'Pages::Delete',
 		];
 		$sa = isset($_GET['sa'], $subactions[$_GET['sa']]) ? $_GET['sa'] : 'settings';
 
@@ -81,6 +86,7 @@ class Settings
 			'description' => $txt['TeamPage_page_settings_desc'],
 			'tabs' => [
 				'settings' => ['description' => $txt['TeamPage_page_settings_desc']],
+				'pages' => ['description' => $txt['TeamPage_page_pages_desc']],
 			],
 		];
 		call_helper(__NAMESPACE__ . '\\' . $subactions[$sa]);
@@ -91,7 +97,6 @@ class Settings
 		global $context, $txt, $sourcedir;
 
 		require_once($sourcedir . '/ManageServer.php');
-		loadTemplate('TeamPage-Admin');
 
 		// Set all the page stuff
 		$context['sub_template'] = 'show_settings';
@@ -111,6 +116,7 @@ class Settings
 			['title', 'TeamPage_permissions'],
 			['permissions', 'teampage_canAccess', 'subtext' => $txt['permissionhelp_teampage_canAccess']],
 		];
+
 		// Save!
 		Helper::Save($config_vars, $return_config, 'settings');
 	}
