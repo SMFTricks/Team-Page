@@ -15,15 +15,18 @@ if (!defined('SMF'))
 
 class Pages
 {
-	private static $table = 'teampage_cp AS cp';
+	private static $table = 'teampage_cp';
 	private static $columns = ['cp.id_page', 'cp.page_name', 'cp.page_action', 'cp.is_text', 'cp.page_type', 'cp.page_body'];
 	private static $additional_query = '';
+	private static $fields_data = [];
+	private static $fields_type = [];
 
 	public static function List()
 	{
 		global $context, $scripturl, $sourcedir, $modSettings, $txt;
 
 		require_once($sourcedir . '/Subs-List.php');
+		$context['template_layers'][] = 'pages_post';
 		$context['sub_template'] = 'show_list';
 		$context['default_list'] = 'pageslist';
 		$context['page_title'] = $txt['TeamPage']. ' - ' . $txt['TeamPage_page_pages'];
@@ -32,16 +35,16 @@ class Pages
 		$listOptions = [
 			'id' => 'pageslist',
 			'title' => $txt['TeamPage_page_pages'],
-			'items_per_page' => 10,
+			'items_per_page' => 5,
 			'base_href' => '?action=admin;area=teampage;sa=pages',
 			'default_sort_col' => 'modify',
 			'get_items' => [
 				'function' => __NAMESPACE__ . '\Helper::Get',
-				'params' => [self::$table, self::$columns, self::$additional_query],
+				'params' => [self::$table . ' AS cp', self::$columns, self::$additional_query],
 			],
 			'get_count' => [
 				'function' => __NAMESPACE__ . '\Helper::Count',
-				'params' => [self::$table, self::$columns]
+				'params' => [self::$table . ' AS cp', self::$columns]
 			],
 			'no_items_label' => $txt['TeamPage_no_pages'],
 			'no_items_align' => 'center',
@@ -150,13 +153,59 @@ class Pages
 					'position' => 'below_table_data',
 					'value' => '<input type="submit" size="18" value="'.$txt['delete']. '" class="button" />',
 				],
-				'updated' => [
-					'position' => 'top_of_list',
-					'value' => (!isset($_REQUEST['deleted']) ? (!isset($_REQUEST['added']) ? (!isset($_REQUEST['updated']) ? '' : '<div class="infobox">'. $txt['Shop_items_updated']. '</div>') : '<div class="infobox">'. $txt['Shop_items_added']. '</div>') : '<div class="infobox">'. $txt['Shop_items_deleted']. '</div>'),
-				],
+				
 			],
 		];
 		// Let's finishem
 		createList($listOptions);
+	}
+
+	public static function Save()
+	{
+		global $smcFunc, $txt;
+
+		// Data
+		self::$fields_data = [
+			'page_id' => (int) isset($_REQUEST['id']) && !empty($_REQUEST['id']) ? $_REQUEST['id'] : 0,
+			'page_name' => (string) isset($_REQUEST['title']) ? $smcFunc['htmlspecialchars']($_REQUEST['title'], ENT_QUOTES) : '',
+			'page_action' => (string) isset($_REQUEST['action']) ? strtolower($smcFunc['htmlspecialchars']($_REQUEST['action'], ENT_QUOTES)) : '',
+			'is_text' => (int) isset($_REQUEST['is_text']) ? 1 : 0,
+			'page_type' => (string) isset($_REQUEST['type']) && !empty($_REQUEST['is_text']) ? $_REQUEST['type'] : $txt['TeamPage_page_type_groups'],
+			'page_body' => (string) isset($_REQUEST['body']) ? $smcFunc['htmlspecialchars']($_REQUEST['body'], ENT_QUOTES) : '',
+		];
+
+		print_r(self::$fields_data);
+
+		// Type
+		foreach(self::$fields_data as $column => $type)
+			self::$fields_type[$column] = gettype($type);
+
+		// Validate info
+		self::Validate(self::$fields_data);
+		checkSession();
+		
+		if (empty(self::$fields_data['page_id']))
+			Helper::Insert(self::$table, self::$fields_data, self::$fields_type);
+		else
+			Helper::Update(self::$fields);
+
+		redirectexit('?action=pene');
+	}
+
+	public static function Validate($data)
+	{
+		global $txt;
+
+		// Empty name
+		if (empty($data['page_name']) || empty($data['page_action']))
+			fatal_error($txt['TeamPage_error_title_sub'], false);
+
+		// Only lowercase and alphanumeric
+		elseif (!ctype_alnum($data['page_action']))
+			fatal_error($txt['TeamPage_error_alnum_sub'], false);
+
+		// Duplicated action?
+		elseif (!empty(Helper::CheckDuplicate(self::$table, 'cp.page_action', $data['page_action'])))
+			fatal_error($txt['TeamPage_error_already_sub'], false);
 	}
 }
