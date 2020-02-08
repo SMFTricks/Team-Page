@@ -93,7 +93,7 @@ class TeamPage
 		// Add some hooks by action
 		switch ($_REQUEST['action']) {
 			case 'admin':
-				add_integration_function('integrate_admin_areas', __NAMESPACE__ . '\Settings::hookAreas#', false, '$sourcedir/TeamPage/Settings.php');
+				add_integration_function('integrate_admin_areas', __NAMESPACE__ . '\Settings::hookAreas', false, '$sourcedir/TeamPage/Settings.php');
 				break;
 			case 'who':
 				loadLanguage('TeamPage');
@@ -150,7 +150,7 @@ class TeamPage
 	{
 		global $context;
 
-		if (isset($context['current_action']) && $context['current_action'] === 'team' && allowedTo('view_teampage')) {
+		if (isset($context['current_action']) && $context['current_action'] === 'team' && allowedTo('teampage_canAccess')) {
 			$position = array_search('body', $context['template_layers']);
 			if ($position === false)
 				$position = array_search('main', $context['template_layers']);
