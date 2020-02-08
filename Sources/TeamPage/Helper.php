@@ -51,7 +51,7 @@ class Helper
 		return $rows;
 	}
 
-	public static function Get($start, $items_per_page, $sort, $table, $columns, $additional_query)
+	public static function Get($start, $items_per_page, $sort, $table, $columns, $additional_query, $single = false)
 	{
 		global $smcFunc;
 
@@ -75,5 +75,32 @@ class Helper
 		$smcFunc['db_free_result']($result);
 
 		return $items;
+	}
+
+	public static function CheckDuplicate($table, $column, $search)
+	{
+		global $smcFunc;
+
+		$request = $smcFunc['db_query']('','
+			SELECT ' . $column . '
+			FROM {db_prefix}{raw:table}
+			WHERE ' . $column . ' = ' . $search,
+			[]
+		);
+		$result = $smcFunc['db_num_rows']($request);
+		$smcFunc['db_free_result']($request);
+
+		return !empty($result) ? true : false;
+	}
+
+	public static function Insert($table, $columns, $types)
+	{
+		global $smcFunc;
+
+		$smcFunc['db_insert']('', '{db_prefix}{raw:table}',
+			$types,
+			$columns,
+			[]
+		);
 	}
 }
