@@ -61,7 +61,7 @@ class TeamPage
 			'menu_buttons' => 'hookButtons',
 		];
 		foreach ($hooks as $point => $callable)
-			add_integration_function('integrate_' . $point, __CLASS__ . '::'.$callable .'#', false);
+			add_integration_function('integrate_' . $point, __CLASS__ . '::'.$callable, false);
 	}
 
 	/**
@@ -83,7 +83,7 @@ class TeamPage
 	 * @return void
 	 * @author Peter Spicer (Arantor)
 	 */
-	public function hookActions(&$actions)
+	public static function hookActions(&$actions)
 	{
 		global $sourcedir;
 
@@ -110,7 +110,7 @@ class TeamPage
 	 * @param array $buttons An array containing all possible tabs for the main menu.
 	 * @return void
 	 */
-	public function hookButtons(&$buttons)
+	public static function hookButtons(&$buttons)
 	{
 		global $txt, $scripturl, $modSettings;
 
@@ -133,10 +133,10 @@ class TeamPage
 		
 		// Too lazy for adding the menu on all the sub-templates
 		if (!empty($modSettings['TeamPage_enable']))
-			$this->Layer();
+			self::Layer();
 
 		// DUH! winning!
-		$this->Credits();
+		self::Credits();
 	}
 
 	/**
@@ -146,7 +146,7 @@ class TeamPage
 	 * @return void
 	 * @author Diego Andrés
 	 */
-	public function Layer()
+	public static function Layer()
 	{
 		global $context;
 
@@ -170,7 +170,7 @@ class TeamPage
 	 * @param boolean $return decide between returning a string or append it to a known context var.
 	 * @return string A link for copyright notice
 	 */
-	public function Credits($return = false)
+	public static function Credits($return = false)
 	{
 		global $context, $txt;
 
