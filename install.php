@@ -22,9 +22,7 @@
 
 	if (empty($context['uninstalling']))
 	{
-
-
-		// Team Page - Main
+		// Team Page - Groups
 		$tables[] = array(
 			'table_name' => '{db_prefix}teampage_groups',
 			'columns' => array(
@@ -48,7 +46,6 @@
 					'type' => 'text',
 					'size' => 7,
 					'null' => false,
-					'default' => 'left',
 				),
 				array(
 					'name' => 'position',
