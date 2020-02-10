@@ -119,8 +119,8 @@ class Pages
 						'class' => 'centertext',
 					],
 					'sort' => [
-						'default' => 'id_page DESC',
-						'reverse' => 'id_page',
+						'default' => 'id_page',
+						'reverse' => 'id_page DESC',
 					]
 				],
 				'delete' => [
@@ -153,43 +153,66 @@ class Pages
 					'position' => 'below_table_data',
 					'value' => '<input type="submit" size="18" value="'.$txt['delete']. '" class="button" />',
 				],
-				
+				'updated' => [
+					'position' => 'top_of_list',
+					'value' => (!isset($_REQUEST['deleted']) ? (!isset($_REQUEST['added']) ? (!isset($_REQUEST['updated']) ? '' : '<div class="infobox">'. $txt['TeamPage_pages_updated']. '</div>') : '<div class="infobox">'. $txt['TeamPage_pages_added']. '</div>') : '<div class="infobox">'. $txt['TeamPage_pages_deleted']. '</div>'),
+				],
 			],
 		];
 		// Let's finishem
 		createList($listOptions);
 	}
 
+	public static function Delete()
+	{
+		global $txt;
+
+		// We need an id
+		if (!isset($_REQUEST['id']) || empty($_REQUEST['id']) || empty(Helper::Find(self::$table, 'id_page', $_REQUEST['id'])))
+			fatal_error($txt['TeamPage_page_noexist'], false);
+
+		// Delete
+		Helper::Delete(self::$table, 'id_page', $_REQUEST['id']);
+
+		redirectexit('action=admin;area=teampage;sa=pages;deleted');
+	}
+
 	public static function Save()
 	{
 		global $smcFunc, $txt;
 
+		// Check for editing?
+		if (isset($_REQUEST['id']) && !empty($_REQUEST['id']))
+			self::$fields_data['page_id'] = (int) isset($_REQUEST['id']) && !empty($_REQUEST['id']) ? $_REQUEST['id'] : 0;
+
 		// Data
 		self::$fields_data = [
-			'page_id' => (int) isset($_REQUEST['id']) && !empty($_REQUEST['id']) ? $_REQUEST['id'] : 0,
 			'page_name' => (string) isset($_REQUEST['title']) ? $smcFunc['htmlspecialchars']($_REQUEST['title'], ENT_QUOTES) : '',
-			'page_action' => (string) isset($_REQUEST['action']) ? strtolower($smcFunc['htmlspecialchars']($_REQUEST['action'], ENT_QUOTES)) : '',
+			'page_action' => (string) isset($_REQUEST['page_action']) ? strtolower($smcFunc['htmlspecialchars']($_REQUEST['page_action'], ENT_QUOTES)) : '',
 			'is_text' => (int) isset($_REQUEST['is_text']) ? 1 : 0,
 			'page_type' => (string) isset($_REQUEST['type']) && !empty($_REQUEST['is_text']) ? $_REQUEST['type'] : $txt['TeamPage_page_type_groups'],
 			'page_body' => (string) isset($_REQUEST['body']) ? $smcFunc['htmlspecialchars']($_REQUEST['body'], ENT_QUOTES) : '',
 		];
 
-		print_r(self::$fields_data);
-
 		// Type
 		foreach(self::$fields_data as $column => $type)
-			self::$fields_type[$column] = gettype($type);
+			self::$fields_type[$column] = str_replace('integer', 'int', gettype($type));
 
 		// Validate info
 		self::Validate(self::$fields_data);
 		checkSession();
-		
+		$status = 'updated';
+
 		if (empty(self::$fields_data['page_id']))
+		{
 			Helper::Insert(self::$table, self::$fields_data, self::$fields_type);
+			$status = 'added';
+		}
 		else
 			Helper::Update(self::$fields);
 
-		redirectexit('?action=pene');
+		redirectexit('action=admin;area=teampage;sa=pages;'.$status);
+
 	}
 
 	public static function Validate($data)
@@ -205,7 +228,7 @@ class Pages
 			fatal_error($txt['TeamPage_error_alnum_sub'], false);
 
 		// Duplicated action?
-		elseif (!empty(Helper::CheckDuplicate(self::$table, 'cp.page_action', $data['page_action'])))
+		elseif (!empty(Helper::Find(self::$table . ' AS cp', 'cp.page_action', $data['page_action'])))
 			fatal_error($txt['TeamPage_error_already_sub'], false);
 	}
 }

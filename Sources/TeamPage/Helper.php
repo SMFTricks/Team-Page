@@ -77,15 +77,19 @@ class Helper
 		return $items;
 	}
 
-	public static function CheckDuplicate($table, $column, $search)
+	public static function Find($table, $column, $search)
 	{
 		global $smcFunc;
 
 		$request = $smcFunc['db_query']('','
 			SELECT ' . $column . '
 			FROM {db_prefix}{raw:table}
-			WHERE ' . $column . ' = ' . $search,
-			[]
+			WHERE (' . $column . ' = \''. $search . '\')
+			LIMIT 1',
+			[
+				'table' => $table,
+				'search' => $search
+			]
 		);
 		$result = $smcFunc['db_num_rows']($request);
 		$smcFunc['db_free_result']($request);
@@ -93,11 +97,25 @@ class Helper
 		return !empty($result) ? true : false;
 	}
 
+	public static function Delete($table, $column, $search)
+	{
+		global $smcFunc;
+
+		$smcFunc['db_query']('', '
+			DELETE FROM {db_prefix}{raw:table}
+			WHERE '. $column . ' = ' . $search,
+			[
+				'table' => $table,
+			]
+		);
+	}
+
 	public static function Insert($table, $columns, $types)
 	{
 		global $smcFunc;
 
-		$smcFunc['db_insert']('', '{db_prefix}{raw:table}',
+		$smcFunc['db_insert']('insert',
+			'{db_prefix}'.$table,
 			$types,
 			$columns,
 			[]
