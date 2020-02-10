@@ -22,22 +22,22 @@ function template_pages_post_below()
 			</h3>
 		</div>
 		<div class="windowbg">
-			<form method="post" action="', $scripturl, '?action=admin;area=teampage;sa=save" accept-charset="', $context['character_set'], '" name="page_post">
+			<form method="post" action="', $scripturl, '?action=admin;area=teampage;sa=save" name="page_post">
 				<dl class="settings">
 					<dt>
 						<a id="setting_title"></a>
 						<span><label for="title">', $txt['TeamPage_page_title'], '</label></span>
 					</dt>
 					<dd>
-						<input class="input_text" name="title" id="title" type="text" value="" style="width: 100%" />
+						<input class="input_text" name="title" id="title" type="text" value="" style="width: 100%;" />
 					</dd>
 					<dt>
-						<a id="setting_action"></a>
-						<span><label for="action">', $txt['TeamPage_page_subaction'], '</label></span><br/>
+						<a id="setting_page_action"></a>
+						<span><label for="page_action">', $txt['TeamPage_page_subaction'], '</label></span><br/>
 						<span class="smalltext">', $txt['TeamPage_page_subaction_desc'], '</span>
 					</dt>
 					<dd>
-						<input class="input_text" name="action" id="action" type="text" value="" style="width: 100%" />
+						<input class="input_text" name="page_action" id="page_action" type="text" value="" style="width: 100%;" />
 					</dd>
 					<dt>
 						<a id="setting_istext"></a>
