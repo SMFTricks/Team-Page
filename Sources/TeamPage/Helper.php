@@ -58,20 +58,27 @@ class Helper
 		$columns = implode(', ', $columns);
 		$result = $smcFunc['db_query']('', '
 			SELECT ' . $columns . '
-			FROM {db_prefix}{raw:table}' .
-			$additional_query . '
+			FROM {db_prefix}{raw:table}
+			{raw:additional}'. (empty($single) ? '
 			ORDER by {raw:sort}
-			LIMIT {int:start}, {int:maxindex}',
+			LIMIT {int:start}, {int:maxindex}' : ''),
 			[
 				'table' => $table,
 				'start' => $start,
 				'maxindex' => $items_per_page,
 				'sort' => $sort,
+				'additional' => $additional_query,
 			]
 		);
-		$items = [];
-		while ($row = $smcFunc['db_fetch_assoc']($result))
-			$items[] = $row;
+		// Single?
+		if (empty($single)) {
+			$items = [];
+			while ($row = $smcFunc['db_fetch_assoc']($result))
+				$items[] = $row;
+		}
+		else
+			$items = $smcFunc['db_fetch_assoc']($result);
+
 		$smcFunc['db_free_result']($result);
 
 		return $items;
@@ -103,9 +110,10 @@ class Helper
 
 		$smcFunc['db_query']('', '
 			DELETE FROM {db_prefix}{raw:table}
-			WHERE '. $column . ' = ' . $search,
+			WHERE '. $column . (is_array($search) ? ' IN ({array_int:search})' : (' = ' . $search)),
 			[
 				'table' => $table,
+				'search' => $search,
 			]
 		);
 	}

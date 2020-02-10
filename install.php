@@ -26,12 +26,12 @@
 
 		// Team Page - Main
 		$tables[] = array(
-			'table_name' => '{db_prefix}teampage',
+			'table_name' => '{db_prefix}teampage_groups',
 			'columns' => array(
 				array(
 					'name' => 'id_group',
-					'type' => 'smallint',
-					'size' => 5,
+					'type' => 'int',
+					'size' => 10,
 					'unsigned' => true,
 					'null' => false,
 				),
@@ -44,15 +44,14 @@
 					'unsigned' => true,
 				),
 				array(
-					'name' => 'position',
-					'type' => 'smallint',
-					'size' => 3,
+					'name' => 'placement',
+					'type' => 'text',
+					'size' => 7,
 					'null' => false,
-					'default' => 0,
-					'unsigned' => true,
+					'default' => 'left',
 				),
 				array(
-					'name' => 'order',
+					'name' => 'position',
 					'type' => 'smallint',
 					'size' => 3,
 					'null' => false,
@@ -73,7 +72,7 @@
 
 		// Team Page - Custom Pages
 		$tables[] = array(
-			'table_name' => '{db_prefix}teampage_cp',
+			'table_name' => '{db_prefix}teampage_pages',
 			'columns' => array(
 				array(
 					'name' => 'id_page',

@@ -15,7 +15,7 @@ if (!defined('SMF'))
 
 class Pages
 {
-	private static $table = 'teampage_cp';
+	private static $table = 'teampage_pages';
 	private static $columns = ['cp.id_page', 'cp.page_name', 'cp.page_action', 'cp.is_text', 'cp.page_type', 'cp.page_body'];
 	private static $additional_query = '';
 	private static $fields_data = [];
@@ -30,6 +30,7 @@ class Pages
 		$context['sub_template'] = 'show_list';
 		$context['default_list'] = 'pageslist';
 		$context['page_title'] = $txt['TeamPage']. ' - ' . $txt['TeamPage_page_pages'];
+		$context['TeamPage_pages_title'] = $txt['TeamPage_add_page'];
 
 		// The entire list
 		$listOptions = [
@@ -87,14 +88,12 @@ class Pages
 				],
 				'details' => [
 					'header' => [
-						'value' => $txt['TeamPage_page_details'],
+						'value' => $txt['TeamPage_page_type'],
 						'class' => 'lefttext',
 					],
 					'data' => [
-						'function' => function($row){ global $txt;
-
-							return 'detalles bby';
-						},
+						'db' => 'page_type',
+						'db_htmlsafe' => true,
 						'style' => 'width: 5%',
 						'class' => 'lefttext',
 					],
@@ -167,14 +166,46 @@ class Pages
 	{
 		global $txt;
 
-		// We need an id
-		if (!isset($_REQUEST['id']) || empty($_REQUEST['id']) || empty(Helper::Find(self::$table, 'id_page', $_REQUEST['id'])))
+		// Delete
+		Helper::Delete(self::$table, 'id_page', $_REQUEST['delete']);
+		redirectexit('action=admin;area=teampage;sa=pages;deleted');
+	}
+
+	public static function Edit()
+	{
+		global $context, $scripturl, $sourcedir, $modSettings, $txt;
+
+		// Page information
+		$where_query = 'WHERE cp.id_page = "'. (int) $_REQUEST['id']. '"';
+		$context['page_details'] = Helper::Get('', '', '', self::$table . ' AS cp', self::$columns, $where_query, true);
+		$context[$context['admin_menu_name']]['current_subsection'] = 'pages';
+
+		// We found a page
+		if (empty($context['page_details']))
 			fatal_error($txt['TeamPage_page_noexist'], false);
 
-		// Delete
-		Helper::Delete(self::$table, 'id_page', $_REQUEST['id']);
+		// Text and BBC?
+		if (!empty($context['page_details']['is_text']) && $context['page_details']['page_type'] == 'BBC') {
+			// Now create the editor.
+			require_once($sourcedir . '/Subs-Editor.php');
+			$editorOptions = array(
+				'id' => 'page_body',
+				'value' => !empty($context['page_details']['page_body']) ? $context['page_details']['page_body'] : '',
+				'width' => '100%',
+				'form' => 'page_post',
+				'labels' => array(
+					'post_button' => ''
+				),
+			);
+			create_control_richedit($editorOptions);
+			$context['page_details']['body_bbc'] = $editorOptions['id'];
+		}
 
-		redirectexit('action=admin;area=teampage;sa=pages;deleted');
+		// Page details
+		$context['template_layers'][] = 'pages_edit';
+		$context['sub_template'] = 'pages_edit';
+		$context['page_title'] = $txt['TeamPage']. ' - ' . sprintf($txt['TeamPage_pages_editing_page'], $context['page_details']['page_name']);
+		$context['TeamPage_pages_title'] = $context['page_title'];
 	}
 
 	public static function Save()
@@ -189,8 +220,8 @@ class Pages
 		self::$fields_data = [
 			'page_name' => (string) isset($_REQUEST['title']) ? $smcFunc['htmlspecialchars']($_REQUEST['title'], ENT_QUOTES) : '',
 			'page_action' => (string) isset($_REQUEST['page_action']) ? strtolower($smcFunc['htmlspecialchars']($_REQUEST['page_action'], ENT_QUOTES)) : '',
-			'is_text' => (int) isset($_REQUEST['is_text']) ? 1 : 0,
-			'page_type' => (string) isset($_REQUEST['type']) && !empty($_REQUEST['is_text']) ? $_REQUEST['type'] : $txt['TeamPage_page_type_groups'],
+			'is_text' => (int) isset($_REQUEST['istext']) ? 1 : 0,
+			'page_type' => (string) isset($_REQUEST['type']) && !empty($_REQUEST['istext']) ? $_REQUEST['type'] : $txt['TeamPage_page_type_groups'],
 			'page_body' => (string) isset($_REQUEST['body']) ? $smcFunc['htmlspecialchars']($_REQUEST['body'], ENT_QUOTES) : '',
 		];
 
