@@ -51,15 +51,16 @@ class Helper
 		return $rows;
 	}
 
-	public static function Get($start, $items_per_page, $sort, $table, $columns, $additional_query, $single = false)
+	public static function Get($start, $items_per_page, $sort, $table, $columns, $additional_query, $single = false, $additional_columns = '')
 	{
 		global $smcFunc;
 
 		$columns = implode(', ', $columns);
 		$result = $smcFunc['db_query']('', '
 			SELECT ' . $columns . '
-			FROM {db_prefix}{raw:table}
-			{raw:additional}'. (empty($single) ? '
+			FROM {db_prefix}{raw:table} ' .
+			$additional_columns. ' 
+			{raw:where}'. (empty($single) ? '
 			ORDER by {raw:sort}
 			LIMIT {int:start}, {int:maxindex}' : ''),
 			[
@@ -67,7 +68,7 @@ class Helper
 				'start' => $start,
 				'maxindex' => $items_per_page,
 				'sort' => $sort,
-				'additional' => $additional_query,
+				'where' => $additional_query,
 			]
 		);
 		// Single?
@@ -127,6 +128,19 @@ class Helper
 			$types,
 			$columns,
 			[]
+		);
+	}
+
+	public static function Update($table, $columns, $types, $query)
+	{
+		global $smcFunc;
+
+		$smcFunc['db_query']('','
+			UPDATE {db_prefix}'.$table .  '
+			SET
+			'.rtrim($types, ', ') . '
+			'.$query,
+			$columns
 		);
 	}
 }

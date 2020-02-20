@@ -201,6 +201,12 @@ class Pages
 			$context['page_details']['body_bbc'] = $editorOptions['id'];
 		}
 
+		// Groups
+		if (empty($context['page_details']['is_text']) && $context['page_details']['page_type'] == 'Groups') {
+			$context['page_groups'] = !empty(Helper::Find(Groups::$table . ' AS tp', 'tp.id_page', $_REQUEST['id'])) ? Groups::PageSort($_REQUEST['id']) : [];
+			$context['forum_groups'] = Helper::Get(0, 10000, 'mem.group_name', 'membergroups AS mem', Groups::$groups_columns, 'WHERE mem.min_posts = -1 AND mem.id_group != 3 AND  mem.id_group NOT IN (' . implode(',', !empty($context['page_groups']['all']) ? $context['page_groups']['all'] : [0]).')');
+		}
+
 		// Page details
 		$context['template_layers'][] = 'pages_edit';
 		$context['sub_template'] = 'pages_edit';
@@ -212,35 +218,43 @@ class Pages
 	{
 		global $smcFunc, $txt;
 
-		// Check for editing?
-		if (isset($_REQUEST['id']) && !empty($_REQUEST['id']))
-			self::$fields_data['page_id'] = (int) isset($_REQUEST['id']) && !empty($_REQUEST['id']) ? $_REQUEST['id'] : 0;
-
 		// Data
 		self::$fields_data = [
+			'id_page' => (int) isset($_REQUEST['id']) && !empty($_REQUEST['id']) ? $_REQUEST['id'] : 0,
 			'page_name' => (string) isset($_REQUEST['title']) ? $smcFunc['htmlspecialchars']($_REQUEST['title'], ENT_QUOTES) : '',
 			'page_action' => (string) isset($_REQUEST['page_action']) ? strtolower($smcFunc['htmlspecialchars']($_REQUEST['page_action'], ENT_QUOTES)) : '',
 			'is_text' => (int) isset($_REQUEST['istext']) ? 1 : 0,
 			'page_type' => (string) isset($_REQUEST['type']) && !empty($_REQUEST['istext']) ? $_REQUEST['type'] : $txt['TeamPage_page_type_groups'],
-			'page_body' => (string) isset($_REQUEST['body']) ? $smcFunc['htmlspecialchars']($_REQUEST['body'], ENT_QUOTES) : '',
+			'page_body' => (string) isset($_REQUEST['page_body']) ? $smcFunc['htmlspecialchars']($_REQUEST['page_body'], ENT_QUOTES) : '',
 		];
-
-		// Type
-		foreach(self::$fields_data as $column => $type)
-			self::$fields_type[$column] = str_replace('integer', 'int', gettype($type));
 
 		// Validate info
 		self::Validate(self::$fields_data);
 		checkSession();
 		$status = 'updated';
 
-		if (empty(self::$fields_data['page_id']))
+		if (empty(self::$fields_data['id_page']))
 		{
+			// Type
+			foreach(self::$fields_data as $column => $type)
+				self::$fields_type[$column] = str_replace('integer', 'int', gettype($type));
+
 			Helper::Insert(self::$table, self::$fields_data, self::$fields_type);
 			$status = 'added';
 		}
-		else
-			Helper::Update(self::$fields);
+		else {
+			self::$fields_type = '';
+			
+			// Remove those that don't require updating
+			unset(self::$fields_data['is_text']);
+			unset(self::$fields_data['page_type']);
+
+			// Type
+			foreach(self::$fields_data as $column => $type)
+				self::$fields_type .= $column . ' = {'.str_replace('integer', 'int', gettype($type)).':'.$column.'}, ';
+
+			Helper::Update(self::$table, self::$fields_data, self::$fields_type, 'WHERE id_page = ' . self::$fields_data['id_page']);
+		}
 
 		redirectexit('action=admin;area=teampage;sa=pages;'.$status);
 
@@ -259,7 +273,10 @@ class Pages
 			fatal_error($txt['TeamPage_error_alnum_sub'], false);
 
 		// Duplicated action?
-		elseif (!empty(Helper::Find(self::$table . ' AS cp', 'cp.page_action', $data['page_action'])))
+		if (empty($data['id_page']) && !empty(Helper::Find(self::$table . ' AS cp', 'cp.page_action', $data['page_action'])))
 			fatal_error($txt['TeamPage_error_already_sub'], false);
+		// Doesn't exist
+		elseif (!empty($data['id_page']) && empty(Helper::Find(self::$table . ' AS cp', 'cp.id_page', $data['id_page'])))
+			fatal_error($txt['TeamPage_page_noexist'], false);
 	}
 }
