@@ -80,6 +80,7 @@ $txt['TeamPage_list_all_groups'] = 'Group ID listing';
 $txt['TeamPage_groups_left'] = 'Left Groups';
 $txt['TeamPage_groups_right'] = 'Right Groups';
 $txt['TeamPage_groups_bottom'] = 'Bottom Groups';
+$txt['TeamPage_groups_forum'] = 'Forum Groups';
 $txt['TeamPage_groups_id'] = 'Group ID';
 $txt['TeamPage_groups_name'] = 'Group Name';
 $txt['TeamPage_groups_move'] = 'Move';
