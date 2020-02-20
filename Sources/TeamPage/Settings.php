@@ -46,8 +46,6 @@ class Settings
 	 * Settings::Permissions()
 	 *
 	 * TeamPage permissions
-	 * @param array $permissionGroups An array containing all possible permissions groups.
-	 * @param array $permissionList An associative array with all the possible permissions.
 	 * @return void
 	 */
 	public static function Permissions(&$permissionGroups, &$permissionList, &$leftPermissionGroups, &$hiddenPermissions, &$relabelPermissions)
