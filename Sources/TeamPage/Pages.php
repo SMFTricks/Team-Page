@@ -15,7 +15,7 @@ if (!defined('SMF'))
 
 class Pages
 {
-	private static $table = 'teampage_pages';
+	public static $table = 'teampage_pages';
 	private static $columns = ['cp.id_page', 'cp.page_name', 'cp.page_action', 'cp.is_text', 'cp.page_type', 'cp.page_body'];
 	private static $additional_query = '';
 	private static $fields_data = [];
@@ -175,6 +175,11 @@ class Pages
 	{
 		global $context, $scripturl, $sourcedir, $modSettings, $txt;
 
+		// Load the sort script :P
+		loadCSSFile('tempage.css', ['default_theme' => true]);
+		loadJavaScriptFile('https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js', ['external' => true]);
+		loadJavaScriptFile('teampage.js', ['default_theme' => true]);
+
 		// Page information
 		$where_query = 'WHERE cp.id_page = "'. (int) $_REQUEST['id']. '"';
 		$context['page_details'] = Helper::Get('', '', '', self::$table . ' AS cp', self::$columns, $where_query, true);
@@ -203,6 +208,13 @@ class Pages
 
 		// Groups
 		if (empty($context['page_details']['is_text']) && $context['page_details']['page_type'] == 'Groups') {
+
+			// Load the sort scripts and cute css :P
+			loadCSSFile('tempage.css', ['default_theme' => true]);
+			loadJavaScriptFile('https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js', ['external' => true]);
+			loadJavaScriptFile('teampage.js', ['default_theme' => true]);
+
+			// Fill the groups
 			$context['page_groups'] = !empty(Helper::Find(Groups::$table . ' AS tp', 'tp.id_page', $_REQUEST['id'])) ? Groups::PageSort($_REQUEST['id']) : [];
 			$context['forum_groups'] = Helper::Get(0, 10000, 'mem.group_name', 'membergroups AS mem', Groups::$groups_columns, 'WHERE mem.min_posts = -1 AND mem.id_group != 3 AND  mem.id_group NOT IN (' . implode(',', !empty($context['page_groups']['all']) ? $context['page_groups']['all'] : [0]).')');
 		}
