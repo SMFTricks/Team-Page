@@ -105,13 +105,13 @@ class Helper
 		return !empty($result) ? true : false;
 	}
 
-	public static function Delete($table, $column, $search)
+	public static function Delete($table, $column, $search, $additional_query = '')
 	{
 		global $smcFunc;
 
 		$smcFunc['db_query']('', '
 			DELETE FROM {db_prefix}{raw:table}
-			WHERE '. $column . (is_array($search) ? ' IN ({array_int:search})' : (' = ' . $search)),
+			WHERE '. $column . (is_array($search) ? ' IN ({array_int:search})' : (' = ' . $search)) . $additional_query,
 			[
 				'table' => $table,
 				'search' => $search,
@@ -123,7 +123,7 @@ class Helper
 	{
 		global $smcFunc;
 
-		$smcFunc['db_insert']('insert',
+		$smcFunc['db_insert']('ignore',
 			'{db_prefix}'.$table,
 			$types,
 			$columns,
@@ -136,7 +136,7 @@ class Helper
 		global $smcFunc;
 
 		$smcFunc['db_query']('','
-			UPDATE {db_prefix}'.$table .  '
+			UPDATE IGNORE {db_prefix}'.$table .  '
 			SET
 			'.rtrim($types, ', ') . '
 			'.$query,
