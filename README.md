@@ -29,3 +29,7 @@ Developed by [Diego Andrés](https://github.com/DiegoAndresCortes)
 
 ## How to install
 * You can install Team Page through the package manager of your forum administration.
+
+## Changelog
+You can find the changelog for Team Page on SMF Tricks: [Changelog](https://smftricks.com/index.php?topic=2093.0)
+
