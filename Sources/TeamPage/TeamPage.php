@@ -88,7 +88,7 @@ class TeamPage
 		global $sourcedir;
 
 		// The main action
-		$actions['team'] = ['TeamPage/View.php', 'View::Main#'];
+		$actions['team'] = ['TeamPage/View.php', __NAMESPACE__  . '\View::Main#'];
 
 		// Add some hooks by action
 		switch ($_REQUEST['action']) {
