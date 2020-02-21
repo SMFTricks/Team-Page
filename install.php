@@ -23,95 +23,102 @@
 	if (empty($context['uninstalling']))
 	{
 		// Team Page - Groups
-		$tables[] = array(
+		$tables[] = [
 			'table_name' => '{db_prefix}teampage_groups',
-			'columns' => array(
-				array(
+			'columns' => [
+				[
 					'name' => 'id_group',
 					'type' => 'int',
 					'size' => 10,
 					'unsigned' => true,
 					'null' => false,
-				),
-				array(
+				],
+				[
 					'name' => 'id_page',
 					'type' => 'smallint',
 					'size' => 3,
 					'null' => false,
 					'default' => 0,
 					'unsigned' => true,
-				),
-				array(
+				],
+				[
 					'name' => 'placement',
 					'type' => 'text',
 					'size' => 7,
 					'null' => false,
-				),
-				array(
+				],
+				[
 					'name' => 'position',
 					'type' => 'smallint',
 					'size' => 3,
 					'null' => false,
 					'default' => 0,
 					'unsigned' => true,
-				),
-			),
-			'indexes' => array(
-				array(
+				],
+			],
+			'indexes' => [
+				[
 					'type' => 'primary',
-					'columns' => array('id_group', 'id_page')
-				),
-			),
+					'columns' => ['id_group', 'id_page']
+				],
+			],
 			'if_exists' => 'ignore',
 			'error' => 'fatal',
-			'parameters' => array(),
-		);
+			'parameters' => [],
+		];
 
 		// Team Page - Custom Pages
-		$tables[] = array(
+		$tables[] = [
 			'table_name' => '{db_prefix}teampage_pages',
-			'columns' => array(
-				array(
+			'columns' => [
+				[
 					'name' => 'id_page',
 					'type' => 'smallint',
 					'size' => 3,
 					'null' => false,
 					'auto' => true,
-				),
-				array(
+				],
+				[
 					'name' => 'page_name',
 					'type' => 'text',
-				),
-				array(
+				],
+				[
 					'name' => 'page_action',
 					'type' => 'text',
-				),
-				array(
+				],
+				[
 					'name' => 'is_text',
 					'type' => 'smallint',
 					'default' => 0,
 					'size' => 1,
 					'null' => false,
-				),
-				array(
+				],
+				[
 					'name' => 'page_type',
 					'type' => 'text',
-				),
-				array(
+				],
+				[
 					'name' => 'page_body',
 					'type' => 'text',
-				),
-			),
-			'indexes' => array(
-				array(
+				],
+				[
+					'name' => 'page_order',
+					'type' => 'int',
+					'size' => 5,
+					'default' => 0,
+					'null' => false,
+				],
+			],
+			'indexes' => [
+				[
 					'type' => 'primary',
-					'columns' => array('id_page')
-				),
-			),
+					'columns' => ['id_page']
+				],
+			],
 			'if_exists' => 'ignore',
 			'error' => 'fatal',
-			'parameters' => array(),
-		);
+			'parameters' => [],
+		];
 
 		// Installing
 		foreach ($tables as $table)

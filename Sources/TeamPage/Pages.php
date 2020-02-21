@@ -16,7 +16,7 @@ if (!defined('SMF'))
 class Pages
 {
 	public static $table = 'teampage_pages';
-	private static $columns = ['cp.id_page', 'cp.page_name', 'cp.page_action', 'cp.is_text', 'cp.page_type', 'cp.page_body'];
+	private static $columns = ['cp.id_page', 'cp.page_name', 'cp.page_action', 'cp.is_text', 'cp.page_type', 'cp.page_body', 'cp.page_order'];
 	private static $additional_query = '';
 	private static $fields_data = [];
 	private static $fields_type = [];
@@ -102,6 +102,22 @@ class Pages
 						'reverse' => 'is_text',
 					]
 				],
+				'page_order' => array(
+					'header' => array(
+						'value' => $txt['TeamPage_page_order'],
+						'class' => 'lefttext',
+					),
+					'data' => array(
+						'function' => function($row) {
+							return '<input type="number" min="0" value="'. $row['page_order'].'" name="page_order['.$row['id_page'].']" title="page_order['.$row['id_page'].']" />';
+						},
+						'style' => 'width: 5%',
+					),
+					'sort' =>  array(
+						'default' => 'page_order',
+						'reverse' => 'page_order DESC',
+					),
+				),
 				'modify' => [
 					'header' => [
 						'value' => $txt['TeamPage_page_modify'],
@@ -124,12 +140,12 @@ class Pages
 				],
 				'delete' => [
 					'header' => [
-						'value' => $txt['delete']. ' <input type="checkbox" onclick="invertAll(this, this.form, \'delete[]\');" class="input_check" />',
+						'value' => $txt['delete'],
 						'class' => 'centertext',
 					],
 					'data' => [
 						'sprintf' => [
-							'format' => '<input type="checkbox" name="delete[]" value="%1$d" class="check" />',
+							'format' => '<a href="'. $scripturl. '?action=admin;area=teampage;sa=delete;id=%1$d">'. $txt['delete']. '</a>',
 							'params' => [
 								'id_page' => false,
 							],
@@ -140,7 +156,7 @@ class Pages
 				],
 			],
 			'form' => [
-				'href' => '?action=admin;area=teampage;sa=delete',
+				'href' => '?action=admin;area=teampage;sa=order',
 				'hidden_fields' => [
 					$context['session_var'] => $context['session_id'],
 				],
@@ -150,7 +166,7 @@ class Pages
 			'additional_rows' => [
 				'submit' => [
 					'position' => 'below_table_data',
-					'value' => '<input type="submit" size="18" value="'.$txt['delete']. '" class="button" />',
+					'value' => '<input type="submit" size="18" value="'.$txt['TeamPage_page_save_order']. '" class="button" />',
 				],
 				'updated' => [
 					'position' => 'top_of_list',
@@ -167,7 +183,7 @@ class Pages
 		global $txt;
 
 		// Delete
-		Helper::Delete(self::$table, 'id_page', $_REQUEST['delete']);
+		Helper::Delete(self::$table, 'id_page', $_REQUEST['id']);
 		redirectexit('action=admin;area=teampage;sa=pages;deleted');
 	}
 
@@ -290,5 +306,22 @@ class Pages
 		// Doesn't exist
 		elseif (!empty($data['id_page']) && empty(Helper::Find(self::$table . ' AS cp', 'cp.id_page', $data['id_page'])))
 			fatal_error($txt['TeamPage_page_noexist'], false);
+	}
+
+	public static function Order()
+	{
+		global $context, $txt;
+
+		// Set all the page stuff
+		$context['page_title'] = $txt['TeamPage']. ' - ' . $txt['TeamPage_page_pages'];
+
+		// Sesh
+		checkSession();
+
+		// Update order
+		foreach ($_REQUEST['page_order'] as $page => $order)
+			Helper::Update(self::$table, ['id_page' => $page, 'page_order' => $order], 'page_order = {int:page_order}', 'WHERE id_page = {int:id_page}');
+		
+		redirectexit('action=admin;area=teampage;sa=pages;updated');
 	}
 }

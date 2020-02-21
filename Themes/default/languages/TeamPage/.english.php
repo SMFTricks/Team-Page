@@ -22,6 +22,7 @@ $txt['TeamPage_page_settings_desc'] = 'Main settings for the team page, permissi
 $txt['TeamPage_page_pages'] = 'Pages';
 $txt['TeamPage_page_pages_desc'] = 'In this section you\'ll be able to manage the Team Page custom pages.';
 $txt['TeamPage_page_page_edit'] = 'Editing Page';
+$txt['TeamPage_page_page_groups'] = 'Managing groups';
 
 // Moderators page
 $txt['TeamPage_moderators'] = 'Moderators';
@@ -60,6 +61,7 @@ $txt['TeamPage_page_id'] = 'Page ID';
 $txt['TeamPage_page_type'] = 'Page Type';
 $txt['TeamPage_page_delete'] = 'Delete Page';
 $txt['TeamPage_page_delete_short'] = 'Delete';
+$txt['TeamPage_page_order'] = 'Page Order';
 $txt['TeamPage_page_modify'] = 'Modify Page';
 $txt['TeamPage_page_modify_short'] = 'Modify';
 $txt['TeamPage_add_page'] = 'Add Page';
@@ -74,6 +76,7 @@ $txt['TeamPage_pages_updated'] = 'Page successfully updated';
 $txt['TeamPage_pages_deleted'] = 'Pages successfully deleeted';
 $txt['TeamPage_pages_editing_page'] = 'Editing %s page';
 $txt['TeamPage_page_modify_body'] = 'Page content';
+$txt['TeamPage_page_save_order'] = 'Save order';
 
 // Groups strings
 $txt['TeamPage_list_all_groups'] = 'Group ID listing';

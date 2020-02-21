@@ -81,6 +81,7 @@ class Settings
 			'save' => 'Pages::Save',
 			'sort' => 'Groups::Save',
 			'delete' => 'Pages::Delete',
+			'order' => 'Pages::Order',
 		];
 		$sa = isset($_GET['sa'], $subactions[$_GET['sa']]) ? $_GET['sa'] : 'settings';
 
