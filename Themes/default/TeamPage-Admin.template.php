@@ -50,6 +50,7 @@ function template_pages_edit_above()
 	</div>
 	<div class="windowbg">
 		<form method="post" action="', $scripturl, '?action=admin;area=teampage;sa=save" name="page_post">
+			', isset($_REQUEST['id']) && !empty($context['page_details']['id_page']) ? '<input type="hidden" name="id" value="'.$context['page_details']['id_page'].'">' : '', '
 			<input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '">
 			<dl class="settings">
 				<dt>
@@ -123,43 +124,63 @@ function template_pages_edit_below()
 
 		echo '
 		<hr class="divider" />
-		<div class="cat_bar">
+		<div class="cat_bar" id="tp_manage_groups" page-id="', $context['page_details']['id_page'], '">
 			<h3 class="catbg">
 				', $txt['TeamPage_manage_groups'], '
 			</h3>
 		</div>
 		<div class="half_content">
-			<div class="title_bar">
-				<h4 class="titlebg">
-					', $txt['TeamPage_groups_left'], '
-				</h4>
-			</div>
-			<div class="windowbg">
-
-			</div>
+			', display_groups(), '
 		</div>
 		<div class="half_content">
-			<div class="title_bar">
-				<h4 class="titlebg">
-					', $txt['TeamPage_groups_right'], '
-				</h4>
-			</div>
-			<div class="windowbg">
-
-			</div>
+			', display_groups('right'), '
 		</div>
 		<div class="content">
-			<div class="title_bar">
-				<h4 class="titlebg">
-					', $txt['TeamPage_groups_bottom'], '
-				</h4>
-			</div>
-			<div class="windowbg">
-
-			</div>
+			', display_groups('bottom'), '
 		</div>';
-	}
 
-	// Forum groups that aren't in the page already
+		// Forum groups that aren't in the page yet
+		echo '
+		<div class="title_bar">
+			<h4 class="titlebg">
+				', $txt['TeamPage_groups_forum'], '
+			</h4>
+		</div>
+		<ul class="information" id="tp_group_sort_all">';
+
+	if (!empty($context['forum_groups']))
+		foreach($context['forum_groups'] as $group)
+			echo  '
+			<li class="windowbg" group-id="'.$group['id_group'].'">
+				<span style="color: ', $group['online_color'], ';">', $group['group_name'], '</span>
+			</li>';
+		
+	echo '
+		</ul>';
+	}
+}
+
+function display_groups($placement = 'left')
+{
+	global $context, $txt;
+
+	echo '
+		<div class="title_bar">
+			<h4 class="titlebg">
+				', $txt['TeamPage_groups_'.$placement], '
+			</h4>
+		</div>
+		<ul class="information" id="tp_group_sort_'.$placement.'">';
+
+	// Load groups
+	if (!empty($context['page_groups'][$placement]))
+		foreach($context['page_groups'][$placement] as $group)
+			echo  '
+			<li class="windowbg" group-id="'.$group['id_group'].'">
+				<span style="color: ', $group['online_color'], ';">', $group['group_name'], '</span>
+			</li>';
+
+	echo '
+		</ul>';
 
 }
