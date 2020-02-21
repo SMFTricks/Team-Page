@@ -40,6 +40,9 @@ class Settings
 
 		// Permissions
 		add_integration_function('integrate_load_permissions', 'self::Permissions', false);
+
+		// Delete membergroup
+		add_integration_function('integrate_delete_membergroups', __NAMESPACE__ . '\Groups::Delete', false);
 	}
 
 	/**
@@ -76,6 +79,7 @@ class Settings
 			'pages' => 'Pages::List',
 			'edit' => 'Pages::Edit',
 			'save' => 'Pages::Save',
+			'sort' => 'Groups::Save',
 			'delete' => 'Pages::Delete',
 		];
 		$sa = isset($_GET['sa'], $subactions[$_GET['sa']]) ? $_GET['sa'] : 'settings';
