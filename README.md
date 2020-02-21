@@ -8,16 +8,16 @@
 Developed by [Diego Andrés](https://github.com/DiegoAndresCortes)
 
 ## Introduction
-* Team Page enable a customizable page to show the members of the team of your forum. You can choose which membergroups to show in your team page, and also change some settings for the page.
+* Team Page enable a customizable page to show the members of the team of your forum. You also have the option to create multiple pages/tabs with groups and active a board moderators page.
 
 ## Features
 - Enable Team Page
-- Create different pages to show in the Team Page action
-  - Groups page
-  - BBC Text Page
-  - HTML Text Page
-  - You can also give a name and a subaction name to your pages
-- Moderators subpage (A dedicated subaction in the Team Page to show your forum moderators and which boards they moderate.)
+- Create multiple text or groups pages
+  - Groups (default)
+  - BBC Text
+  - HTML Text
+  - Subaction name for the page
+- Boards moderators page
 - Groups badges
 - Avatars
 - Groups descriptions
