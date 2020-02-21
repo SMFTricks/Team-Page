@@ -13,9 +13,9 @@ Developed by [Diego Andrés](https://github.com/DiegoAndresCortes)
 ## Features
 - Enable Team Page
 - Create different pages to show in the Team Page action
- - Groups page
- - BBC Text Page
- - HTML Text Page
+  - Groups page
+  - BBC Text Page
+  - HTML Text Page
   - You can also give a name and a subaction name to your pages
 - Moderators subpage (A dedicated subaction in the Team Page to show your forum moderators and which boards they moderate.)
 - Groups badges
