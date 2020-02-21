@@ -1,0 +1,10 @@
+/* Styles for the general looks of the Team Page mod.
+------------------------------------------------------- */
+
+.tp_placeholder_sort {
+	height: 35px;
+	width: 100%;
+	background-color: rgba(255, 235, 205, 0.5);
+	border-radius: 5px;
+	margin: 5px 0 10px;
+}

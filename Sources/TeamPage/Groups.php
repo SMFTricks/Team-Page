@@ -21,6 +21,9 @@ class Groups
 	private static $additional_columns = 'LEFT JOIN {db_prefix}membergroups AS mem ON (tp.id_group = mem.id_group)';
 	private static $additional_query = '';
 	private static $groups;
+	private static $fields_data = [];
+	private static $fields_insert = [];
+	private static $fields_update = [];
 
 	public static function PageSort($id)
 	{
@@ -45,5 +48,62 @@ class Groups
 		}
 
 		return self::$groups;
+	}
+
+	public static function Save()
+	{
+		global $context, $txt;
+
+		// Page info
+		$context['sub_template'] = 'pages_edit';
+		$context['page_title'] = $txt['TeamPage']. ' - ' . $txt['TeamPage_page_page_groups'];
+
+		// Unlucky
+		if (!isset($_REQUEST['page']) || empty($_REQUEST['page']) || empty(Helper::Find(Pages::$table . ' AS cp', 'cp.id_page', $_REQUEST['page'])))
+			fatal_error($txt['TeamPage_page_noexist'], false);
+
+		// Define our vars
+		self::$groups = isset($_REQUEST['groups']) ? $_REQUEST['groups'] : [];
+		self::$fields_data = [];
+		self::$fields_insert = [];
+		self::$fields_update = [];
+
+		// We are sorting!!
+		if (isset($_REQUEST['delete']) && empty($_REQUEST['delete']))
+		{
+			// Data
+			foreach (self::$groups as $position => $group)
+				self::$fields_data[$position] = [
+					'id_group' => (int) $group,
+					'id_page' => (int) $_REQUEST['page'],
+					'placement' => (string) $_REQUEST['placement'],
+					'position' => (int) $position,
+				];
+
+			// Type for insert
+			foreach(self::$fields_data as $group) {
+				self::$fields_update[$group['position']] = '';
+				foreach($group as $column => $type) {
+					self::$fields_insert[$group['position']][$column] = str_replace('integer', 'int', gettype($type));
+					self::$fields_update[$group['position']] .= $column . ' = {'.str_replace('integer', 'int', gettype($type)).':'.$column.'}, ';
+				}
+			}
+		
+			// Update!!!
+			foreach(self::$fields_data as $group) {
+				Helper::Insert(self::$table, self::$fields_data[$group['position']], self::$fields_insert[$group['position']]);
+				Helper::Update(self::$table . ' AS tp', self::$fields_data[$group['position']], self::$fields_update[$group['position']], 'WHERE tp.id_group = ' . self::$fields_data[$group['position']]['id_group'] . ' AND tp.id_page = ' . self::$fields_data[$group['position']]['id_page']);
+			}
+		}
+		// We are deleting this group!!!
+		else {
+			self::Delete(self::$groups, ' AND id_page = ' . $_REQUEST['page']);
+		}
+	}
+
+	public static function Delete($delete_groups, $query = '')
+	{
+		// sooo basically delete the groups from team page as well
+		Helper::Delete(self::$table, 'id_group', $delete_groups, $query);
 	}
 }
