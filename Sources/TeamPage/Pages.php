@@ -16,7 +16,7 @@ if (!defined('SMF'))
 class Pages
 {
 	public static $table = 'teampage_pages';
-	private static $columns = ['cp.id_page', 'cp.page_name', 'cp.page_action', 'cp.is_text', 'cp.page_type', 'cp.page_body', 'cp.page_order'];
+	public static $columns = ['cp.id_page', 'cp.page_name', 'cp.page_action', 'cp.is_text', 'cp.page_type', 'cp.page_body', 'cp.page_order'];
 	private static $additional_query = '';
 	private static $fields_data = [];
 	private static $fields_type = [];
@@ -30,6 +30,7 @@ class Pages
 		$context['sub_template'] = 'show_list';
 		$context['default_list'] = 'pageslist';
 		$context['page_title'] = $txt['TeamPage']. ' - ' . $txt['TeamPage_page_pages'];
+		$context[$context['admin_menu_name']]['tab_data']['title'] = $context['page_title'];
 		$context['TeamPage_pages_title'] = $txt['TeamPage_add_page'];
 
 		// The entire list
