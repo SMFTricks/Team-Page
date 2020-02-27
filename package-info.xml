@@ -36,10 +36,13 @@
 		<!-- Sources -->
 		<remove-dir name="$sourcedir/TeamPage">Source files</remove-dir>
 		<!-- Languages -->
-		<remove-file name="$languagedir/TeamPage.english.php">Language file</remove-file>
-			<!-- Spanish-->
+		<remove-dir name="$languagedir/TeamPage">Language files</remove-dir>
+		<!-- JS -->
+		<remove-file name="$themedir/scripts/teampage.js" />
 		<!-- CSS -->
-		<remove-file name="$themedir/css/TeamPage.css" />
+		<remove-file name="$themedir/css/teampage.css" />
+		<!-- Icon -->
+		<remove-file name="$themedir/images/icons/team.png" />
 		<!-- Hooks -->
 		<hook hook="integrate_pre_include" file="$sourcedir/TeamPage/TeamPage.php" function="TeamPage\TeamPage::initialize" reverse="true" />
 		<!-- Database -->
