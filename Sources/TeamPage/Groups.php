@@ -35,14 +35,20 @@ class Groups
 
 		// Get the groups for this page
 		$context['page_groups_all'] = Helper::Get(0, 10000, 'tp.position ASC', self::$table . ' AS tp', array_merge(self::$columns, self::$groups_columns), self::$additional_query, false, self::$additional_columns);
+
+		// ... Alright
 		self::$groups['all'] = [];
 		foreach ($context['page_groups_all'] as $group)
 		{
+			// All
 			self::$groups['all'][] += $group['id_group'];
+			// Left
 			if ($group['placement'] == 'left')
 				self::$groups['left'][$group['id_group']] = $group;
+			// Right
 			elseif ($group['placement'] == 'right')
 				self::$groups['right'][$group['id_group']] = $group;
+			// Bottom
 			else
 				self::$groups['bottom'][$group['id_group']] = $group;
 		}
@@ -56,7 +62,7 @@ class Groups
 
 		// Page info
 		$context['sub_template'] = 'pages_edit';
-		$context['page_title'] = $txt['TeamPage']. ' - ' . $txt['TeamPage_page_page_groups'];
+		$context['page_title'] = $txt['TeamPage']. ' - ' . $txt['TeamPage_page_groups'];
 
 		// Unlucky
 		if (!isset($_REQUEST['page']) || empty($_REQUEST['page']) || empty(Helper::Find(Pages::$table . ' AS cp', 'cp.id_page', $_REQUEST['page'])))
