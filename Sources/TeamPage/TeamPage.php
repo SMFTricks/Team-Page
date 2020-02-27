@@ -36,12 +36,17 @@ class TeamPage
 
 		$defaults = [
 			'TeamPage_enable' => 1,
-			'TeamPage_enable_modpage' => 0,
-			'TeamPage_show_badges' => 1,
-			'TeamPage_show_avatars' => 0,
-			'TeamPage_show_desc' => 0,
 			'TeamPage_additional_groups' => 0,
-			'TeamPage_modpage_description' => '',
+			'TeamPage_show_badges' => 1,
+			'TeamPage_show_description' => 1,
+			'TeamPage_show_avatars' => 1,
+			'TeamPage_show_personal' => 0,
+			'TeamPage_show_custom' => 0,
+			'TeamPage_show_posts' => 0,
+			'TeamPage_show_website' => 0,
+			'TeamPage_show_login' => 0,
+			'TeamPage_show_registered' => 0,
+			'TeamPage_enable_modpage' => 0,
 		];
 		$modSettings = array_merge($defaults, $modSettings);
 	}
