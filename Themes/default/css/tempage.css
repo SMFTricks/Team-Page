@@ -1,10 +1,111 @@
+
+/**
+ * @package Team Page
+ * @version 5.0
+ * @author Diego Andrés <diegoandres_cortes@outlook.com>
+ * @copyright Copyright (c) 2020, SMF Tricks
+ * @license https://www.mozilla.org/en-US/MPL/2.0/
+ */
+
 /* Styles for the general looks of the Team Page mod.
 ------------------------------------------------------- */
 
+/* Sortable */
 .tp_placeholder_sort {
 	height: 35px;
 	width: 100%;
 	background-color: rgba(255, 235, 205, 0.5);
 	border-radius: 5px;
 	margin: 5px 0 10px;
+}
+#tp_group_sort_all a, #tp_group_sort_left a, #tp_group_sort_right a, #tp_group_sort_bottom a {
+	font-weight: normal;
+}
+
+/* Grid */
+#tp_main_box {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-areas:
+		"left right"
+		"bottom bottom";
+	gap: 10px;
+}
+#tp_block_left {
+	grid-area: left;
+}
+#tp_block_right {
+	grid-area: right;
+}
+#tp_block_bottom {
+	grid-area: bottom;
+}
+
+/* Group Container */
+.tp_group_container {
+	margin-bottom: 20px;;
+}
+/* Group Description */
+span.tp_group_description {
+	font-size: 1em;
+}
+/* Group Badges */
+img.tp_group_badge {
+	float: right;
+}
+/* Avatar */
+img.tp_avatar {
+	float: right;
+	width: 64px;
+	height: 64px;
+	border-radius: 100%;
+	border-style: solid;
+	border-width: 1px;
+	border-color: rgba(0,0,0,0.2);
+}
+/* User Info */
+span.tp_user_info > span {
+	display: block;
+}
+/* User Name */
+h2.tp_user_name {
+	font-size: 13pt;
+}
+h2.tp_user_name > strong {
+	font-size: 75%;
+}
+
+/* Bottom block */
+#tp_block_bottom ul li h2.tp_user_name {
+	font-style: 11pt;
+}
+#tp_block_bottom span.tp_user_info {
+	display: none;
+}
+#tp_block_bottom img.tp_avatar {
+	display: none;
+}
+#tp_block_bottom ul {
+	columns: 4 250px;
+}
+/* windowbg change */
+#tp_main_box ul li.windowbg {
+	margin: 0;
+}
+
+/* Responsive ez */
+@media (max-width: 800px) {
+	img.tp_group_badge {
+		float: none;
+	}
+	span.tp_group_description {
+		display: block;
+	}
+	#tp_main_box {
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			"left"
+			"right"
+			"bottom";
+	}
 }
