@@ -38,9 +38,9 @@
 		<!-- Languages -->
 		<remove-dir name="$languagedir/TeamPage">Language files</remove-dir>
 		<!-- JS -->
-		<remove-file name="$themedir/scripts/teampage.js" />
+		<remove-file name="$themedir/scripts/teampage.js">JavaScript file</remove-file>
 		<!-- CSS -->
-		<remove-file name="$themedir/css/teampage.css" />
+		<remove-file name="$themedir/css/teampage.css">CSS file</remove-file>
 		<!-- Icon -->
 		<remove-file name="$themedir/images/icons/team.png" />
 		<!-- Hooks -->
