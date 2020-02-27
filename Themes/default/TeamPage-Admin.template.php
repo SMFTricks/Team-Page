@@ -84,8 +84,8 @@ function template_pages_edit()
 				<dd style="width:100%">';
 
 		// BBC?
-		if ($context['page_details']['page_type'] == 'BBC') {
-
+		if ($context['page_details']['page_type'] == 'BBC')
+		{
 			// Showing BBC?
 			if (!empty($context['show_bbc']))
 				echo '
@@ -98,7 +98,6 @@ function template_pages_edit()
 
 					// Show BBC buttons, smileys and textbox.
 					template_control_richedit($context['page_details']['body_bbc'], 'smileyBox_message', 'bbcBox_message');
-
 		}
 		else
 			echo '
@@ -117,17 +116,20 @@ function template_pages_edit()
 
 function template_pages_edit_below()
 {
-	global $txt, $context;
+	global $txt, $context, $scripturl;
 
 	// Page groups
-	if (empty($context['page_details']['is_text'])) {
-
+	if (empty($context['page_details']['is_text']))
+	{
 		echo '
 		<hr class="divider" />
 		<div class="cat_bar" id="tp_manage_groups" page-id="', $context['page_details']['id_page'], '">
 			<h3 class="catbg">
 				', $txt['TeamPage_manage_groups'], '
 			</h3>
+		</div>
+		<div class="information">
+			', $txt['TeamPage_page_groups_desc'], '
 		</div>
 		<div class="half_content">
 			', display_groups(), '
@@ -152,9 +154,9 @@ function template_pages_edit_below()
 		foreach($context['forum_groups'] as $group)
 			echo  '
 			<li class="windowbg" group-id="'.$group['id_group'].'">
-				<span style="color: ', $group['online_color'], ';">', $group['group_name'], '</span>
+				<a href="', $scripturl, '?action=admin;area=membergroups;sa=members;group=', $group['id_group'], '" style="color: ', $group['online_color'], ';">', $group['group_name'], '</a>
 			</li>';
-		
+
 	echo '
 		</ul>';
 	}
@@ -162,7 +164,7 @@ function template_pages_edit_below()
 
 function display_groups($placement = 'left')
 {
-	global $context, $txt;
+	global $context, $txt, $scripturl;
 
 	echo '
 		<div class="title_bar">
@@ -177,10 +179,9 @@ function display_groups($placement = 'left')
 		foreach($context['page_groups'][$placement] as $group)
 			echo  '
 			<li class="windowbg" group-id="'.$group['id_group'].'">
-				<span style="color: ', $group['online_color'], ';">', $group['group_name'], '</span>
+				<a href="', $scripturl, '?action=admin;area=membergroups;sa=members;group=', $group['id_group'], '" style="color: ', $group['online_color'], ';">', $group['group_name'], '</a>
 			</li>';
 
 	echo '
 		</ul>';
-
 }
