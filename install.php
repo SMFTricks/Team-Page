@@ -7,7 +7,7 @@
  * @version 5.0
  * @author Diego Andrés <diegoandres_cortes@outlook.com>
  * @copyright Copyright (c) 2020, Diego Andrés
- * @license http://www.mozilla.org/MPL/MPL-1.1.html
+ * @license https://www.mozilla.org/en-US/MPL/2.0/
  */
 
 	if (file_exists(dirname(__FILE__) . '/SSI.php') && !defined('SMF'))
