@@ -19,13 +19,15 @@ $txt['TeamPage_main_button'] = 'Team';
 $txt['TeamPage_page_main'] = 'Main';
 $txt['TeamPage_page_settings'] = 'Settings';
 $txt['TeamPage_page_settings_desc'] = 'Main settings for the team page, permissions and other options.';
+$txt['TeamPage_page_settings_layout'] = 'Layout';
 $txt['TeamPage_page_pages'] = 'Pages';
 $txt['TeamPage_page_pages_desc'] = 'In this section you\'ll be able to manage the Team Page custom pages.';
 $txt['TeamPage_page_page_edit'] = 'Editing Page';
-$txt['TeamPage_page_page_groups'] = 'Managing groups';
+$txt['TeamPage_page_groups'] = 'Managing groups';
+$txt['TeamPage_page_groups_desc'] = 'You can drag and drop each gruop into the desired position and order, it will save automatically. To delete a group just drop it into the forum groups.';
 
 // Moderators page
-$txt['TeamPage_moderators'] = 'Moderators';
+$txt['TeamPage_moderators'] = 'Moderators page';
 $txt['TeamPage_moderators_description'] = 'These are the moderators of '. $context['forum_name']. '';
 $txt['TeamPages_boards_moderating'] = 'Boards Moderating';
 
@@ -48,7 +50,7 @@ $txt['cannot_view_teampage'] = 'Sorry, but you\'re not allowed to access to the 
 $txt['no_more_groups'] = 'There are no inactive groups...';
 $txt['no_groups_defined'] = 'No groups are defined to show on the team page! Please add some groups. Users are being redirected to the index on accessing the page until you resolve this.';
 $txt['team_groups_notp'] = 'Groups not placed';
-$txt['TeamPage_no_members'] = 'No Members Available...';
+$txt['TeamPage_no_members'] = 'No members available...';
 $txt['TeamPage_group_no_av'] = 'The group you\'re trying to add/move does not exist or is not available here.';
 $txt['TeamPage_title_editor_empty'] = 'The page body is not defined.';
 
@@ -98,21 +100,29 @@ $txt['TeamPage_groups_remove'] = 'Remove group from team page';
 
 // Settings.
 $txt['TeamPage_enable'] = 'Enable the team page?';
+$txt['TeamPage_show_badges'] = 'Display group badges/icons?';
+$txt['TeamPage_show_avatars'] = 'Display avatars for each member?';
+$txt['TeamPage_addinfo_desc'] = 'Only available for left and right blocks';
+$txt['TeamPage_show_personal'] = 'Display personal text';
+$txt['TeamPage_show_custom'] = 'Display custom title';
+$txt['TeamPage_show_description'] = 'Display group descriptions?';
+$txt['TeamPage_show_posts'] = 'Display post count';
+$txt['TeamPage_show_website'] = 'Display website';
+$txt['TeamPage_show_login'] = 'Display last login';
+$txt['TeamPage_show_registered'] = 'Display register date';
+$txt['TeamPage_additional_groups'] = 'Display members in their secondary groups?';
+$txt['TeamPage_additional_groups_desc'] = 'This setting will display members in multiple groups if they\'re part of any additional groups.';
+$txt['TeamPage_settings_saved'] = 'Your settings have been saved. <a href="' . $scripturl . '?action=team;sa=%1">Click here to view them</a>.';
+$txt['TeamPage_manage_groups'] = 'Manage the groups';
+$txt['TeamPage_manage_editor'] = 'Manage the page content';
 $txt['TeamPage_enable_modpage'] = 'Enable the moderators subpage?';
 $txt['TeamPage_modpage_description'] = 'Type the description of the moderators page';
 $txt['TeamPage_modpage_description_desc'] = 'By default is: <i>'. $txt['TeamPage_moderators_description']. '</i>. This will be shown if the groups descriptions option is enabled.';
-$txt['TeamPage_show_badges'] = 'Show group badges on the page?';
-$txt['TeamPage_show_avatars'] = 'Show avatars on the page?';
-$txt['TeamPage_show_avatars_desc'] = 'This will also enable/disable the website, send pm and show posts links from the users information.';
-$txt['TeamPage_show_desc'] = 'Show the group description on the page?';
-$txt['TeamPage_additional_groups'] = 'Show members in their secondary groups?';
-$txt['TeamPage_settings_saved'] = 'Your settings have been saved. <a href="' . $scripturl . '?action=teampage;sa=%1" target="_self">Click here to view them</a>.';
-$txt['TeamPage_manage_groups'] = 'Manage the groups';
-$txt['TeamPage_manage_editor'] = 'Manage the page content';
 
 // Outside strings
-$txt['TeamPage_whoall_teampage'] = 'Viewing the <a href="' . $scripturl . '?action=teampage">Team Page</a>.';
+$txt['TeamPage_whoall_teampage'] = 'Viewing the forum <a href="' . $scripturl . '?action=team">Team</a>.';
 $txt['TeamPage_pm'] = 'Send a personal message';
 $txt['TeamPage_showm'] = 'Show the last posts';
-$txt['TeamPage_last_login'] = 'Last Login';
-$txt['TeamPage_date_registered'] = 'Date Registered';
+$txt['TeamPage_last_login'] = 'Last active';
+$txt['TeamPage_date_registered'] = 'Member since';
+$txt['TeamPage_website'] = 'Website';
