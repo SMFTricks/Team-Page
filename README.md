@@ -9,7 +9,7 @@ Developed by [Diego Andrés](https://github.com/DiegoAndresCortes)
 
 ## Introduction
 * Team Page enables a customizable page to show the staff/team members of the different membergroups in your forum.
-* You also have the option to create multiple pages/tabs with groups or even just text and enable a board moderators page.
+* Provides the option to create multiple pages/tabs with groups or even just text and enable a board moderators page.
 
 ## Features
 - Enable Team Page
