@@ -17,7 +17,7 @@ Developed by [Diego Andrés](https://github.com/DiegoAndresCortes)
   - Groups (default)
     - Sortable: Drag and drop management
   - Moderators
-    - Select the boards you want to appear with their moderators (if any).
+    - Select the boards you want to display their moderators (if any).
   - BBC Text
   - HTML Text
   - Subaction name for the page
