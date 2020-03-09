@@ -9,17 +9,18 @@ Developed by [Diego Andrés](https://github.com/DiegoAndresCortes)
 
 ## Introduction
 * Team Page enables a customizable page to show the staff/team members of the different membergroups in your forum.
-* Provides the option to create multiple pages/tabs with groups or even just text and enable a board moderators page.
+* Provides the option to create multiple pages/tabs with groups or board moderators.
 
 ## Features
 - Enable Team Page
 - Create multiple text or groups pages
   - Groups (default)
     - Sortable: Drag and drop management
+  - Moderators
+    - Select the boards you want to appear with their moderators (if any).
   - BBC Text
   - HTML Text
   - Subaction name for the page
-- Boards moderators page
 - Display members in their secondary groups
 - Permissions to view the Team Page
 - Layout/view options
