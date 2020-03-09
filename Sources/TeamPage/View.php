@@ -83,38 +83,62 @@ class View
 		$context['teampage']['page_id'] = $page_details['id_page'];
 		$context['teampage_title'] = $page_details['page_name'];
 		$context['page_title'] .= ' - ' . $page_details['page_name'];
+		$context['teampage']['moderators'] = [];
 		$context['teampage']['groups'] = [];
 		$context['teampage']['members'] = [];
 
-		// Groups or text?
-		if (empty($page_details['is_text']) && $page_details['page_type'] == 'Groups')
+		// Text type?
+		if (empty($page_details['is_text']))
 		{
-			$context['teampage']['groups'] = !empty(Helper::Find(Groups::$table . ' AS tp', 'tp.id_page', $page_details['id_page'])) ? Groups::PageSort($page_details['id_page']) : [];
+			// Groups
+			if ($page_details['page_type'] == 'Groups')
+			{
+				$context['teampage']['groups'] = !empty(Helper::Find(Groups::$table . ' AS tp', 'tp.id_page', $page_details['id_page'])) ? Groups::PageSort($page_details['id_page']) : [];
 
-			// Populate the users into the groups
-			foreach ($context['teampage']['groups']['all'] as $group)
-				$context['teampage']['members'][$group] = Helper::Get(0, 100000, 'mem.member_name ASC', self::$table, self::$columns, self::$additional_query . $group . (!empty($modSettings['TeamPage_additional_groups']) ? ' OR FIND_IN_SET('.$group.', mem.additional_groups)' : ''));
+				// We got groups
+				if (!empty($context['teampage']['groups']))
+				{
+					// Populate the users into the groups
+					foreach ($context['teampage']['groups']['all'] as $group)
+						$context['teampage']['members'][$group] = Helper::Get(0, 100000, 'mem.member_name ASC', self::$table, self::$columns, self::$additional_query . $group . (!empty($modSettings['TeamPage_additional_groups']) ? ' OR FIND_IN_SET('.$group.', mem.additional_groups)' : ''));
 
-			// Some wacky strings
-			if (empty($context['teampage']['groups']['left']))
-				$grid_area = 'right right';
-			elseif (empty($context['teampage']['groups']['right']))
-				$grid_area = 'left left';
+					// Some wacky strings
+					if (empty($context['teampage']['groups']['left']))
+						$grid_area = 'right right';
+					elseif (empty($context['teampage']['groups']['right']))
+						$grid_area = 'left left';
 
-			// Black magic allowed for once
-			if (empty($context['teampage']['groups']['left']) || empty($context['teampage']['groups']['right']))
-				addInlineCss(
-					'#tp_main_box {
-						grid-template-areas:
-							"' . $grid_area. '"
-							"bottom bottom";
-					}'
-				);
+					// Black magic allowed for once
+					if (empty($context['teampage']['groups']['left']) || empty($context['teampage']['groups']['right']))
+						addInlineCss(
+							'#tp_main_box {
+								grid-template-areas:
+									"' . $grid_area. '"
+									"bottom bottom";
+							}'
+						);
+				}
+				else
+					redirectexit('action=admin;area=teampage;sa=edit;id='.$page_details['id_page']);
+			}
+
+			// Moderators
+			if ($page_details['page_type'] == 'Mods')
+			{
+				// We got mods
+				if (!empty($context['teampage']['moderators']))
+				{
+
+				}
+				else
+					redirectexit('action=admin;area=teampage;sa=edit;id='.$page_details['id_page']);
+			}
 		}
 		// Text
 		else {
 			// We got the body?
-			if (!empty($page_details['page_body'])) {
+			if (!empty($page_details['page_body']))
+			{
 				if ($page_details['page_type'] == 'HTML')
 					$context['teampage']['body'] = un_htmlspecialchars($page_details['page_body']);
 				else
