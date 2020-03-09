@@ -40,7 +40,7 @@ class Pages
 			'title' => $txt['TeamPage_page_pages'],
 			'items_per_page' => 5,
 			'base_href' => '?action=admin;area=teampage;sa=pages',
-			'default_sort_col' => 'modify',
+			'default_sort_col' => 'page_order',
 			'get_items' => [
 				'function' => __NAMESPACE__ . '\Helper::Get',
 				'params' => [self::$table . ' AS cp', self::$columns, self::$additional_query],
@@ -272,7 +272,8 @@ class Pages
 			Helper::Insert(self::$table, self::$fields_data, self::$fields_type);
 			$status = 'added';
 		}
-		else {
+		else
+		{
 			self::$fields_type = '';
 			
 			// Remove those that don't require updating
