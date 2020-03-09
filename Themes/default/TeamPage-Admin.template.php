@@ -19,18 +19,17 @@ function template_pages_post_below()
 		', template_pages_edit_above(), '
 					<dt>
 						<a id="setting_istext"></a>
-						<span><label for="istext">', $txt['TeamPage_page_is_text'], ':</label></span>
+						<span><label for="istext">', $txt['TeamPage_page_type_select'], ':</label></span>
 					</dt>
 					<dd>
-						<input class="input_check" type="checkbox" name="istext" id="istext" value="1" onclick="document.getElementById(\'SelectEditor\').style.display = this.checked ? \'block\' : \'none\';" />
-						<fieldset id="SelectEditor" style="display: none;">
-							<select name="type">
-								<optgroup label="', $txt['TeamPage_page_type'], '">
-									<option value="BBC">', $txt['TeamPage_page_type_bbc'], '</option>
-									<option value="HTML">', $txt['TeamPage_page_type_html'], '</option>
-								</optgroup>
-							</select>
-						</fieldset>
+						<select name="type">
+							<optgroup label="', $txt['TeamPage_page_type'], '">
+								<option value="Groups" selected>', $txt['TeamPage_page_type_groups'], '</option>
+								<option value="Mods">', $txt['TeamPage_page_type_mods'], '</option>
+								<option value="BBC">', $txt['TeamPage_page_type_bbc'], '</option>
+								<option value="HTML">', $txt['TeamPage_page_type_html'], '</option>
+							</optgroup>
+						</select>
 					</dd>
 				</dl>
 				<input class="button floatleft" type="submit" value="', $txt['TeamPage_add_page'], '" />
