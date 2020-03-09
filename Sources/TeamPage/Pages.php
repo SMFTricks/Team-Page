@@ -17,6 +17,7 @@ class Pages
 {
 	public static $table = 'teampage_pages';
 	public static $columns = ['cp.id_page', 'cp.page_name', 'cp.page_action', 'cp.is_text', 'cp.page_type', 'cp.page_body', 'cp.page_order'];
+	public static $page_type = ['Groups', 'Mods', 'BBC', 'HTML'];
 	private static $additional_query = '';
 	private static $fields_data = [];
 	private static $fields_type = [];
@@ -253,7 +254,7 @@ class Pages
 			'page_name' => (string) isset($_REQUEST['title']) ? $smcFunc['htmlspecialchars']($_REQUEST['title'], ENT_QUOTES) : '',
 			'page_action' => (string) isset($_REQUEST['page_action']) ? strtolower($smcFunc['htmlspecialchars']($_REQUEST['page_action'], ENT_QUOTES)) : '',
 			'is_text' => (int) isset($_REQUEST['istext']) ? 1 : 0,
-			'page_type' => (string) isset($_REQUEST['type']) && !empty($_REQUEST['istext']) ? $_REQUEST['type'] : $txt['TeamPage_page_type_groups'],
+			'page_type' => (string) isset($_REQUEST['type']) && in_array($_REQUEST['type'], self::$page_type) ? $_REQUEST['type'] : $txt['TeamPage_page_type_groups'],
 			'page_body' => (string) isset($_REQUEST['page_body']) ? $smcFunc['htmlspecialchars']($_REQUEST['page_body'], ENT_QUOTES) : '',
 		];
 
@@ -286,7 +287,6 @@ class Pages
 		}
 
 		redirectexit('action=admin;area=teampage;sa=pages;'.$status);
-
 	}
 
 	public static function Validate($data)
@@ -304,6 +304,7 @@ class Pages
 		// Duplicated action?
 		if (empty($data['id_page']) && !empty(Helper::Find(self::$table . ' AS cp', 'cp.page_action', $data['page_action'])))
 			fatal_error($txt['TeamPage_error_already_sub'], false);
+
 		// Doesn't exist
 		elseif (!empty($data['id_page']) && empty(Helper::Find(self::$table . ' AS cp', 'cp.id_page', $data['id_page'])))
 			fatal_error($txt['TeamPage_page_noexist'], false);
