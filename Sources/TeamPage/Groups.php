@@ -95,13 +95,13 @@ class Groups
 				}
 			}
 		
-			// Update!!!
+			// Update!
 			foreach(self::$fields_data as $group) {
 				Helper::Insert(self::$table, self::$fields_data[$group['position']], self::$fields_insert[$group['position']]);
 				Helper::Update(self::$table . ' AS tp', self::$fields_data[$group['position']], self::$fields_update[$group['position']], 'WHERE tp.id_group = ' . self::$fields_data[$group['position']]['id_group'] . ' AND tp.id_page = ' . self::$fields_data[$group['position']]['id_page']);
 			}
 		}
-		// We are deleting this group!!!
+		// We are deleting this group!
 		else {
 			self::Delete(self::$groups, ' AND id_page = ' . $_REQUEST['page']);
 		}
