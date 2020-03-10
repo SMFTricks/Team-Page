@@ -16,9 +16,8 @@ if (!defined('SMF'))
 class View
 {
 	public  static $table = 'members AS mem';
-	private static $columns = ['mem.id_member', 'mem.member_name', 'mem.real_name AS name', 'mem.id_group', 'mem.additional_groups', 'mem.posts', 'mem.date_registered', 'mem.last_login', 'mem.personal_text', 'mem.website_title', 'mem.website_url', 'mem.usertitle'];
-	public  static $groups_columns = ['mem.group_name', 'mem.description', 'mem.online_color', 'mem.icons', 'mem.id_group'];
-	private static $additional_columns = 'LEFT JOIN {db_prefix}membergroups AS mem ON (tp.id_group = mem.id_group)';
+	private static $columns = ['mem.id_member', 'mem.member_name', 'mem.real_name', 'mem.id_group', 'mem.additional_groups', 'mem.posts', 'mem.date_registered', 'mem.last_login', 'mem.personal_text', 'mem.website_title', 'mem.website_url', 'mem.usertitle', 'mem.avatar'];
+	private static $attachments = ['a.id_attach', 'a.filename', 'a.attachment_type'];
 	private static $additional_query = 'WHERE mem.id_group = ';
 	private static $list = [];
 	private static $tabs = [];
@@ -95,21 +94,38 @@ class View
 			{
 				$context['teampage']['groups'] = !empty(Helper::Find(Groups::$table . ' AS tp', 'tp.id_page', $page_details['id_page'])) ? Groups::PageSort($page_details['id_page']) : [];
 
+				//self::$columns = array_merge(self::$columns, self::$attachments);
+				$context['teampage']['members'] = Helper::Nested('mem.id_member', 'members AS mem', Groups::$groups_columns, self::$columns, 'members', 'WHERE m.id_group IN (' . implode(',', !empty($context['teampage']['groups']['all']) ? $context['teampage']['groups']['all'] : [0]).')', 'LEFT JOIN {db_prefix}membergroups AS m ON (m.id_group = mem.id_group) LEFT JOIN {db_prefix}attachments as a ON (a.id_member = mem.id_member)', self::$attachments);
+
+				//print_r($context['teampage']['groups']);
+
 				// We got groups
 				if (!empty($context['teampage']['groups']))
 				{
+					$context['teampage']['team'] = [];
 					// Populate the users into the groups
-					foreach ($context['teampage']['groups']['all'] as $group)
-						$context['teampage']['members'][$group] = Helper::Get(0, 100000, 'mem.member_name ASC', self::$table, self::$columns, self::$additional_query . $group . (!empty($modSettings['TeamPage_additional_groups']) ? ' OR FIND_IN_SET('.$group.', mem.additional_groups)' : ''));
+					foreach ($context['teampage']['groups'] as $placement => $groups)
+					{
+						// Just specific placement
+						if ($placement == 'all')
+							continue;
+
+						// Asign each group where it belongs
+						foreach ($groups as $group => $data)
+						{
+							if (!empty($context['teampage']['members'][$group]))
+								$context['teampage']['team'][$placement][$group] = $context['teampage']['members'][$group];
+						}
+					}
 
 					// Some wacky strings
-					if (empty($context['teampage']['groups']['left']))
+					if (empty($context['teampage']['team']['left']))
 						$grid_area = 'right right';
-					elseif (empty($context['teampage']['groups']['right']))
+					elseif (empty($context['teampage']['team']['right']))
 						$grid_area = 'left left';
 
 					// Black magic allowed for once
-					if (empty($context['teampage']['groups']['left']) || empty($context['teampage']['groups']['right']))
+					if (empty($context['teampage']['team']['left']) || empty($context['teampage']['team']['right']))
 						addInlineCss(
 							'#tp_main_box {
 								grid-template-areas:
