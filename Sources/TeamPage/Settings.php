@@ -82,6 +82,7 @@ class Settings
 			'sort' => 'Groups::Save',
 			'delete' => 'Pages::Delete',
 			'order' => 'Pages::Order',
+			'modsave' => 'Moderators::Save',
 		];
 		$sa = isset($_GET['sa'], $subactions[$_GET['sa']]) ? $_GET['sa'] : 'settings';
 
@@ -116,8 +117,8 @@ class Settings
 			['title', 'TeamPage_page_settings_layout'],
 			['check', 'TeamPage_show_badges'],
 			['check', 'TeamPage_show_description'],
+			['check', 'TeamPage_show_custom'],
 			['check', 'TeamPage_show_avatars', 'subtext' => $txt['TeamPage_addinfo_desc']],
-			['check', 'TeamPage_show_custom', 'subtext' => $txt['TeamPage_addinfo_desc']],
 			['check', 'TeamPage_show_personal', 'subtext' => $txt['TeamPage_addinfo_desc']],
 			['check', 'TeamPage_show_login', 'subtext' => $txt['TeamPage_addinfo_desc']],
 			['check', 'TeamPage_show_registered', 'subtext' => $txt['TeamPage_addinfo_desc']],
