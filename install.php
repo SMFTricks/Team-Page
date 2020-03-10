@@ -108,6 +108,17 @@
 					'default' => 0,
 					'null' => false,
 				],
+				[
+					'name' => 'mods_style',
+					'type' => 'smallint',
+					'size' => 3,
+					'null' => false,
+				],
+				[
+					'name' => 'page_boards',
+					'type' => 'text',
+					'null' => false,
+				],
 			],
 			'indexes' => [
 				[
