@@ -17,8 +17,7 @@ class Groups
 {
 	public  static $table = 'teampage_groups';
 	private static $columns = ['tp.id_group', 'tp.id_page', 'tp.placement', 'tp.position'];
-	public  static $groups_columns = ['mem.group_name', 'mem.description', 'mem.online_color', 'mem.icons', 'mem.id_group'];
-	private static $additional_columns = 'LEFT JOIN {db_prefix}membergroups AS mem ON (tp.id_group = mem.id_group)';
+	public  static $groups_columns = ['m.id_group', 'm.group_name', 'm.description', 'm.online_color', 'm.icons'];
 	private static $additional_query = '';
 	private static $groups;
 	private static $fields_data = [];
@@ -34,7 +33,7 @@ class Groups
 		self::$groups = [];
 
 		// Get the groups for this page
-		$context['page_groups_all'] = Helper::Get(0, 10000, 'tp.position ASC', self::$table . ' AS tp', array_merge(self::$columns, self::$groups_columns), self::$additional_query, false, self::$additional_columns);
+		$context['page_groups_all'] = Helper::Get(0, 10000, 'tp.position ASC', self::$table . ' AS tp', array_merge(self::$columns, self::$groups_columns), self::$additional_query, false, 'LEFT JOIN {db_prefix}membergroups AS m ON (tp.id_group = m.id_group)');
 
 		// ... Alright
 		self::$groups['all'] = [];
@@ -75,7 +74,7 @@ class Groups
 		self::$fields_update = [];
 
 		// We are sorting!!
-		if (isset($_REQUEST['delete']) && empty($_REQUEST['delete']))
+		if (!isset($_REQUEST['delete']) || empty($_REQUEST['delete']))
 		{
 			// Data
 			foreach (self::$groups as $position => $group)
@@ -102,9 +101,8 @@ class Groups
 			}
 		}
 		// We are deleting this group!
-		else {
+		else
 			self::Delete(self::$groups, ' AND id_page = ' . $_REQUEST['page']);
-		}
 	}
 
 	public static function Delete($delete_groups, $query = '')
