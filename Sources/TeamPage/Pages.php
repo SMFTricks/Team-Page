@@ -16,7 +16,7 @@ if (!defined('SMF'))
 class Pages
 {
 	public static $table = 'teampage_pages';
-	public static $columns = ['cp.id_page', 'cp.page_name', 'cp.page_action', 'cp.is_text', 'cp.page_type', 'cp.page_body', 'cp.page_order'];
+	public static $columns = ['cp.id_page', 'cp.page_name', 'cp.page_action', 'cp.is_text', 'cp.page_type', 'cp.page_body', 'cp.page_order', 'cp.page_boards', 'cp.mods_style'];
 	public static $page_type = ['Groups', 'Mods', 'BBC', 'HTML'];
 	private static $additional_query = '';
 	private static $fields_data = [];
@@ -235,12 +235,15 @@ class Pages
 
 			// Fill the groups
 			$context['page_groups'] = !empty(Helper::Find(Groups::$table . ' AS tp', 'tp.id_page', $_REQUEST['id'])) ? Groups::PageSort($_REQUEST['id']) : [];
-			$context['forum_groups'] = Helper::Get(0, 10000, 'mem.group_name', 'membergroups AS mem', Groups::$groups_columns, 'WHERE mem.min_posts = -1 AND mem.id_group != 3 AND  mem.id_group NOT IN (' . implode(',', !empty($context['page_groups']['all']) ? $context['page_groups']['all'] : [0]).')');
+			$context['forum_groups'] = Helper::Get(0, 10000, 'm.group_name', 'membergroups AS m', Groups::$groups_columns, 'WHERE m.min_posts = -1 AND m.id_group != 3 AND  m.id_group NOT IN (' . implode(',', !empty($context['page_groups']['all']) ? $context['page_groups']['all'] : [0]).')');
 		}
 
-		// Groups
+		// Moderators
 		if (empty($context['page_details']['is_text']) && $context['page_details']['page_type'] == 'Mods')
 		{
+			// Set the boards
+			$context['page_details']['page_boards'] = explode(',', $context['page_details']['page_boards']);
+
 			// Additional text
 			loadLanguage('ManageMembers');
 			// Load boards
@@ -284,6 +287,7 @@ class Pages
 			foreach(self::$fields_data as $column => $type)
 				self::$fields_type[$column] = str_replace('integer', 'int', gettype($type));
 
+			// Insert
 			Helper::Insert(self::$table, self::$fields_data, self::$fields_type);
 			$status = 'added';
 		}
@@ -299,6 +303,7 @@ class Pages
 			foreach(self::$fields_data as $column => $type)
 				self::$fields_type .= $column . ' = {'.str_replace('integer', 'int', gettype($type)).':'.$column.'}, ';
 
+			// Update
 			Helper::Update(self::$table, self::$fields_data, self::$fields_type, 'WHERE id_page = ' . self::$fields_data['id_page']);
 		}
 
