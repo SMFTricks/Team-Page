@@ -80,6 +80,7 @@ class View
 
 		// Details
 		$context['teampage']['page_id'] = $page_details['id_page'];
+		$context['teampage']['is_text'] = $page_details['is_text'];
 		$context['teampage_title'] = $page_details['page_name'];
 		$context['page_title'] .= ' - ' . $page_details['page_name'];
 		$context['teampage']['moderators'] = [];
@@ -97,8 +98,6 @@ class View
 				//self::$columns = array_merge(self::$columns, self::$attachments);
 				$context['teampage']['members'] = Helper::Nested('mem.id_member', 'members AS mem', Groups::$groups_columns, self::$columns, 'members', 'WHERE m.id_group IN (' . implode(',', !empty($context['teampage']['groups']['all']) ? $context['teampage']['groups']['all'] : [0]).')', 'LEFT JOIN {db_prefix}membergroups AS m ON (m.id_group = mem.id_group) LEFT JOIN {db_prefix}attachments as a ON (a.id_member = mem.id_member)', self::$attachments);
 
-				//print_r($context['teampage']['groups']);
-
 				// We got groups
 				if (!empty($context['teampage']['groups']))
 				{
@@ -112,10 +111,8 @@ class View
 
 						// Asign each group where it belongs
 						foreach ($groups as $group => $data)
-						{
 							if (!empty($context['teampage']['members'][$group]))
 								$context['teampage']['team'][$placement][$group] = $context['teampage']['members'][$group];
-						}
 					}
 
 					// Some wacky strings
@@ -133,6 +130,10 @@ class View
 									"bottom bottom";
 							}'
 						);
+					
+					// We didn't have any members? oof
+					if (empty($context['teampage']['team']))
+						redirectexit('action=admin;area=teampage;sa=edit;id='.$page_details['id_page']);
 				}
 				else
 					redirectexit('action=admin;area=teampage;sa=edit;id='.$page_details['id_page']);
