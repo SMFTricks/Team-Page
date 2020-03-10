@@ -30,13 +30,11 @@ function template_teampage_view()
 	global $context;
 
 	// Groups
-	if (!empty($context['teampage']['groups']))
+	if (!empty($context['teampage']['team']))
 	{
 		echo '
 		<div id="tp_main_box">
 			', display_members(), '
-			', display_members('right'),' 
-			', display_members('bottom'), '
 		</div>';
 	}
 	// Text
@@ -56,18 +54,21 @@ function template_TeamPage_below()
 
 function display_members($placement = 'left')
 {
-	global $context, $txt, $scripturl, $modSettings, $settings;
+	global $context, $txt, $scripturl, $modSettings, $settings, $boardurl;
 
 	// Load groups
-	if (!empty($context['teampage']['groups'][$placement]))
+	if (!empty($context['teampage']['team']))
 	{
-		echo '
+		// Blocks
+		foreach($context['teampage']['team'] as $placement => $groups)
+		{
+			echo '
 			<div class="roundframe" id="tp_block_'. $placement . '">';
 
-		// Groups
-		foreach($context['teampage']['groups'][$placement] as $group)
-		{
-			echo  '
+			// Groups
+			foreach($groups as $group)
+			{
+				echo  '
 				<div class="tp_group_container">
 					<div class="title_bar">
 						<h4 class="titlebg">
@@ -75,27 +76,30 @@ function display_members($placement = 'left')
 						</h4>
 					</div>';
 
-			// Description and emmm... Badge?
-			if (!empty($modSettings['TeamPage_show_badges']) || (!empty($modSettings['TeamPage_show_description']) && !empty($group['description'])))
-			{
-				echo '
+				// Description and emmm... Badge?
+				if (!empty($modSettings['TeamPage_show_badges']) || (!empty($modSettings['TeamPage_show_description']) && !empty($group['description'])))
+				{
+					echo '
 					<div class="information">
 						', !empty($modSettings['TeamPage_show_description']) && !empty($group['description']) ? '<span class="tp_group_description">'. $group['description'].'</span>' : '', '
 						', display_badge($group['icons']), '
 					</div>';
-			}
+				}
 
-			// Users
-			if (!empty($context['teampage']['members'][$group['id_group']]))
-			{
-				echo '
-					<ul>';
-				foreach($context['teampage']['members'][$group['id_group']] as $user) {
+				// Users
+				if (!empty($group['members']))
+				{
 					echo '
+					<ul>';
+					
+					// Members
+					foreach($group['members'] as $user)
+					{
+						echo '
 						<li', ($placement != 'bottom' ? ' class="windowbg"' : '') , '>
-							', display_avatar($user['id_member']), '
+							<img class="tp_avatar" src="', !empty($user['avatar']['href']) ? $user['avatar']['href'] : $boardurl. '/avatars/default.png', '" alt="" />
 							<h2 class="tp_user_name">
-								<a href="', $scripturl, '?action=profile;u=', $user['id_member'], '">', $user['name'], '</a>
+								<a href="', $scripturl, '?action=profile;u=', $user['id_member'], '">', $user['real_name'], '</a>
 								', !empty($modSettings['TeamPage_show_custom']) && !empty($user['usertitle']) ? ' - <strong>'. $user['usertitle']. '</strong>' : '', '
 							</h2>
 							<span class="tp_user_info">
@@ -121,21 +125,22 @@ function display_members($placement = 'left')
 								</span>' : '', '
 							</span>
 						</li>';
-				}
-				echo '
+					}
+					echo '
 					</ul>';
-			}
-			else
-				echo '
+				}
+				else
+					echo '
 					<div class="windowbg">
 						', $txt['TeamPage_no_members'], '
 					</div>';
 
-			echo '
+				echo '
 				</div>';
-		}
+			}
 		echo '
 			</div>';
+		}
 	}
 }
 
@@ -161,33 +166,6 @@ function display_badge($icon)
 			 str_repeat('<img class="tp_group_badge" src="'.$group_icon_url.'" alt="" />', $icon[0]);
 		else
 			return;
-	}
-	else
-		return;
-}
-
-function display_avatar($memid)
-{
-	global $memberContext, $boardurl, $context, $modSettings;
-
-	// Avatars enabled?
-	if (!empty($modSettings['TeamPage_show_avatars']))
-	{
-		// Find out the member avatar...
-		$temp = loadMemberData($memid, false, 'profile');
-		if (!empty($temp))
-		{
-			loadMemberContext($memid);
-			if ($memberContext[$memid]['avatar']['href'] == '')
-				$context['tp_avatar']['href'] = $boardurl. '/avatars/default.png';
-			else
-				$context['tp_avatar']['href'] = $memberContext[$memid]['avatar']['href'];
-		}
-		else
-			$context['tp_avatar']['href'] = $boardurl. '/avatars/default.png';
-		$context['tp_avatar']['image'] = '<img class="tp_avatar" src="'. $context['tp_avatar']['href']. '" alt="" />';
-
-		echo $context['tp_avatar']['image'];
 	}
 	else
 		return;
