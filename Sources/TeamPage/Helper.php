@@ -51,7 +51,7 @@ class Helper
 		return $rows;
 	}
 
-	public static function Get($start, $items_per_page, $sort, $table, $columns, $additional_query, $single = false, $additional_columns = '')
+	public static function Get($start, $items_per_page, $sort, $table, $columns, $additional_query = '', $single = false, $additional_columns = '')
 	{
 		global $smcFunc;
 
@@ -79,6 +79,48 @@ class Helper
 		}
 		else
 			$items = $smcFunc['db_fetch_assoc']($result);
+
+		$smcFunc['db_free_result']($result);
+
+		return $items;
+	}
+
+	public static function Nested($sort, $table, $column_main, $column_sec, $query_member, $additional_query = '', $additional_columns = '')
+	{
+		global $smcFunc;
+
+		$columns = array_merge($column_main, $column_sec);
+		$columns = implode(', ', $columns);
+		$result = $smcFunc['db_query']('', '
+			SELECT ' . $columns . '
+			FROM {db_prefix}{raw:table} ' .
+			$additional_columns. ' 
+			{raw:where}
+			ORDER by {raw:sort}',
+			[
+				'table' => $table,
+				'sort' => $sort,
+				'where' => $additional_query,
+			]
+		);
+
+		$items = [];
+		while ($row = $smcFunc['db_fetch_assoc']($result))
+		{
+			$tmp_main = [];
+			$tmp_sec  = [];
+
+			foreach($row as $col => $value)
+			{
+				if (in_array(strstr($column_main[0], '.', true).'.'.$col, $column_main))
+					$tmp_main[$col] = $value;
+				if (in_array(strstr($column_sec[0], '.', true).'.'.$col, $column_sec))
+					$tmp_sec[$col] = $value;
+			}
+
+			$items[$row[substr(strrchr($column_main[0], '.'), 1)]] = $tmp_main;
+			$items[$row[substr(strrchr($column_main[0], '.'), 1)]][$query_member][$row[substr(strrchr($column_sec[0], '.'), 1)]] = $tmp_sec;
+		}
 
 		$smcFunc['db_free_result']($result);
 
