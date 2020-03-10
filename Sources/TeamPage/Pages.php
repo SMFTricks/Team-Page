@@ -43,7 +43,7 @@ class Pages
 			'default_sort_col' => 'page_order',
 			'get_items' => [
 				'function' => __NAMESPACE__ . '\Helper::Get',
-				'params' => [self::$table . ' AS cp', self::$columns, self::$additional_query],
+				'params' => [self::$table . ' AS cp', self::$columns],
 			],
 			'get_count' => [
 				'function' => __NAMESPACE__ . '\Helper::Count',
@@ -225,7 +225,8 @@ class Pages
 		}
 
 		// Groups
-		if (empty($context['page_details']['is_text']) && $context['page_details']['page_type'] == 'Groups') {
+		if (empty($context['page_details']['is_text']) && $context['page_details']['page_type'] == 'Groups')
+		{
 
 			// Load the sort scripts and cute css :P
 			loadCSSFile('tempage.css', ['default_theme' => true]);
@@ -235,6 +236,20 @@ class Pages
 			// Fill the groups
 			$context['page_groups'] = !empty(Helper::Find(Groups::$table . ' AS tp', 'tp.id_page', $_REQUEST['id'])) ? Groups::PageSort($_REQUEST['id']) : [];
 			$context['forum_groups'] = Helper::Get(0, 10000, 'mem.group_name', 'membergroups AS mem', Groups::$groups_columns, 'WHERE mem.min_posts = -1 AND mem.id_group != 3 AND  mem.id_group NOT IN (' . implode(',', !empty($context['page_groups']['all']) ? $context['page_groups']['all'] : [0]).')');
+		}
+
+		// Groups
+		if (empty($context['page_details']['is_text']) && $context['page_details']['page_type'] == 'Mods')
+		{
+			// Additional text
+			loadLanguage('ManageMembers');
+			// Load boards
+			$context['forum_categories'] = Helper::Nested('b.board_order', 'boards AS b', Moderators::$cats_columns, Moderators::$boards_columns, 'boards', '', 'LEFT JOIN {db_prefix}categories AS c ON (c.id_cat = b.id_cat)');
+
+			// Now, let's sort the list of categories into the boards for templates that like that.
+			foreach ($context['forum_categories'] as $category)
+				// Include a list of boards per category for easy toggling.
+				$context['forum_categories'][$category['id_cat']]['child_ids'] = array_keys($category['boards']);
 		}
 
 		// Page details
