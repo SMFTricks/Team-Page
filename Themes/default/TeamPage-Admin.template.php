@@ -183,10 +183,10 @@ function template_pages_edit_below()
 						<span><label for="mod_style">', $txt['TeamPage_mods_type'], ':</label></span>
 					</dt>
 					<dd>
-						<select name="type">
+						<select name="mod_style">
 							<optgroup label="', $txt['TeamPage_mods_type_select'], '">
-								<option value="0" selected>', $txt['TeamPage_mods_type_user'], '</option>
-								<option value="1">', $txt['TeamPage_mods_type_board'], '</option>
+								<option value="0"', empty($context['page_details']['mods_style']) ? ' selected' : '', '>', $txt['TeamPage_mods_type_user'], '</option>
+								<option value="1"', !empty($context['page_details']['mods_style']) ? ' selected' : '', '>', $txt['TeamPage_mods_type_board'], '</option>
 							</optgroup>
 						</select>
 					</dd>
@@ -222,79 +222,31 @@ function boards_list($collapse = true, $form_id = 'mods_settings')
 
 	foreach ($context['forum_categories'] as $category)
 	{
-		if (empty($modSettings['deny_boards_access']))
-			echo '
+		echo '
 									<li class="category">
-										<a href="javascript:void(0);" onclick="selectBoards([', implode(', ', $category['child_ids']), '], \''.$form_id.'\'); return false;"><strong>', $category['name'], '</strong></a>
+										<a href="javascript:void(0);" onclick="selectBoards([', implode(', ', $category['child_ids']), '], \''.$form_id.'\'); return false;"><strong>', $category['cat_name'], '</strong></a>
 										<ul>';
-		else
-			echo '
-									<li class="category clear">
-										<strong>', $category['name'], '</strong>
-										<span class="select_all_box floatright">
-											<em class="all_boards_in_cat">', $txt['all_boards_in_cat'], ': </em>
-											<select onchange="select_in_category(', $category['id_cat'], ', this, [', implode(',', array_keys($category['boards'])), ']);">
-												<option>---</option>
-												<option value="allow">', $txt['board_perms_allow'], '</option>
-												<option value="ignore">', $txt['board_perms_ignore'], '</option>
-												<option value="deny">', $txt['board_perms_deny'], '</option>
-											</select>
-										</span>
-										<ul id="boards_list_', $category['id_cat'], '">';
 
 		foreach ($category['boards'] as $board)
 		{
-			$board['allow'] = false;
+			$board['allow'] = in_array($board['id_board'], $context['page_details']['page_boards']) ? true : false;
 			$board['deny'] = false;
 
-			if (empty($modSettings['deny_boards_access']))
-				echo '
+			echo '
 											<li class="board" style="margin-', $context['right_to_left'] ? 'right' : 'left', ': ', $board['child_level'], 'em;">
-												<input type="checkbox" name="boardaccess[', $board['id_board'], ']" id="brd', $board['id_board'], '" value="allow"', $board['allow'] ? ' checked' : '', '> <label for="brd', $board['id_board'], '">', $board['name'], '</label>
-											</li>';
-			else
-				echo '
-											<li class="board clear">
-												<span style="margin-', $context['right_to_left'] ? 'right' : 'left', ': ', $board['child_level'], 'em;">', $board['name'], ': </span>
-												<span class="floatright">
-													<input type="radio" name="boardaccess[', $board['id_board'], ']" id="allow_brd', $board['id_board'], '" value="allow"', $board['allow'] ? ' checked' : '', '> <label for="allow_brd', $board['id_board'], '">', $txt['permissions_option_on'], '</label>
-													<input type="radio" name="boardaccess[', $board['id_board'], ']" id="ignore_brd', $board['id_board'], '" value="ignore"', !$board['allow'] && !$board['deny'] ? ' checked' : '', '> <label for="ignore_brd', $board['id_board'], '">', $txt['permissions_option_off'], '</label>
-													<input type="radio" name="boardaccess[', $board['id_board'], ']" id="deny_brd', $board['id_board'], '" value="deny"', $board['deny'] ? ' checked' : '', '> <label for="deny_brd', $board['id_board'], '">', $txt['permissions_option_deny'], '</label>
-												</span>
+												<input type="checkbox" name="boardset[', $board['id_board'], ']" id="brd', $board['id_board'], '" value="', $board['id_board'], '"', $board['allow'] ? ' checked' : '', '> <label for="brd', $board['id_board'], '">', $board['name'], '</label>
 											</li>';
 		}
-
 		echo '
 										</ul>
 									</li>';
 	}
-
 	echo '
-								</ul>';
-
-	if (empty($modSettings['deny_boards_access']))
-		echo '
+								</ul>
 								<br class="clear"><br>
-								<input type="checkbox" id="checkall_check" onclick="invertAll(this, this.form, \'boardaccess\');">
+								<input type="checkbox" id="checkall_check" onclick="invertAll(this, this.form, \'boardset\');">
 								<label for="checkall_check"><em>', $txt['check_all'], '</em></label>
 							</fieldset>';
-	else
-		echo '
-								<br class="clear">
-								<span class="select_all_box">
-									<em>', $txt['all'], ': </em>
-									<input type="radio" name="select_all" id="allow_all" onclick="selectAllRadio(this, this.form, \'boardaccess\', \'allow\');"> <label for="allow_all">', $txt['board_perms_allow'], '</label>
-									<input type="radio" name="select_all" id="ignore_all" onclick="selectAllRadio(this, this.form, \'boardaccess\', \'ignore\');"> <label for="ignore_all">', $txt['board_perms_ignore'], '</label>
-									<input type="radio" name="select_all" id="deny_all" onclick="selectAllRadio(this, this.form, \'boardaccess\', \'deny\');"> <label for="deny_all">', $txt['board_perms_deny'], '</label>
-								</span>
-							</fieldset>
-							<script>
-								$(document).ready(function () {
-									$(".select_all_box").each(function () {
-										$(this).removeClass(\'select_all_box\');
-									});
-								});
-							</script>';
 
 	if ($collapse)
 		echo '
