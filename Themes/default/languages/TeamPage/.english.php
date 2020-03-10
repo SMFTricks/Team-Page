@@ -4,10 +4,10 @@
  * TeamPage.english
  *
  * @package Team Page
- * @version 4.0
+ * @version 5.0
  * @author Diego Andrés <diegoandres_cortes@outlook.com>
- * @copyright Copyright (c) 2014 Diego Andrés
- * @license http://www.mozilla.org/MPL/MPL-1.1.html
+ * @copyright Copyright (c) 2020, SMF Tricks
+ * @license https://www.mozilla.org/en-US/MPL/2.0/
  */
 
 global $scripturl, $settings, $txt, $context;
@@ -24,7 +24,9 @@ $txt['TeamPage_page_pages'] = 'Pages';
 $txt['TeamPage_page_pages_desc'] = 'In this section you\'ll be able to manage the Team Page custom pages.';
 $txt['TeamPage_page_page_edit'] = 'Editing Page';
 $txt['TeamPage_page_groups'] = 'Managing groups';
-$txt['TeamPage_page_groups_desc'] = 'You can drag and drop each gruop into the desired position and order, it will save automatically. To delete a group just drop it into the forum groups.';
+$txt['TeamPage_page_mods'] = 'Managing moderators';
+$txt['TeamPage_page_Groups_desc'] = 'You can drag and drop each group into the desired position and order, it will save automatically. To delete a group just drop it into the forum groups.';
+$txt['TeamPage_page_Mods_desc'] = 'Here you can select the style for your moderators page and the boards you want to include.';
 
 // Moderators page
 $txt['TeamPage_moderators'] = 'Moderators page';
@@ -61,16 +63,16 @@ $txt['TeamPage_page_subaction_desc'] = 'Remember that you can <strong>only</stro
 $txt['TeamPage_page_details'] = 'Details';
 $txt['TeamPage_page_id'] = 'Page ID';
 $txt['TeamPage_page_type'] = 'Page Type';
+$txt['TeamPage_page_type_select'] = 'Select the page type';
 $txt['TeamPage_page_delete'] = 'Delete Page';
 $txt['TeamPage_page_delete_short'] = 'Delete';
 $txt['TeamPage_page_order'] = 'Page Order';
 $txt['TeamPage_page_modify'] = 'Modify Page';
 $txt['TeamPage_page_modify_short'] = 'Modify';
 $txt['TeamPage_add_page'] = 'Add Page';
-$txt['TeamPage_page_is_text'] = 'Is a text page?';
 $txt['TeamPage_page_type_bbc'] = 'BBC';
 $txt['TeamPage_page_type_html'] = 'HTML';
-$txt['TeamPage_page_type_php'] = 'PHP';
+$txt['TeamPage_page_type_mods'] = 'Moderators';
 $txt['TeamPage_page_type_groups'] = 'Groups';
 $txt['TeamPage_no_pages'] = 'Currently you have not created any custom pages.';
 $txt['TeamPage_pages_added'] = 'Page was successfully added';
@@ -98,6 +100,13 @@ $txt['TeamPage_groups_move_right'] = 'Move group to the right side';
 $txt['TeamPage_groups_move_bottom'] = 'Move group to the bottom';
 $txt['TeamPage_groups_remove'] = 'Remove group from team page';
 
+// Moderators
+$txt['TeamPage_mods_type'] = 'Type of list';
+$txt['TeamPage_mods_type_select'] = 'Select type of list';
+$txt['TeamPage_mods_type_user'] = 'Users based';
+$txt['TeamPage_mods_type_board'] = 'Boards based';
+$txt['TeamPage_mods_boards'] = 'Select boards';
+
 // Settings.
 $txt['TeamPage_enable'] = 'Enable the team page?';
 $txt['TeamPage_show_badges'] = 'Display group badges/icons?';
@@ -113,11 +122,9 @@ $txt['TeamPage_show_registered'] = 'Display register date';
 $txt['TeamPage_additional_groups'] = 'Display members in their secondary groups?';
 $txt['TeamPage_additional_groups_desc'] = 'This setting will display members in multiple groups if they\'re part of any additional groups.';
 $txt['TeamPage_settings_saved'] = 'Your settings have been saved. <a href="' . $scripturl . '?action=team;sa=%1">Click here to view them</a>.';
-$txt['TeamPage_manage_groups'] = 'Manage the groups';
+$txt['TeamPage_manage_Groups'] = 'Manage the groups';
+$txt['TeamPage_manage_Mods'] = 'Manage the moderators';
 $txt['TeamPage_manage_editor'] = 'Manage the page content';
-$txt['TeamPage_enable_modpage'] = 'Enable the moderators subpage?';
-$txt['TeamPage_modpage_description'] = 'Type the description of the moderators page';
-$txt['TeamPage_modpage_description_desc'] = 'By default is: <i>'. $txt['TeamPage_moderators_description']. '</i>. This will be shown if the groups descriptions option is enabled.';
 
 // Outside strings
 $txt['TeamPage_whoall_teampage'] = 'Viewing the forum <a href="' . $scripturl . '?action=team">Team</a>.';
