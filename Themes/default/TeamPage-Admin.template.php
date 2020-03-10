@@ -74,7 +74,8 @@ function template_pages_edit()
 	global $txt, $context;
 
 	// Text Page?
-	if (!empty($context['page_details']['is_text'])) {
+	if (!empty($context['page_details']['is_text']))
+	{
 		echo '
 				<dt>
 					<a id="setting_page_body"></a>
@@ -115,21 +116,26 @@ function template_pages_edit()
 
 function template_pages_edit_below()
 {
-	global $txt, $context, $scripturl;
+	global $txt, $context, $scripturl, $modSettings;
 
-	// Page groups
 	if (empty($context['page_details']['is_text']))
 	{
 		echo '
 		<hr class="divider" />
-		<div class="cat_bar" id="tp_manage_groups" page-id="', $context['page_details']['id_page'], '">
+		<div class="cat_bar" id="tp_manage_'.$context['page_details']['page_type'].'" page-id="', $context['page_details']['id_page'], '">
 			<h3 class="catbg">
-				', $txt['TeamPage_manage_groups'], '
+				', $txt['TeamPage_manage_'.$context['page_details']['page_type']], '
 			</h3>
 		</div>
 		<div class="information">
-			', $txt['TeamPage_page_groups_desc'], '
-		</div>
+			', $txt['TeamPage_page_'.$context['page_details']['page_type'].'_desc'], '
+		</div>';
+	}
+
+	// Page groups
+	if ($context['page_details']['page_type'] == 'Groups')
+	{
+		echo '
 		<div class="half_content">
 			', display_groups(), '
 		</div>
@@ -159,6 +165,144 @@ function template_pages_edit_below()
 	echo '
 		</ul>';
 	}
+
+	// Moderators
+	if ($context['page_details']['page_type'] == 'Mods')
+	{
+		echo '
+		<div class="title_bar">
+			<h4 class="titlebg">', $txt['settings'], '</h4>
+		</div>
+		<div class="windowbg">
+			<form method="post" action="', $scripturl, '?action=admin;area=teampage;sa=modsave" id="mods_settings" name="mods_settings">
+			', isset($_REQUEST['id']) && !empty($context['page_details']['id_page']) ? '<input type="hidden" name="id" value="'.$context['page_details']['id_page'].'">' : '', '
+				<input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '">
+				<dl class="settings">
+					<dt>
+						<a id="setting_mod_style"></a>
+						<span><label for="mod_style">', $txt['TeamPage_mods_type'], ':</label></span>
+					</dt>
+					<dd>
+						<select name="type">
+							<optgroup label="', $txt['TeamPage_mods_type_select'], '">
+								<option value="0" selected>', $txt['TeamPage_mods_type_user'], '</option>
+								<option value="1">', $txt['TeamPage_mods_type_board'], '</option>
+							</optgroup>
+						</select>
+					</dd>
+					<dt>
+						<a id="setting_mod_boards"></a>
+						<span><label for="mod_boards">', $txt['TeamPage_mods_boards'], ':</label></span>
+					</dt>
+					<dd>
+						', boards_list(true, 'mods_settings'), '
+					</dd>
+				</dl>
+				<input class="button floatleft" type="submit" value="', $txt['save'], '" />
+			</form>
+		</div>';
+	}
+}
+
+/**
+ * The template for determining which boards a group has access to.
+ * 
+ * @author Simple Machines https://www.simplemachines.org
+ * @copyright 2020 Simple Machines and individual contributors
+ * @param bool $collapse Whether to collapse the list by default
+ */
+function boards_list($collapse = true, $form_id = 'mods_settings')
+{
+	global $context, $txt, $modSettings;
+
+	echo '
+							<fieldset id="visible_boards"', !empty($modSettings['deny_boards_access']) ? ' class="denyboards_layout"' : '', '>
+								<legend>', $txt['TeamPage_mods_boards'], '</legend>
+								<ul class="padding floatleft">';
+
+	foreach ($context['forum_categories'] as $category)
+	{
+		if (empty($modSettings['deny_boards_access']))
+			echo '
+									<li class="category">
+										<a href="javascript:void(0);" onclick="selectBoards([', implode(', ', $category['child_ids']), '], \''.$form_id.'\'); return false;"><strong>', $category['name'], '</strong></a>
+										<ul>';
+		else
+			echo '
+									<li class="category clear">
+										<strong>', $category['name'], '</strong>
+										<span class="select_all_box floatright">
+											<em class="all_boards_in_cat">', $txt['all_boards_in_cat'], ': </em>
+											<select onchange="select_in_category(', $category['id_cat'], ', this, [', implode(',', array_keys($category['boards'])), ']);">
+												<option>---</option>
+												<option value="allow">', $txt['board_perms_allow'], '</option>
+												<option value="ignore">', $txt['board_perms_ignore'], '</option>
+												<option value="deny">', $txt['board_perms_deny'], '</option>
+											</select>
+										</span>
+										<ul id="boards_list_', $category['id_cat'], '">';
+
+		foreach ($category['boards'] as $board)
+		{
+			$board['allow'] = false;
+			$board['deny'] = false;
+
+			if (empty($modSettings['deny_boards_access']))
+				echo '
+											<li class="board" style="margin-', $context['right_to_left'] ? 'right' : 'left', ': ', $board['child_level'], 'em;">
+												<input type="checkbox" name="boardaccess[', $board['id_board'], ']" id="brd', $board['id_board'], '" value="allow"', $board['allow'] ? ' checked' : '', '> <label for="brd', $board['id_board'], '">', $board['name'], '</label>
+											</li>';
+			else
+				echo '
+											<li class="board clear">
+												<span style="margin-', $context['right_to_left'] ? 'right' : 'left', ': ', $board['child_level'], 'em;">', $board['name'], ': </span>
+												<span class="floatright">
+													<input type="radio" name="boardaccess[', $board['id_board'], ']" id="allow_brd', $board['id_board'], '" value="allow"', $board['allow'] ? ' checked' : '', '> <label for="allow_brd', $board['id_board'], '">', $txt['permissions_option_on'], '</label>
+													<input type="radio" name="boardaccess[', $board['id_board'], ']" id="ignore_brd', $board['id_board'], '" value="ignore"', !$board['allow'] && !$board['deny'] ? ' checked' : '', '> <label for="ignore_brd', $board['id_board'], '">', $txt['permissions_option_off'], '</label>
+													<input type="radio" name="boardaccess[', $board['id_board'], ']" id="deny_brd', $board['id_board'], '" value="deny"', $board['deny'] ? ' checked' : '', '> <label for="deny_brd', $board['id_board'], '">', $txt['permissions_option_deny'], '</label>
+												</span>
+											</li>';
+		}
+
+		echo '
+										</ul>
+									</li>';
+	}
+
+	echo '
+								</ul>';
+
+	if (empty($modSettings['deny_boards_access']))
+		echo '
+								<br class="clear"><br>
+								<input type="checkbox" id="checkall_check" onclick="invertAll(this, this.form, \'boardaccess\');">
+								<label for="checkall_check"><em>', $txt['check_all'], '</em></label>
+							</fieldset>';
+	else
+		echo '
+								<br class="clear">
+								<span class="select_all_box">
+									<em>', $txt['all'], ': </em>
+									<input type="radio" name="select_all" id="allow_all" onclick="selectAllRadio(this, this.form, \'boardaccess\', \'allow\');"> <label for="allow_all">', $txt['board_perms_allow'], '</label>
+									<input type="radio" name="select_all" id="ignore_all" onclick="selectAllRadio(this, this.form, \'boardaccess\', \'ignore\');"> <label for="ignore_all">', $txt['board_perms_ignore'], '</label>
+									<input type="radio" name="select_all" id="deny_all" onclick="selectAllRadio(this, this.form, \'boardaccess\', \'deny\');"> <label for="deny_all">', $txt['board_perms_deny'], '</label>
+								</span>
+							</fieldset>
+							<script>
+								$(document).ready(function () {
+									$(".select_all_box").each(function () {
+										$(this).removeClass(\'select_all_box\');
+									});
+								});
+							</script>';
+
+	if ($collapse)
+		echo '
+							<a href="javascript:void(0);" onclick="document.getElementById(\'visible_boards\').classList.remove(\'hidden\'); document.getElementById(\'visible_boards_link\').classList.add(\'hidden\'); return false;" id="visible_boards_link" class="hidden">[ ', $txt['membergroups_select_visible_boards'], ' ]</a>
+							<script>
+								document.getElementById("visible_boards_link").classList.remove(\'hidden\');
+								document.getElementById("visible_boards").classList.add(\'hidden\');
+							</script>';
 }
 
 function display_groups($placement = 'left')
