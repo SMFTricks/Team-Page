@@ -85,11 +85,11 @@ class Helper
 		return $items;
 	}
 
-	public static function Nested($sort, $table, $column_main, $column_sec, $query_member, $additional_query = '', $additional_columns = '')
+	public static function Nested($sort, $table, $column_main, $column_sec, $query_member, $additional_query = '', $additional_columns = '', $attachments = [])
 	{
 		global $smcFunc;
 
-		$columns = array_merge($column_main, $column_sec);
+		$columns = array_merge(array_merge($column_main, $column_sec), $attachments);
 		$columns = implode(', ', $columns);
 		$result = $smcFunc['db_query']('', '
 			SELECT ' . $columns . '
@@ -110,21 +110,44 @@ class Helper
 			$tmp_main = [];
 			$tmp_sec  = [];
 
+			// Split them
 			foreach($row as $col => $value)
 			{
 				if (in_array(strstr($column_main[0], '.', true).'.'.$col, $column_main))
 					$tmp_main[$col] = $value;
 				if (in_array(strstr($column_sec[0], '.', true).'.'.$col, $column_sec))
 					$tmp_sec[$col] = $value;
+				else
+					$tmp_main[$col] = $value;
 			}
 
-			$items[$row[substr(strrchr($column_main[0], '.'), 1)]] = $tmp_main;
+			// Just loop once on each group/category
+			if (!isset($items[$row[substr(strrchr($column_main[0], '.'), 1)]]))
+				$items[$row[substr(strrchr($column_main[0], '.'), 1)]] = $tmp_main;
 			$items[$row[substr(strrchr($column_main[0], '.'), 1)]][$query_member][$row[substr(strrchr($column_sec[0], '.'), 1)]] = $tmp_sec;
-		}
 
+			// Attachments?
+			if (!empty($attachments))
+				$items[$row[substr(strrchr($column_main[0], '.'), 1)]][$query_member][$row[substr(strrchr($column_sec[0], '.'), 1)]]['avatar'] = self::Attachments($row);
+		}
 		$smcFunc['db_free_result']($result);
 
 		return $items;
+	}
+
+	public static function Attachments($row)
+	{
+		global $modSettings, $scripturl;
+
+		// Build the array for avatar
+		$set_attachments = [
+				'name' => $row['avatar'],
+				'image' => $row['avatar'] == '' ? ($row['id_attach'] > 0 ? '<img class="avatar" src="' . (empty($row['attachment_type']) ? $scripturl . '?action=dlattach;attach=' . $row['id_attach'] . ';type=avatar' : $modSettings['custom_avatar_url'] . '/' . $row['filename']) . '" alt="" />' : '') : ((stristr($row['avatar'], 'http://') || stristr($row['avatar'], 'https://')) ? '<img class="avatar" src="' . $row['avatar'] . '"' . $avatar_width . $avatar_height . ' alt="" />' : '<img class="avatar" src="' . $modSettings['avatar_url'] . '/' . htmlspecialchars($row['avatar']) . '" alt="" />'),
+				'href' => $row['avatar'] == '' ? ($row['id_attach'] > 0 ? (empty($row['attachment_type']) ? $scripturl . '?action=dlattach;attach=' . $row['id_attach'] . ';type=avatar' : $modSettings['custom_avatar_url'] . '/' . $row['filename']) : '') : ((stristr($row['avatar'], 'http://') || stristr($row['avatar'], 'https://')) ? $row['avatar'] : $modSettings['avatar_url'] . '/' . $row['avatar']),
+				'url' => $row['avatar'] == '' ? '' : ((stristr($row['avatar'], 'http://') || stristr($row['avatar'], 'https://')) ? $row['avatar'] : $modSettings['avatar_url'] . '/' . $row['avatar'])
+		];
+
+		return $set_attachments;
 	}
 
 	public static function Find($table, $column, $search)
