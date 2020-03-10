@@ -123,11 +123,6 @@ class Settings
 			['check', 'TeamPage_show_registered', 'subtext' => $txt['TeamPage_addinfo_desc']],
 			['check', 'TeamPage_show_posts', 'subtext' => $txt['TeamPage_addinfo_desc']],
 			['check', 'TeamPage_show_website', 'subtext' => $txt['TeamPage_addinfo_desc']],
-
-			['title', 'TeamPage_moderators'],
-			['check', 'TeamPage_enable_modpage'],
-			['text', 'TeamPage_modpage_description', 'subtext' => $txt['TeamPage_modpage_description_desc']],
-
 			['title', 'TeamPage_permissions'],
 			['permissions', 'teampage_canAccess', 'subtext' => $txt['permissionhelp_teampage_canAccess']],
 		];
