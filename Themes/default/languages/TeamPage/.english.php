@@ -28,11 +28,6 @@ $txt['TeamPage_page_mods'] = 'Managing moderators';
 $txt['TeamPage_page_Groups_desc'] = 'You can drag and drop each group into the desired position and order, it will save automatically. To delete a group just drop it into the forum groups.';
 $txt['TeamPage_page_Mods_desc'] = 'Here you can select the style for your moderators page and the boards you want to include.';
 
-// Moderators page
-$txt['TeamPage_moderators'] = 'Moderators page';
-$txt['TeamPage_moderators_description'] = 'These are the moderators of '. $context['forum_name']. '';
-$txt['TeamPages_boards_moderating'] = 'Boards Moderating';
-
 // Permissions
 $txt['TeamPage_permissions'] = 'Permissions for Team Page';
 $txt['permissiongroup_teampage_canAccess'] = 'Team Page permissions';
@@ -133,3 +128,4 @@ $txt['TeamPage_showm'] = 'Show the last posts';
 $txt['TeamPage_last_login'] = 'Last active';
 $txt['TeamPage_date_registered'] = 'Member since';
 $txt['TeamPage_website'] = 'Website';
+$txt['TeamPages_boards_moderating'] = 'Boards Moderating';
