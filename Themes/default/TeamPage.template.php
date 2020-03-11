@@ -30,7 +30,7 @@ function template_teampage_view()
 	global $context;
 
 	// Groups or Mods
-	if (empty($context['teampage']['is_text']) && (!empty($context['teampage']['team']) || !empty($context['teampage']['moderators'])))
+	if (!empty($context['teampage']['team']) || !empty($context['teampage']['moderators']))
 		echo '
 		<div class="roundframe" id="', !empty($context['teampage']['team']) ? 'tp_main_box' : 'tp_main_boards', '">
 			', !empty($context['teampage']['team']) ? display_group() : display_moderators(), '

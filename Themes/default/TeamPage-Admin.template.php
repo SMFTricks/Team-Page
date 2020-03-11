@@ -74,7 +74,7 @@ function template_pages_edit()
 	global $txt, $context;
 
 	// Text Page?
-	if (!empty($context['page_details']['is_text']))
+	if ($context['page_details']['page_type'] == 'BBC' || $context['page_details']['page_type'] == 'HTML')
 	{
 		echo '
 				<dt>
@@ -118,7 +118,7 @@ function template_pages_edit_below()
 {
 	global $txt, $context, $scripturl, $modSettings;
 
-	if (empty($context['page_details']['is_text']))
+	if ($context['page_details']['page_type'] == 'BBC' || $context['page_details']['page_type'] == 'HTML')
 	{
 		echo '
 		<hr class="divider" />

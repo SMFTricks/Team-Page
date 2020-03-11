@@ -87,13 +87,6 @@
 					'type' => 'text',
 				],
 				[
-					'name' => 'is_text',
-					'type' => 'smallint',
-					'default' => 0,
-					'size' => 1,
-					'null' => false,
-				],
-				[
 					'name' => 'page_type',
 					'type' => 'text',
 				],

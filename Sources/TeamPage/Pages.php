@@ -16,7 +16,7 @@ if (!defined('SMF'))
 class Pages
 {
 	public static $table = 'teampage_pages';
-	public static $columns = ['cp.id_page', 'cp.page_name', 'cp.page_action', 'cp.is_text', 'cp.page_type', 'cp.page_body', 'cp.page_order', 'cp.page_boards', 'cp.mods_style'];
+	public static $columns = ['cp.id_page', 'cp.page_name', 'cp.page_action', 'cp.page_type', 'cp.page_body', 'cp.page_order', 'cp.page_boards', 'cp.mods_style'];
 	public static $page_type = ['Groups', 'Mods', 'BBC', 'HTML'];
 	private static $additional_query = '';
 	private static $fields_data = [];
@@ -100,8 +100,8 @@ class Pages
 						'class' => 'lefttext',
 					],
 					'sort' => [
-						'default' => 'is_text DESC',
-						'reverse' => 'is_text',
+						'default' => 'page_type DESC',
+						'reverse' => 'page_type',
 					]
 				],
 				'page_order' => array(
@@ -208,7 +208,7 @@ class Pages
 			fatal_error($txt['TeamPage_page_noexist'], false);
 
 		// Text and BBC?
-		if (!empty($context['page_details']['is_text']) && $context['page_details']['page_type'] == 'BBC') {
+		if ($context['page_details']['page_type'] == 'BBC') {
 			// Now create the editor.
 			require_once($sourcedir . '/Subs-Editor.php');
 			$editorOptions = array(
@@ -225,7 +225,7 @@ class Pages
 		}
 
 		// Groups
-		if (empty($context['page_details']['is_text']) && $context['page_details']['page_type'] == 'Groups')
+		if ($context['page_details']['page_type'] == 'Groups')
 		{
 
 			// Load the sort scripts and cute css :P
@@ -239,7 +239,7 @@ class Pages
 		}
 
 		// Moderators
-		if (empty($context['page_details']['is_text']) && $context['page_details']['page_type'] == 'Mods')
+		if ($context['page_details']['page_type'] == 'Mods')
 		{
 			// Set the boards
 			$context['page_details']['page_boards'] = explode(',', $context['page_details']['page_boards']);
@@ -271,7 +271,6 @@ class Pages
 			'id_page' => (int) isset($_REQUEST['id']) && !empty($_REQUEST['id']) ? $_REQUEST['id'] : 0,
 			'page_name' => (string) isset($_REQUEST['title']) ? $smcFunc['htmlspecialchars']($_REQUEST['title'], ENT_QUOTES) : '',
 			'page_action' => (string) isset($_REQUEST['page_action']) ? strtolower($smcFunc['htmlspecialchars']($_REQUEST['page_action'], ENT_QUOTES)) : '',
-			'is_text' => (int) ($_REQUEST['type'] == 'BBC' || $_REQUEST['type'] == 'HTML' ? 1 : 0),
 			'page_type' => (string) isset($_REQUEST['type']) && in_array($_REQUEST['type'], self::$page_type) ? $_REQUEST['type'] : $txt['TeamPage_page_type_groups'],
 			'page_body' => (string) isset($_REQUEST['page_body']) ? $smcFunc['htmlspecialchars']($_REQUEST['page_body'], ENT_QUOTES) : '',
 		];
@@ -296,7 +295,6 @@ class Pages
 			self::$fields_type = '';
 			
 			// Remove those that don't require updating
-			unset(self::$fields_data['is_text']);
 			unset(self::$fields_data['page_type']);
 
 			// Type

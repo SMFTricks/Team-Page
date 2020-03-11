@@ -75,7 +75,6 @@ class View
 				'page_action' => $page['page_action'],
 				'page_type' => $page['page_type'],
 				'page_body' => $page['page_body'],
-				'is_text' => $page['is_text'],
 			];
 
 		return self::$tabs;
@@ -90,7 +89,6 @@ class View
 
 		// Details
 		$context['teampage']['page_id'] = $page_details['id_page'];
-		$context['teampage']['is_text'] = $page_details['is_text'];
 		$context['teampage_title'] = $page_details['page_name'];
 		$context['page_title'] .= ' - ' . $page_details['page_name'];
 		$context['teampage']['moderators'] = [];
@@ -103,79 +101,73 @@ class View
 			'name' => $page_details['page_name'],
 		);
 
-		// Text type?
-		if (empty($page_details['is_text']))
+		// Groups
+		if ($page_details['page_type'] == 'Groups')
 		{
-			// Groups
-			if ($page_details['page_type'] == 'Groups')
+			$context['teampage']['groups'] = !empty(Helper::Find(Groups::$table . ' AS tp', 'tp.id_page', $page_details['id_page'])) ? Groups::PageSort($page_details['id_page']) : [];
+			$context['teampage']['members'] = Helper::Nested('mem.id_member', 'members AS mem', Groups::$groups_columns, self::$columns, 'members', 'WHERE m.id_group IN (' . implode(',', !empty($context['teampage']['groups']['all']) ? $context['teampage']['groups']['all'] : [0]).')', 'LEFT JOIN {db_prefix}membergroups AS m ON (m.id_group = mem.id_group) LEFT JOIN {db_prefix}attachments as a ON (a.id_member = mem.id_member)', self::$attachments);
+
+			// We got groups
+			if (!empty($context['teampage']['groups']))
 			{
-				$context['teampage']['groups'] = !empty(Helper::Find(Groups::$table . ' AS tp', 'tp.id_page', $page_details['id_page'])) ? Groups::PageSort($page_details['id_page']) : [];
-
-				//self::$columns = array_merge(self::$columns, self::$attachments);
-				$context['teampage']['members'] = Helper::Nested('mem.id_member', 'members AS mem', Groups::$groups_columns, self::$columns, 'members', 'WHERE m.id_group IN (' . implode(',', !empty($context['teampage']['groups']['all']) ? $context['teampage']['groups']['all'] : [0]).')', 'LEFT JOIN {db_prefix}membergroups AS m ON (m.id_group = mem.id_group) LEFT JOIN {db_prefix}attachments as a ON (a.id_member = mem.id_member)', self::$attachments);
-
-				// We got groups
-				if (!empty($context['teampage']['groups']))
+				$context['teampage']['team'] = [];
+				// Populate the users into the groups
+				foreach ($context['teampage']['groups'] as $placement => $groups)
 				{
-					$context['teampage']['team'] = [];
-					// Populate the users into the groups
-					foreach ($context['teampage']['groups'] as $placement => $groups)
-					{
-						// Just specific placement
-						if ($placement == 'all')
-							continue;
+					// Just specific placement
+					if ($placement == 'all')
+						continue;
 
-						// Asign each group where it belongs
-						foreach ($groups as $group => $data)
-							if (!empty($context['teampage']['members'][$group]))
-								$context['teampage']['team'][$placement][$group] = $context['teampage']['members'][$group];
-					}
-
-					// Some wacky strings
-					if (empty($context['teampage']['team']['left']))
-						$grid_area = 'right right';
-					elseif (empty($context['teampage']['team']['right']))
-						$grid_area = 'left left';
-
-					// Black magic allowed for once
-					if (empty($context['teampage']['team']['left']) || empty($context['teampage']['team']['right']))
-						addInlineCss(
-							'#tp_main_box {
-								grid-template-areas:
-									"' . $grid_area. '"
-									"bottom bottom";
-							}
-							#tp_block_left ul li,
-							#tp_block_right ul li {
-								width: 50%;
-							}
-							#tp_block_right ul li:nth-child(odd),
-							#tp_block_left ul li:nth-child(odd) {
-								margin-right: 10px;
-							}'
-						);
-					
-					// We didn't have any members? oof
-					if (empty($context['teampage']['team']))
-						redirectexit('action=admin;area=teampage;sa=edit;id='.$page_details['id_page']);
+					// Asign each group where it belongs
+					foreach ($groups as $group => $data)
+						if (!empty($context['teampage']['members'][$group]))
+							$context['teampage']['team'][$placement][$group] = $context['teampage']['members'][$group];
 				}
-				else
+
+				// Some wacky strings
+				if (empty($context['teampage']['team']['left']))
+					$grid_area = 'right right';
+				elseif (empty($context['teampage']['team']['right']))
+					$grid_area = 'left left';
+
+				// Black magic allowed for once
+				if (empty($context['teampage']['team']['left']) || empty($context['teampage']['team']['right']))
+					addInlineCss(
+						'#tp_main_box {
+							grid-template-areas:
+								"' . $grid_area. '"
+								"bottom bottom";
+						}
+						#tp_block_left ul li,
+						#tp_block_right ul li {
+							width: 50%;
+						}
+						#tp_block_right ul li:nth-child(odd),
+						#tp_block_left ul li:nth-child(odd) {
+							margin-right: 10px;
+						}'
+					);
+
+				// We didn't have any members? oof
+				if (empty($context['teampage']['team']))
 					redirectexit('action=admin;area=teampage;sa=edit;id='.$page_details['id_page']);
 			}
+			else
+				redirectexit('action=admin;area=teampage;sa=edit;id='.$page_details['id_page']);
+		}
 
-			// Moderators
-			if ($page_details['page_type'] == 'Mods')
+		// Moderators
+		if ($page_details['page_type'] == 'Mods')
+		{
+
+			// We got mods
+			if (!empty(Helper::Find('moderators', 'id_board')))
 			{
-
-				// We got mods
-				if (!empty(Helper::Find('moderators', 'id_board')))
-				{
-					// Sort the users
-					$context['teampage']['moderators'] = Helper::Nested('md.id_member', 'moderators AS md', array_merge(Moderators::$boards_columns, Moderators::$mods_columns), self::$columns, 'members', '', 'LEFT JOIN {db_prefix}members AS mem ON (mem.id_member = md.id_member) LEFT JOIN {db_prefix}boards AS b ON (b.id_board = md.id_board) LEFT JOIN {db_prefix}attachments as a ON (a.id_member = mem.id_member)', self::$attachments);
-				}
-				else
-					redirectexit('action=admin;area=teampage;sa=edit;id='.$page_details['id_page']);
+				// Sort the users
+				$context['teampage']['moderators'] = Helper::Nested('md.id_member', 'moderators AS md', array_merge(Moderators::$boards_columns, Moderators::$mods_columns), self::$columns, 'members', '', 'LEFT JOIN {db_prefix}members AS mem ON (mem.id_member = md.id_member) LEFT JOIN {db_prefix}boards AS b ON (b.id_board = md.id_board) LEFT JOIN {db_prefix}attachments as a ON (a.id_member = mem.id_member)', self::$attachments);
 			}
+			else
+				redirectexit('action=admin;area=teampage;sa=edit;id='.$page_details['id_page']);
 		}
 		// Text
 		else {
