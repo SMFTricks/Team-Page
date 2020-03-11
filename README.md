@@ -5,8 +5,8 @@
 ## Team Page
 <img src="https://img.shields.io/badge/License-MPL 2.0-a05a3f?style=flat-square"> <img src="https://img.shields.io/badge/SMF-2.1-3f73a0?style=flat-square">
 
-Developed by [Diego Andrés](https://github.com/DiegoAndresCortes)
-Original author: [Costa](https://simplemachines.org/community/index.php?action=profile;u=169940)
+* Developed by [Diego Andrés](https://github.com/DiegoAndresCortes)
+* Original author: [Costa](https://simplemachines.org/community/index.php?action=profile;u=169940)
 
 ## Introduction
 * Team Page lets you add multiple custom pages to a team/staff page with groups, moderators or text
