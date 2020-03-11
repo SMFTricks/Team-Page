@@ -340,8 +340,9 @@ class Pages
 		checkSession();
 
 		// Update order
-		foreach ($_REQUEST['page_order'] as $page => $order)
-			Helper::Update(self::$table, ['id_page' => $page, 'page_order' => $order], 'page_order = {int:page_order}', 'WHERE id_page = {int:id_page}');
+		if (!empty($_REQUEST['page_order']))
+			foreach ($_REQUEST['page_order'] as $page => $order)
+				Helper::Update(self::$table, ['id_page' => $page, 'page_order' => $order], 'page_order = {int:page_order}', 'WHERE id_page = {int:id_page}');
 		
 		redirectexit('action=admin;area=teampage;sa=pages;updated');
 	}
