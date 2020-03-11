@@ -51,7 +51,7 @@ class Helper
 		return $rows;
 	}
 
-	public static function Get($start, $items_per_page, $sort, $table, $columns, $additional_query = '', $single = false, $additional_columns = '')
+	public static function Get($start, $items_per_page, $sort, $table, $columns, $additional_query = '', $single = false, $additional_columns = '', $attachments = [])
 	{
 		global $smcFunc;
 
@@ -71,8 +71,10 @@ class Helper
 				'where' => $additional_query,
 			]
 		);
+
 		// Single?
-		if (empty($single)) {
+		if (empty($single))
+		{
 			$items = [];
 			while ($row = $smcFunc['db_fetch_assoc']($result))
 				$items[] = $row;
@@ -85,7 +87,7 @@ class Helper
 		return $items;
 	}
 
-	public static function Nested($sort, $table, $column_main, $column_sec, $query_member, $additional_query = '', $additional_columns = '', $attachments = [])
+	public static function Nested($sort, $table, $column_main, $column_sec, $query_member, $additional_query = '', $additional_columns = '', $attachments = [], $attach_main = false)
 	{
 		global $smcFunc;
 
@@ -115,7 +117,7 @@ class Helper
 			{
 				if (in_array(strstr($column_main[0], '.', true).'.'.$col, $column_main))
 					$tmp_main[$col] = $value;
-				if (in_array(strstr($column_sec[0], '.', true).'.'.$col, $column_sec))
+				elseif (in_array(strstr($column_sec[0], '.', true).'.'.$col, $column_sec))
 					$tmp_sec[$col] = $value;
 				else
 					$tmp_main[$col] = $value;
@@ -123,12 +125,19 @@ class Helper
 
 			// Just loop once on each group/category
 			if (!isset($items[$row[substr(strrchr($column_main[0], '.'), 1)]]))
+			{
 				$items[$row[substr(strrchr($column_main[0], '.'), 1)]] = $tmp_main;
+
+				// Attachments?
+				if (!empty($attachments) && !empty($attach_main))
+					$items[$row[substr(strrchr($column_main[0], '.'), 1)]]['avatar'] = self::Attachments($row);
+			}
 			$items[$row[substr(strrchr($column_main[0], '.'), 1)]][$query_member][$row[substr(strrchr($column_sec[0], '.'), 1)]] = $tmp_sec;
 
 			// Attachments?
-			if (!empty($attachments))
+			if (!empty($attachments) && empty($attach_main))
 				$items[$row[substr(strrchr($column_main[0], '.'), 1)]][$query_member][$row[substr(strrchr($column_sec[0], '.'), 1)]]['avatar'] = self::Attachments($row);
+				
 		}
 		$smcFunc['db_free_result']($result);
 
@@ -150,14 +159,14 @@ class Helper
 		return $set_attachments;
 	}
 
-	public static function Find($table, $column, $search = '')
+	public static function Find($table, $column, $search = '', $additional_query = '')
 	{
 		global $smcFunc;
 
 		$request = $smcFunc['db_query']('','
 			SELECT ' . $column . '
-			FROM {db_prefix}{raw:table}'.(!empty($search) ? '
-			WHERE (' . $column . ' = \''. $search . '\')' : '').'
+			FROM {db_prefix}{raw:table}'.(!empty($search) ? ('
+			WHERE ('. $column . (is_array($search) ? ' IN ({array_int:search})' : ('  = \''. $search . '\'')) . ') '.$additional_query) : '').'
 			LIMIT 1',
 			[
 				'table' => $table,
@@ -167,7 +176,7 @@ class Helper
 		$result = $smcFunc['db_num_rows']($request);
 		$smcFunc['db_free_result']($request);
 
-		return !empty($result) ? true : false;
+		return $result;
 	}
 
 	public static function Delete($table, $column, $search, $additional_query = '')
