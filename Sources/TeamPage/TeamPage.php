@@ -183,4 +183,36 @@ class TeamPage
 		if (isset($context['current_action']) && $context['current_action'] === 'team')
 			return '<br /><div style="text-align: center;"><span class="smalltext">Powered by <a href="https://smftricks.com" target="_blank" rel="noopener">Team Page</a></span></div>';
 	}
+
+	/**
+	 * TeamPage::whoAllowed()
+	 *
+	 * Used in the who's online action.
+	 * @param $allowedActions is the array of actions that require a specific permission.
+	 * @return void
+	 */
+	public static function whoAllowed(&$allowedActions)
+	{
+		$allowedActions += array(
+			'teampage' => array('admin_forum'),
+		);
+	}
+
+	/**
+	 * TeamPage::whoData()
+	 *
+	 * Used in the who's online action.
+	 * @param $action It gets the request parameters 
+	 * @return string for the current action
+	 */
+	public static function whoData($actions)
+	{
+		global $context, $txt;
+
+		// Show this only in the who's online action.
+		if (isset($actions['action']) && ($actions['action'] === 'team'))
+			return $txt['TeamPage_whoall_teampage'];
+			
+	}
+
 }

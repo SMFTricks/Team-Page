@@ -123,6 +123,7 @@ $txt['TeamPage_manage_editor'] = 'Manage the page content';
 
 // Outside strings
 $txt['TeamPage_whoall_teampage'] = 'Viewing the forum <a href="' . $scripturl . '?action=team">Team</a> page.';
+$txt['whoallow_teampage'] = 'Managing the <a href="' . $scripturl . '?action=team">Team</a> page.';
 $txt['TeamPage_pm'] = 'Send a personal message';
 $txt['TeamPage_showm'] = 'Show the last posts';
 $txt['TeamPage_last_login'] = 'Last active';
