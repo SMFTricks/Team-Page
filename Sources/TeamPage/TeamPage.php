@@ -30,7 +30,7 @@ class TeamPage
 	 * Sets almost every setting to a default value
 	 * @return void
 	 */
-	public function setDefaults()
+	public static function setDefaults()
 	{
 		global $modSettings;
 
@@ -59,7 +59,7 @@ class TeamPage
 	 * @return void
 	 * @author Peter Spicer (Arantor)
 	 */
-	public function defineHooks()
+	public static function defineHooks()
 	{
 		$hooks = [
 			'autoload' => 'autoload',
