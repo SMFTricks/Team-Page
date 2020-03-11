@@ -271,7 +271,7 @@ class Pages
 			'id_page' => (int) isset($_REQUEST['id']) && !empty($_REQUEST['id']) ? $_REQUEST['id'] : 0,
 			'page_name' => (string) isset($_REQUEST['title']) ? $smcFunc['htmlspecialchars']($_REQUEST['title'], ENT_QUOTES) : '',
 			'page_action' => (string) isset($_REQUEST['page_action']) ? strtolower($smcFunc['htmlspecialchars']($_REQUEST['page_action'], ENT_QUOTES)) : '',
-			'is_text' => (int) isset($_REQUEST['istext']) ? 1 : 0,
+			'is_text' => (int) ($_REQUEST['type'] == 'BBC' || $_REQUEST['type'] == 'HTML' ? 1 : 0),
 			'page_type' => (string) isset($_REQUEST['type']) && in_array($_REQUEST['type'], self::$page_type) ? $_REQUEST['type'] : $txt['TeamPage_page_type_groups'],
 			'page_body' => (string) isset($_REQUEST['page_body']) ? $smcFunc['htmlspecialchars']($_REQUEST['page_body'], ENT_QUOTES) : '',
 		];
