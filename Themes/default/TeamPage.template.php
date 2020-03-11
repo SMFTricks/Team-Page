@@ -69,6 +69,7 @@ function display_group()
 						', $group['group_name'], '
 					</h4>
 				</div>';
+
 			// Description and emmm... Badge?
 			if (!empty($modSettings['TeamPage_show_badges']) || (!empty($modSettings['TeamPage_show_description']) && !empty($group['description'])))
 			{
@@ -108,8 +109,19 @@ function display_moderators()
 				<h4 class="titlebg">
 					', $board['name'], '
 				</h4>
-			</div>
-			<ul>';
+			</div>';
+
+			// Description and emmm... Badge?
+			if (!empty($modSettings['TeamPage_show_badges']) || (!empty($modSettings['TeamPage_show_description']) && !empty($board['description'])))
+			{
+				echo '
+				<div class="information">
+					', !empty($modSettings['TeamPage_show_description']) && !empty($board['description']) ? '<span class="tp_group_description">'. $board['description'].'</span>' : '', '
+					', display_badge($board['icons']), '
+				</div>';
+			}
+			echo '
+				<ul>';
 
 			// Moderators
 			foreach($board['members'] as $user)
@@ -133,7 +145,8 @@ function display_member($user, $placement = 'left')
 			<a href="', $scripturl, '?action=profile;u=', $user['id_member'], '">', $user['real_name'], '</a>
 			', !empty($modSettings['TeamPage_show_custom']) && !empty($user['usertitle']) ? ' - <strong>'. $user['usertitle']. '</strong>' : '', '
 		</h2>
-		<span class="tp_user_info">
+		<div class="tp_user_info">
+			', !empty($user['boards']) ? boards_list($user['boards']) : '', '
 			', !empty($modSettings['TeamPage_show_personal']) && !empty($user['personal_text']) ? '
 			<span class="tp_user_personal">
 				<strong>' . $txt['personal_text'] . ': </strong><i>' . $user['personal_text']. '</i>
@@ -154,8 +167,24 @@ function display_member($user, $placement = 'left')
 			<span class="tp_user_joined">
 				<strong>' . $txt['TeamPage_website'] . ': </strong><a href="' . $user['website_url']. '" target="_blank" rel="noopener">' . $user['website_title']. '</a>
 			</span>' : '', '
-		</span>
+		</div>
 	</li>';
+}
+
+function boards_list($boards)
+{
+	global $scripturl, $txt;
+
+	echo '
+		<span class="tp_user_boards">
+			<strong>' . $txt['TeamPages_boards_moderating'] . ': </strong> ';
+
+	$b_list = [];
+	foreach($boards as $board)
+		$b_list[] = '<a href="'.$scripturl.'?board='.$board['id_board'].'.0">'.$board['name'].'</a>';
+
+	echo implode(', ', $b_list), '
+		</span>';
 }
 
 function display_badge($icon)
