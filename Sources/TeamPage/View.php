@@ -40,8 +40,7 @@ class View
 		$context['sub_template'] = 'teampage_view';
 		self::$list = Helper::Get(0, 10000, 'cp.page_order ASC', Pages::$table . ' AS cp', Pages::$columns, '');
 
-
-		// What if the Shop is disabled? User shouldn't be able to access the Shop
+		// Team Page enabled?
 		if (empty($modSettings['TeamPage_enable']))
 			fatal_error($txt['TeamPage_error_disabled'], false);
 
@@ -56,10 +55,9 @@ class View
 			$context['teampage_tabs'] = self::Tabs();
 			self::Load();
 		}
+		// Go and create pages then!
 		else
-		{
-			$context['teampage_title'] = 'nada';
-		}
+			redirectexit('action=admin;area=teampage;sa=pages');
 	}
 
 	public static function Tabs()
@@ -75,6 +73,8 @@ class View
 				'page_action' => $page['page_action'],
 				'page_type' => $page['page_type'],
 				'page_body' => $page['page_body'],
+				'page_boards' => $page['page_boards'],
+				'mods_style' => $page['mods_style'],
 			];
 
 		return self::$tabs;
@@ -155,22 +155,35 @@ class View
 			else
 				redirectexit('action=admin;area=teampage;sa=edit;id='.$page_details['id_page']);
 		}
-
 		// Moderators
-		if ($page_details['page_type'] == 'Mods')
+		elseif ($page_details['page_type'] == 'Mods')
 		{
 
 			// We got mods
-			if (!empty(Helper::Find('moderators', 'id_board')))
+			if (!empty(Helper::Find('moderators', 'id_board', explode(',', $page_details['page_boards']))))
 			{
-				// Sort the users
-				$context['teampage']['moderators'] = Helper::Nested('md.id_member', 'moderators AS md', array_merge(Moderators::$boards_columns, Moderators::$mods_columns), self::$columns, 'members', '', 'LEFT JOIN {db_prefix}members AS mem ON (mem.id_member = md.id_member) LEFT JOIN {db_prefix}boards AS b ON (b.id_board = md.id_board) LEFT JOIN {db_prefix}attachments as a ON (a.id_member = mem.id_member)', self::$attachments);
+				// Sort by boards
+				if (!empty($page_details['mods_style']))
+					$context['teampage']['moderators'] = Helper::Nested('md.id_member', 'moderators AS md', array_merge(Moderators::$boards_columns, Moderators::$mods_columns), self::$columns, 'members', 'WHERE b.id_board IN ('.$page_details['page_boards'].')', 'LEFT JOIN {db_prefix}members AS mem ON (mem.id_member = md.id_member) LEFT JOIN {db_prefix}boards AS b ON (b.id_board = md.id_board) LEFT JOIN {db_prefix}attachments as a ON (a.id_member = mem.id_member)', self::$attachments);
+				// Sort by users
+				else
+				{
+					// Moderator group
+					$context['teampage']['moderators'][3] = Helper::Get(0, 10000, 'm.group_name', 'membergroups AS m', Groups::$groups_columns, 'WHERE m.id_group = 3', true);
+
+					// Little hack
+					$context['teampage']['moderators'][3]['name'] = $context['teampage']['moderators'][3]['group_name'];
+
+					// Moderators
+					$context['teampage']['moderators'][3]['members'] =  Helper::Nested('md.id_member', 'moderators AS md', self::$columns, array_merge(Moderators::$boards_columns, Moderators::$mods_columns), 'boards', 'WHERE b.id_board IN ('.$page_details['page_boards'].')', 'LEFT JOIN {db_prefix}members AS mem ON (mem.id_member = md.id_member) LEFT JOIN {db_prefix}boards AS b ON (b.id_board = md.id_board) LEFT JOIN {db_prefix}attachments as a ON (a.id_member = mem.id_member)', self::$attachments, true);
+				}
 			}
 			else
 				redirectexit('action=admin;area=teampage;sa=edit;id='.$page_details['id_page']);
 		}
 		// Text
-		else {
+		else
+		{
 			// We got the body?
 			if (!empty($page_details['page_body']))
 			{
