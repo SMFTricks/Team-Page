@@ -118,7 +118,7 @@ function template_pages_edit_below()
 {
 	global $txt, $context, $scripturl, $modSettings;
 
-	if ($context['page_details']['page_type'] == 'BBC' || $context['page_details']['page_type'] == 'HTML')
+	if ($context['page_details']['page_type'] == 'Groups' || $context['page_details']['page_type'] == 'Mods')
 	{
 		echo '
 		<hr class="divider" />
