@@ -64,7 +64,7 @@ class Groups
 
 		// Unlucky
 		if (!isset($_REQUEST['page']) || empty($_REQUEST['page']) || empty(Helper::Find(Pages::$table . ' AS cp', 'cp.id_page', $_REQUEST['page'])))
-			fatal_error($txt['TeamPage_page_noexist'], false);
+			die;
 
 		// Define our vars
 		self::$groups = isset($_REQUEST['groups']) ? $_REQUEST['groups'] : [];
@@ -102,6 +102,9 @@ class Groups
 		// We are deleting this group!
 		else
 			self::Delete(self::$groups, ' AND id_page = ' . $_REQUEST['page']);
+
+		// Exit
+		die;
 	}
 
 	public static function Delete($delete_groups, $query = '')
