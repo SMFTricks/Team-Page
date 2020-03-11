@@ -112,7 +112,7 @@ function display_moderators()
 			</div>';
 
 			// Description and emmm... Badge?
-			if (!empty($modSettings['TeamPage_show_badges']) || (!empty($modSettings['TeamPage_show_description']) && !empty($board['description'])))
+			if ((!empty($modSettings['TeamPage_show_badges']) && !empty($board['icons'])) || (!empty($modSettings['TeamPage_show_description']) && !empty($board['description'])))
 			{
 				echo '
 				<div class="information">
