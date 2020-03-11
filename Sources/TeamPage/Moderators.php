@@ -16,6 +16,7 @@ if (!defined('SMF'))
 class Moderators
 {
 	public  static $table = 'moderators';
+	public  static $mods_columns = ['md.id_board', 'md.id_member'];
 	public  static $cats_columns = ['c.id_cat', 'c.name AS cat_name', 'c.cat_order'];
 	public  static $boards_columns = ['b.id_board', 'b.board_order', 'b.id_cat', 'b.name', 'b.child_level'];
 	private static $additional_query = '';
