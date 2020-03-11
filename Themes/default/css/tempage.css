@@ -21,7 +21,6 @@
 #tp_group_sort_all a, #tp_group_sort_left a, #tp_group_sort_right a, #tp_group_sort_bottom a {
 	font-weight: normal;
 }
-
 /* Grid */
 #tp_main_box {
 	display: grid;
@@ -30,6 +29,9 @@
 		"left right"
 		"bottom bottom";
 	gap: 10px;
+}
+#tp_main_box ul li.windowbg {
+	margin: 0;
 }
 #tp_block_left {
 	grid-area: left;
@@ -40,10 +42,12 @@
 #tp_block_bottom {
 	grid-area: bottom;
 }
-
 /* Group Container */
 .tp_group_container {
 	margin-bottom: 20px;;
+}
+.tp_group_container .information {
+	min-height: 42px;
 }
 /* Group Description */
 span.tp_group_description {
@@ -52,6 +56,19 @@ span.tp_group_description {
 /* Group Badges */
 img.tp_group_badge {
 	float: right;
+}
+/* Board Container */
+.tp_board_container {
+	margin-bottom: 10px;
+}
+.tp_board_container ul {
+	display: flex;
+}
+.tp_board_container ul li {
+	width: 50%;
+}
+.tp_board_container ul li:nth-child(odd) {
+	margin-right: 10px;
 }
 /* Avatar */
 img.tp_avatar {
@@ -74,10 +91,22 @@ h2.tp_user_name {
 h2.tp_user_name > strong {
 	font-size: 75%;
 }
-
+/* Right/Left Blocks */
+#tp_block_right ul,
+#tp_block_left ul {
+	display: flex;
+}
+#tp_block_right ul li,
+#tp_block_left ul li {
+	width: 100%;
+}
+#tp_block_right ul li:nth-child(odd),
+#tp_block_left ul li:nth-child(odd) {
+	margin: 0;
+}
 /* Bottom block */
-#tp_block_bottom ul li h2.tp_user_name {
-	font-style: 11pt;
+#tp_block_bottom h2.tp_user_name {
+	font-size: 11pt;
 }
 #tp_block_bottom span.tp_user_info {
 	display: none;
@@ -86,15 +115,26 @@ h2.tp_user_name > strong {
 	display: none;
 }
 #tp_block_bottom ul {
-	columns: 4 250px;
-}
-/* windowbg change */
-#tp_main_box ul li.windowbg {
-	margin: 0;
+	columns: 4 220px;
 }
 
 /* Responsive ez */
-@media (max-width: 800px) {
+@media (max-width: 991px) {
+	#tp_block_right ul,
+	#tp_block_left ul {
+		display: block;
+	}
+	#tp_block_left ul li,
+	#tp_block_right ul li {
+		width: 100% !important;
+	}
+	.tp_board_container ul {
+		display: block;
+	}
+	.tp_board_container ul li {
+		width: 100%;
+		margin: 0;
+	}
 	img.tp_group_badge {
 		float: none;
 	}
