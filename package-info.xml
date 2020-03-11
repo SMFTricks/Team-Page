@@ -21,7 +21,8 @@
 		<!-- Source Files -->
 		<require-dir name="Sources" destination="$boarddir">Source files</require-dir>
 		<!-- Hooks -->
-		<hook hook="integrate_pre_include" file="$sourcedir/TeamPage/TeamPage.php" function="TeamPage\TeamPage::initialize" />
+		<hook hook="integrate_pre_include" file="$sourcedir/TeamPage/TeamPage.php" />
+		<hook hook="integrate_pre_load" function="TeamPage\TeamPage::initialize" file="$sourcedir/TeamPage/TeamPage.php" />
 		<!-- Database -->
 		<database>install.php</database>
 		<!-- Redirect -->
@@ -32,7 +33,7 @@
 	<uninstall for="2.1 - 2.1.99, 2.1 Beta 1 - 3">
 		<!-- Templates -->
 		<remove-file name="$themedir/TeamPage.template.php">Main Template</remove-file>
-		<remove-file name="$themedir/TeamPageAdmin.template.php">Admin template</remove-file>
+		<remove-file name="$themedir/TeamPage-Admin.template.php">Admin template</remove-file>
 		<!-- Sources -->
 		<remove-dir name="$sourcedir/TeamPage">Source files</remove-dir>
 		<!-- Languages -->
@@ -44,7 +45,8 @@
 		<!-- Icon -->
 		<remove-file name="$themedir/images/icons/team.png" />
 		<!-- Hooks -->
-		<hook hook="integrate_pre_include" file="$sourcedir/TeamPage/TeamPage.php" function="TeamPage\TeamPage::initialize" reverse="true" />
+		<hook hook="integrate_pre_include" file="$sourcedir/TeamPage/TeamPage.php" reverse="true" />
+		<hook hook="integrate_pre_load" function="TeamPage\TeamPage::initialize" file="$sourcedir/TeamPage/TeamPage.php" reverse="true" />
 		<!-- Database -->
 		<database>install.php</database>
 
