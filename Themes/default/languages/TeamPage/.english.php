@@ -42,15 +42,7 @@ $txt['TeamPage_error_disabled'] = 'Team Page is currently disabled.';
 $txt['TeamPage_error_title_sub'] = 'You have to enter a title and a subaction for your new page.';
 $txt['TeamPage_error_alnum_sub'] = 'The subaction must contain only alphanumeric characters.';
 $txt['TeamPage_error_already_sub'] = 'There is already a page with that subaction.';
-$txt['TeamPage_error_cannot_mod'] = 'You can\'t use the \'moderators\' subaction.';
 $txt['TeamPage_page_noexist'] = 'Unable to find a custom page.';
-$txt['cannot_view_teampage'] = 'Sorry, but you\'re not allowed to access to the team page.';
-$txt['no_more_groups'] = 'There are no inactive groups...';
-$txt['no_groups_defined'] = 'No groups are defined to show on the team page! Please add some groups. Users are being redirected to the index on accessing the page until you resolve this.';
-$txt['team_groups_notp'] = 'Groups not placed';
-$txt['TeamPage_no_members'] = 'No members available...';
-$txt['TeamPage_group_no_av'] = 'The group you\'re trying to add/move does not exist or is not available here.';
-$txt['TeamPage_title_editor_empty'] = 'The page body is not defined.';
 
 // Pages
 $txt['TeamPage_page_title'] = 'Page title';
@@ -73,7 +65,7 @@ $txt['TeamPage_page_type_groups'] = 'Groups';
 $txt['TeamPage_no_pages'] = 'Currently you have not created any custom pages.';
 $txt['TeamPage_pages_added'] = 'Page was successfully added';
 $txt['TeamPage_pages_updated'] = 'Page successfully updated';
-$txt['TeamPage_pages_deleted'] = 'Pages successfully deleeted';
+$txt['TeamPage_pages_deleted'] = 'Pages successfully deleted';
 $txt['TeamPage_pages_editing_page'] = 'Editing %s page';
 $txt['TeamPage_page_modify_body'] = 'Page content';
 $txt['TeamPage_page_save_order'] = 'Save order';
@@ -86,15 +78,6 @@ $txt['TeamPage_groups_bottom'] = 'Bottom Groups';
 $txt['TeamPage_groups_forum'] = 'Forum Groups';
 $txt['TeamPage_groups_id'] = 'Group ID';
 $txt['TeamPage_groups_name'] = 'Group Name';
-$txt['TeamPage_groups_move'] = 'Move';
-$txt['TeamPage_groups_action'] = 'Action';
-$txt['TeamPage_groups_order'] = 'Order';
-$txt['TeamPage_groups_place'] = 'Place';
-$txt['TeamPage_groups_stars'] = 'Stars';
-$txt['TeamPage_groups_move_left'] = 'Move group to the left side';
-$txt['TeamPage_groups_move_right'] = 'Move group to the right side';
-$txt['TeamPage_groups_move_bottom'] = 'Move group to the bottom';
-$txt['TeamPage_groups_remove'] = 'Remove group from team page';
 
 // Moderators
 $txt['TeamPage_mods_type'] = 'Type of list';
