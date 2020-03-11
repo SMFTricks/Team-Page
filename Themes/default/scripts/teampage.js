@@ -60,7 +60,7 @@ function savePositions(tp_groups, placement, group_delete = false) {
 			type: 'POST',
 			dataType: 'json',
 			data: {
-				page: document.getElementById('tp_manage_groups').getAttribute('page-id'),
+				page: document.getElementById('tp_manage_Groups').getAttribute('page-id'),
 				delete: (group_delete == true ? 1 : 0),
 				groups: groups,
 				placement: direction,
