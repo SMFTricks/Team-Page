@@ -40,7 +40,6 @@ class Settings
 
 		// Permissions
 		add_integration_function('integrate_load_permissions', 'self::Permissions', false);
-
 		// Delete membergroup
 		add_integration_function('integrate_delete_membergroups', __NAMESPACE__ . '\Groups::Delete', false);
 	}
@@ -112,20 +111,20 @@ class Settings
 		$config_vars = [
 			['title', 'TeamPage_page_settings'],
 			['check', 'TeamPage_enable'],
-			['check', 'TeamPage_additional_groups', 'subtext' => $txt['TeamPage_additional_groups_desc']],
-
+			['permissions', 'teampage_canAccess', 'subtext' => $txt['permissionhelp_teampage_canAccess']],
 			['title', 'TeamPage_page_settings_layout'],
 			['check', 'TeamPage_show_badges'],
 			['check', 'TeamPage_show_description'],
+			'',
 			['check', 'TeamPage_show_custom'],
 			['check', 'TeamPage_show_avatars', 'subtext' => $txt['TeamPage_addinfo_desc']],
+			['int', 'TeamPage_avatars_width'],
+			['int', 'TeamPage_avatars_height'],
 			['check', 'TeamPage_show_personal', 'subtext' => $txt['TeamPage_addinfo_desc']],
 			['check', 'TeamPage_show_login', 'subtext' => $txt['TeamPage_addinfo_desc']],
 			['check', 'TeamPage_show_registered', 'subtext' => $txt['TeamPage_addinfo_desc']],
 			['check', 'TeamPage_show_posts', 'subtext' => $txt['TeamPage_addinfo_desc']],
 			['check', 'TeamPage_show_website', 'subtext' => $txt['TeamPage_addinfo_desc']],
-			['title', 'TeamPage_permissions'],
-			['permissions', 'teampage_canAccess', 'subtext' => $txt['permissionhelp_teampage_canAccess']],
 		];
 
 		// Save!
