@@ -43,6 +43,7 @@ $txt['permissionhelp_groups_teampage_canAccess'] = 'If the user can access the t
 $txt['cannot_teampage_canAccess'] = ' You\'re not allowed to access the team page.';
 
 // Errors
+$txt['TeamPage_error_disabled'] = 'Team Page is currently disabled.';
 $txt['TeamPage_error_title_sub'] = 'You have to enter a title and a subaction for your new page.';
 $txt['TeamPage_error_alnum_sub'] = 'The subaction must contain only alphanumeric characters.';
 $txt['TeamPage_error_already_sub'] = 'There is already a page with that subaction.';
@@ -111,6 +112,8 @@ $txt['TeamPage_mods_boards'] = 'Select boards';
 $txt['TeamPage_enable'] = 'Enable the team page?';
 $txt['TeamPage_show_badges'] = 'Display group badges/icons?';
 $txt['TeamPage_show_avatars'] = 'Display avatars for each member?';
+$txt['TeamPage_avatars_width'] = 'Avatars width';
+$txt['TeamPage_avatars_height'] = 'Avatars height';
 $txt['TeamPage_addinfo_desc'] = 'Only available for left and right blocks';
 $txt['TeamPage_show_personal'] = 'Display personal text';
 $txt['TeamPage_show_custom'] = 'Display custom title';
@@ -119,15 +122,12 @@ $txt['TeamPage_show_posts'] = 'Display post count';
 $txt['TeamPage_show_website'] = 'Display website';
 $txt['TeamPage_show_login'] = 'Display last login';
 $txt['TeamPage_show_registered'] = 'Display register date';
-$txt['TeamPage_additional_groups'] = 'Display members in their secondary groups?';
-$txt['TeamPage_additional_groups_desc'] = 'This setting will display members in multiple groups if they\'re part of any additional groups.';
-$txt['TeamPage_settings_saved'] = 'Your settings have been saved. <a href="' . $scripturl . '?action=team;sa=%1">Click here to view them</a>.';
 $txt['TeamPage_manage_Groups'] = 'Manage the groups';
 $txt['TeamPage_manage_Mods'] = 'Manage the moderators';
 $txt['TeamPage_manage_editor'] = 'Manage the page content';
 
 // Outside strings
-$txt['TeamPage_whoall_teampage'] = 'Viewing the forum <a href="' . $scripturl . '?action=team">Team</a>.';
+$txt['TeamPage_whoall_teampage'] = 'Viewing the forum <a href="' . $scripturl . '?action=team">Team</a> page.';
 $txt['TeamPage_pm'] = 'Send a personal message';
 $txt['TeamPage_showm'] = 'Show the last posts';
 $txt['TeamPage_last_login'] = 'Last active';
