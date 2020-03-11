@@ -229,7 +229,7 @@ class Pages
 		{
 
 			// Load the sort scripts and cute css :P
-			loadCSSFile('tempage.css', ['default_theme' => true]);
+			loadCSSFile('teampage.css', ['default_theme' => true]);
 			loadJavaScriptFile('https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js', ['external' => true]);
 			loadJavaScriptFile('teampage.js', ['default_theme' => true]);
 
