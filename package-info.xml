@@ -45,7 +45,7 @@
 		<!-- Icon -->
 		<remove-file name="$themedir/images/icons/team.png" />
 		<!-- Hooks -->
-		<hook hook="integrate_pre_include" file="$sourcedir/TeamPage/TeamPage.php" reverse="true" />
+		<hook hook="integrate_pre_include" function="$sourcedir/TeamPage/TeamPage.php" reverse="true" />
 		<hook hook="integrate_pre_load" function="TeamPage\TeamPage::initialize" file="$sourcedir/TeamPage/TeamPage.php" reverse="true" />
 		<!-- Database -->
 		<database>install.php</database>
