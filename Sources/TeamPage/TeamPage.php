@@ -18,10 +18,10 @@ class TeamPage
 	public const NAME = 'TeamPage';
 	public const VERSION = '5.0';
 
-	public function initialize()
+	public static function initialize()
 	{
-		$this->defineHooks();
-		$this->setDefaults();
+		self::defineHooks();
+		self::setDefaults();
 	}
 
 	/**
