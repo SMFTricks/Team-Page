@@ -150,14 +150,14 @@ class Helper
 		return $set_attachments;
 	}
 
-	public static function Find($table, $column, $search)
+	public static function Find($table, $column, $search = '')
 	{
 		global $smcFunc;
 
 		$request = $smcFunc['db_query']('','
 			SELECT ' . $column . '
-			FROM {db_prefix}{raw:table}
-			WHERE (' . $column . ' = \''. $search . '\')
+			FROM {db_prefix}{raw:table}'.(!empty($search) ? '
+			WHERE (' . $column . ' = \''. $search . '\')' : '').'
 			LIMIT 1',
 			[
 				'table' => $table,
