@@ -24,19 +24,29 @@ class View
 
 	public static function Main()
 	{
-		global $context, $txt;
+		global $context, $txt, $scripturl, $modSettings;
 
-		// Language and template
+		// Language, template and css
 		loadTemplate('TeamPage');
 		loadLanguage('TeamPage/');
-
-		// Load the sort scripts and cute css :P
 		loadCSSFile('tempage.css', ['default_theme' => true]);
 
 		// Main details
 		$context['page_title'] = $context['forum_name'] . ' - ' . $txt['TeamPage_main_button'];
+		$context['linktree'][] = array(
+			'url' => $scripturl . '?action=team',
+			'name' => $txt['TeamPage_main_button'],
+		);
 		$context['sub_template'] = 'teampage_view';
 		self::$list = Helper::Get(0, 10000, 'cp.page_order ASC', Pages::$table . ' AS cp', Pages::$columns, '');
+
+
+		// What if the Shop is disabled? User shouldn't be able to access the Shop
+		if (empty($modSettings['TeamPage_enable']))
+			fatal_error($txt['TeamPage_error_disabled'], false);
+
+		// Check if user has permission then
+		isAllowedTo('teampage_canAccess');
 
 		// Lovely copyright in pages
 		$context['teampage']['copyright'] = TeamPage::Credits();
@@ -73,7 +83,7 @@ class View
 
 	public static function Load()
 	{
-		global $txt, $context, $modSettings;
+		global $txt, $context, $modSettings, $scripturl;
 
 		// Obatain the page ID
 		$page_details = (isset($_REQUEST['sa']) && !empty($_REQUEST['sa']) && !empty(Helper::Find(Pages::$table . ' AS cp', 'cp.page_action', $_REQUEST['sa'])) ? self::$tabs[$_REQUEST['sa']] : self::$list[0]);
@@ -86,6 +96,12 @@ class View
 		$context['teampage']['moderators'] = [];
 		$context['teampage']['groups'] = [];
 		$context['teampage']['members'] = [];
+
+		// Linktree
+		$context['linktree'][] = array(
+			'url' => $scripturl . '?action=team;sa=' . $page_details['page_action'],
+			'name' => $page_details['page_name'],
+		);
 
 		// Text type?
 		if (empty($page_details['is_text']))
@@ -128,6 +144,14 @@ class View
 								grid-template-areas:
 									"' . $grid_area. '"
 									"bottom bottom";
+							}
+							#tp_block_left ul li,
+							#tp_block_right ul li {
+								width: 50%;
+							}
+							#tp_block_right ul li:nth-child(odd),
+							#tp_block_left ul li:nth-child(odd) {
+								margin-right: 10px;
 							}'
 						);
 					
@@ -142,10 +166,12 @@ class View
 			// Moderators
 			if ($page_details['page_type'] == 'Mods')
 			{
-				// We got mods
-				if (!empty($context['teampage']['moderators']))
-				{
 
+				// We got mods
+				if (!empty(Helper::Find('moderators', 'id_board')))
+				{
+					// Sort the users
+					$context['teampage']['moderators'] = Helper::Nested('md.id_member', 'moderators AS md', array_merge(Moderators::$boards_columns, Moderators::$mods_columns), self::$columns, 'members', '', 'LEFT JOIN {db_prefix}members AS mem ON (mem.id_member = md.id_member) LEFT JOIN {db_prefix}boards AS b ON (b.id_board = md.id_board) LEFT JOIN {db_prefix}attachments as a ON (a.id_member = mem.id_member)', self::$attachments);
 				}
 				else
 					redirectexit('action=admin;area=teampage;sa=edit;id='.$page_details['id_page']);
