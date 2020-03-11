@@ -36,10 +36,11 @@ class TeamPage
 
 		$defaults = [
 			'TeamPage_enable' => 1,
-			'TeamPage_additional_groups' => 0,
 			'TeamPage_show_badges' => 1,
 			'TeamPage_show_description' => 1,
 			'TeamPage_show_avatars' => 1,
+			'TeamPage_avatars_width' => 64,
+			'TeamPage_avatars_height' => 64,
 			'TeamPage_show_personal' => 0,
 			'TeamPage_show_custom' => 0,
 			'TeamPage_show_posts' => 0,
