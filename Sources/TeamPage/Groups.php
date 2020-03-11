@@ -19,7 +19,7 @@ class Groups
 	private static $columns = ['tp.id_group', 'tp.id_page', 'tp.placement', 'tp.position'];
 	public  static $groups_columns = ['m.id_group', 'm.group_name', 'm.description', 'm.online_color', 'm.icons'];
 	private static $additional_query = '';
-	private static $groups;
+	private static $groups = [];
 	private static $fields_data = [];
 	private static $fields_insert = [];
 	private static $fields_update = [];
@@ -30,7 +30,6 @@ class Groups
 
 		// Set the ID
 		self::$additional_query .= 'WHERE tp.id_page = "'. (int) $id. '"';
-		self::$groups = [];
 
 		// Get the groups for this page
 		$context['page_groups_all'] = Helper::Get(0, 10000, 'tp.position ASC', self::$table . ' AS tp', array_merge(self::$columns, self::$groups_columns), self::$additional_query, false, 'LEFT JOIN {db_prefix}membergroups AS m ON (tp.id_group = m.id_group)');
