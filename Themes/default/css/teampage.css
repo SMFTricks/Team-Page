@@ -94,7 +94,7 @@ h2.tp_user_name > strong {
 /* Right/Left Blocks */
 #tp_block_right ul,
 #tp_block_left ul {
-	display: flex;
+	display: block;
 }
 #tp_block_right ul li,
 #tp_block_left ul li {

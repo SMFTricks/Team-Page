@@ -138,6 +138,10 @@ class View
 								"' . $grid_area. '"
 								"bottom bottom";
 						}
+						#tp_block_right ul,
+						#tp_block_left ul {
+							display: flex;
+						}
 						#tp_block_left ul li,
 						#tp_block_right ul li {
 							width: 50%;
