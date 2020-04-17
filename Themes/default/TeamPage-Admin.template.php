@@ -216,7 +216,7 @@ function boards_list($collapse = true, $form_id = 'mods_settings')
 	global $context, $txt, $modSettings;
 
 	echo '
-							<fieldset id="visible_boards"', !empty($modSettings['deny_boards_access']) ? ' class="denyboards_layout"' : '', '>
+							<fieldset id="visible_boards">
 								<legend>', $txt['TeamPage_mods_boards'], '</legend>
 								<ul class="padding floatleft">';
 
@@ -243,7 +243,7 @@ function boards_list($collapse = true, $form_id = 'mods_settings')
 	}
 	echo '
 								</ul>
-								<br class="clear"><br>
+								<br class="clear">
 								<input type="checkbox" id="checkall_check" onclick="invertAll(this, this.form, \'boardset\');">
 								<label for="checkall_check"><em>', $txt['check_all'], '</em></label>
 							</fieldset>';
