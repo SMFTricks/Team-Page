@@ -39,7 +39,7 @@ class Settings
 		];
 
 		// Permissions
-		add_integration_function('integrate_load_permissions', 'self::Permissions', false);
+		add_integration_function('integrate_load_permissions', __CLASS__.'::Permissions', false);
 		// Delete membergroup
 		add_integration_function('integrate_delete_membergroups', __NAMESPACE__ . '\Groups::Delete', false);
 	}
@@ -54,17 +54,18 @@ class Settings
 	 */
 	public static function Permissions(&$permissionGroups, &$permissionList, &$leftPermissionGroups, &$hiddenPermissions, &$relabelPermissions)
 	{
-		global $txt;
+		global $modSettings;
 
 		$permissions = [
 			'teampage_canAccess' => false,
 		];
 
-		$permissionGroups['membergroup'] = ['teampage'];
-		foreach ($permissions as $p => $s) {
-			$permissionList['membergroup'][$p] = [$s,'teampage','teampage'];
-			$hiddenPermissions[] = $p;
-		}
+		foreach ($permissions as $p => $s)
+			$permissionList['membergroup'][$p] = [$s,'general'];
+
+		// Team page disabled?
+		if (empty($modSettings['TeamPage_enable']))
+			$hiddenPermissions[] = 'teampage_canAccess';
 	}
 
 	public static function Index()
