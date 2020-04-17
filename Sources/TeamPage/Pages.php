@@ -199,7 +199,7 @@ class Pages
 		loadJavaScriptFile('teampage.js', ['default_theme' => true]);
 
 		// Page information
-		$where_query = 'WHERE cp.id_page = "'. (int) $_REQUEST['id']. '"';
+		$where_query = 'WHERE cp.id_page = "'. (int) (isset($_REQUEST['id']) ? $_REQUEST['id'] : 0) . '"';
 		$context['page_details'] = Helper::Get('', '', '', self::$table . ' AS cp', self::$columns, $where_query, true);
 		$context[$context['admin_menu_name']]['current_subsection'] = 'pages';
 
