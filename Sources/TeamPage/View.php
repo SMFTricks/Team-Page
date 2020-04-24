@@ -29,7 +29,7 @@ class View
 		// Language, template and css
 		loadTemplate('TeamPage');
 		loadLanguage('TeamPage/');
-		loadCSSFile('teampage.css', ['default_theme' => true]);
+		loadCSSFile('teampage.css', ['default_theme' => true, 'minimize' => false]);
 
 		// Main details
 		$context['page_title'] = $context['forum_name'] . ' - ' . $txt['TeamPage_main_button'];
