@@ -24,7 +24,7 @@ class Settings
 	 */
 	public static function hookAreas(&$admin_areas)
 	{
-		global $scripturl, $txt, $modSettings;
+		global $txt;
 
 		loadLanguage('TeamPage/');
 		
@@ -66,6 +66,17 @@ class Settings
 		// Team page disabled?
 		if (empty($modSettings['TeamPage_enable']))
 			$hiddenPermissions[] = 'teampage_canAccess';
+	}
+
+	/**
+	 * Settings::helpadmin()
+	 *
+	 * Loads the language file for the help popups in the permissions page
+	 * 
+	 */
+	public static function helpadmin()
+	{
+		loadLanguage('TeamPage/');
 	}
 
 	public static function Index()

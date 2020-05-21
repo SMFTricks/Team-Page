@@ -16,7 +16,7 @@ if (!defined('SMF'))
 class TeamPage
 {
 	public static $name = 'TeamPage';
-	public static $version = '5.0.5';
+	public static $version = '5.1';
 
 	public static function initialize()
 	{
@@ -91,8 +91,6 @@ class TeamPage
 	 */
 	public static function hookActions(&$actions)
 	{
-		global $sourcedir;
-
 		// The main action
 		$actions['team'] = ['TeamPage/View.php', __NAMESPACE__  . '\View::Main#'];
 
@@ -100,6 +98,9 @@ class TeamPage
 		switch ($_REQUEST['action']) {
 			case 'admin':
 				add_integration_function('integrate_admin_areas', __NAMESPACE__ . '\Settings::hookAreas', false, '$sourcedir/TeamPage/Settings.php');
+				break;
+			case 'helpadmin':
+				add_integration_function('integrate_helpadmin', __NAMESPACE__ . '\Settings::helpadmin', false, '$sourcedir/TeamPage/Settings.php');
 				break;
 			case 'who':
 				loadLanguage('TeamPage/');
@@ -178,7 +179,7 @@ class TeamPage
 	 */
 	public static function Credits($return = false)
 	{
-		global $context, $txt;
+		global $context;
 
 		if (isset($context['current_action']) && $context['current_action'] === 'team')
 			return '<br /><div style="text-align: center;"><span class="smalltext">Powered by <a href="https://smftricks.com" target="_blank" rel="noopener">Team Page</a></span></div>';
@@ -207,7 +208,7 @@ class TeamPage
 	 */
 	public static function whoData($actions)
 	{
-		global $context, $txt;
+		global $txt;
 
 		// Show this only in the who's online action.
 		if (isset($actions['action']) && ($actions['action'] === 'team'))
