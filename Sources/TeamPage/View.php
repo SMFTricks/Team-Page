@@ -164,7 +164,7 @@ class View
 		{
 
 			// We got mods
-			if (!empty(Helper::Find('moderators', 'id_board', explode(',', $page_details['page_boards']))))
+			if (!empty(Helper::Find('moderators', 'id_board', !empty($page_details['page_boards']) ? explode(',', $page_details['page_boards']) : '')))
 			{
 				// Sort by boards
 				if (!empty($page_details['mods_style']))
