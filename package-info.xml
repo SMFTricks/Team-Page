@@ -3,9 +3,9 @@
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
 	<id>smftricks:teampage</id>
 	<name>Team Page</name>
-	<version>5.1</version>
+	<version>5.1.2</version>
 	<type>modification</type>
-	<install for="2.1 - 2.1.99, 2.1 Beta 1 - 3">
+	<install for="2.1 - 2.1.99, 2.1 RC3, 2.1 RC4">
 		<!-- Mod Readme -->
 		<readme lang="english" parsebbc="true" type="file">readme/readme.english.txt</readme>
 		<!-- Credits -->
@@ -27,14 +27,15 @@
 		<!-- Redirect -->
 		<redirect url="?action=admin;area=teampage">redirect.txt</redirect>
 	</install>
-	
-	<!-- SMF 2.0.x Uninstall -->
-	<uninstall for="2.1 - 2.1.99, 2.1 Beta 1 - 3">
+
+	<uninstall for="2.1 - 2.1.99, 2.1 RC3, 2.1 RC4">
+		<!-- Hooks -->
+		<hook hook="integrate_pre_load" function="TeamPage\TeamPage::initialize" file="$sourcedir/TeamPage/TeamPage.php" reverse="true" />
+		<!-- Sources -->
+		<remove-dir name="$sourcedir/TeamPage">Source files</remove-dir>
 		<!-- Templates -->
 		<remove-file name="$themedir/TeamPage.template.php">Main Template</remove-file>
 		<remove-file name="$themedir/TeamPage-Admin.template.php">Admin template</remove-file>
-		<!-- Sources -->
-		<remove-dir name="$sourcedir/TeamPage">Source files</remove-dir>
 		<!-- Languages -->
 		<remove-dir name="$languagedir/TeamPage">Language files</remove-dir>
 		<!-- JS -->
@@ -43,11 +44,7 @@
 		<remove-file name="$themedir/css/teampage.css">CSS file</remove-file>
 		<!-- Icon -->
 		<remove-file name="$themedir/images/icons/team.png" />
-		<!-- Hooks -->
-		<hook hook="integrate_pre_load" function="TeamPage\TeamPage::initialize" file="$sourcedir/TeamPage/TeamPage.php" reverse="true" />
 		<!-- Database -->
 		<database>install.php</database>
-
 	</uninstall>
-	
 </package-info>
