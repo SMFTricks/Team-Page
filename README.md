@@ -44,4 +44,3 @@
 
 ## Changelog
 You can find the changelog for Team Page on SMF Tricks: [Changelog](https://smftricks.com/index.php?topic=2093.0)
-
