@@ -94,7 +94,9 @@ h2.tp_user_name > strong {
 /* Right/Left Blocks */
 #tp_block_right ul,
 #tp_block_left ul {
-	display: block;
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
 }
 #tp_block_right ul li,
 #tp_block_left ul li {
@@ -129,10 +131,6 @@ ul.tp_boards_moderating li {
 
 /* Responsive ez */
 @media (max-width: 991px) {
-	#tp_block_right ul,
-	#tp_block_left ul {
-		display: block;
-	}
 	#tp_block_left ul li,
 	#tp_block_right ul li {
 		width: 100% !important;
