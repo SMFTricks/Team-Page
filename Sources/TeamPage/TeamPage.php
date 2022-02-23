@@ -2,9 +2,9 @@
 
 /**
  * @package Team Page
- * @version 5.0
+ * @version 5.2
  * @author Diego Andrés <diegoandres_cortes@outlook.com>
- * @copyright Copyright (c) 2020, SMF Tricks
+ * @copyright Copyright (c) 2022, SMF Tricks
  * @license https://www.mozilla.org/en-US/MPL/2.0/
  */
 
@@ -57,7 +57,6 @@ class TeamPage
 	 *
 	 * Load hooks quietly
 	 * @return void
-	 * @author Peter Spicer (Arantor)
 	 */
 	public static function defineHooks()
 	{
@@ -87,7 +86,6 @@ class TeamPage
 	 * Insert the actions needed by this mod
 	 * @param array $actions An array containing all possible SMF actions. This includes loading different hooks for certain areas.
 	 * @return void
-	 * @author Peter Spicer (Arantor)
 	 */
 	public static function hookActions(&$actions)
 	{
@@ -95,7 +93,8 @@ class TeamPage
 		$actions['team'] = ['TeamPage/View.php', __NAMESPACE__  . '\View::Main#'];
 
 		// Add some hooks by action
-		switch ($_REQUEST['action']) {
+		switch ($_REQUEST['action'])
+		{
 			case 'admin':
 				add_integration_function('integrate_admin_areas', __NAMESPACE__ . '\Settings::hookAreas', false, '$sourcedir/TeamPage/Settings.php');
 				break;
@@ -149,9 +148,8 @@ class TeamPage
 	/**
 	 * TeamPage::Layer()
 	 *
-	 * Used for adding the team page tabs quickly
+	 * Used for adding the team page wrapper to the page
 	 * @return void
-	 * @author Diego Andrés
 	 */
 	public static function Layer()
 	{
@@ -213,7 +211,5 @@ class TeamPage
 		// Show this only in the who's online action.
 		if (isset($actions['action']) && ($actions['action'] === 'team'))
 			return $txt['TeamPage_whoall_teampage'];
-			
 	}
-
 }
