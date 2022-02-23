@@ -25,7 +25,7 @@
 		<!-- Hooks -->
 		<hook hook="integrate_pre_load" function="TeamPage\TeamPage::initialize" file="$sourcedir/TeamPage/TeamPage.php" />
 		<!-- Redirect -->
-		<redirect url="?action=admin;area=teampage">redirect.txt</redirect>
+		<redirect url="?action=admin;area=teampage" />
 	</install>
 
 	<uninstall for="2.1 - 2.1.99">
