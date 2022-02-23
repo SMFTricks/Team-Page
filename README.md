@@ -1,22 +1,20 @@
- <p align="center">
-    <img src="https://smftricks.com/logos/logo.png">
- </p>
+![SMF Tricks - Free & Premium Mods and Themes for SMF](https://smftricks.com/logos/logo.png)
 
-## Team Page
-<img src="https://img.shields.io/badge/License-MPL 2.0-a05a3f?style=flat-square"> <img src="https://img.shields.io/badge/SMF-2.1-3f73a0?style=flat-square">
+# Team Page
+![License](https://img.shields.io/badge/License-MPL%202.0-248049) ![Hooks Only](https://img.shields.io/badge/Hooks%20Only-Yes-6041a3) ![SMF 2.1](https://img.shields.io/badge/SMF-2.1-3f73a0)
 
 * Developed by [Diego Andrés](https://github.com/DiegoAndresCortes)
-* Original author: [Costa](https://simplemachines.org/community/index.php?action=profile;u=169940)
+* Original Developer: [Costa](https://simplemachines.org/community/index.php?action=profile;u=169940)
 
 ## Introduction
-* Team Page lets you add multiple custom pages to a team/staff page with groups, moderators or text
+Team Page lets you add multiple custom pages to a team/staff page with groups, moderators or text.
 
-## Features
+### Features
 - Enable Team Page
 - Create different pages to show in the Team Page action
-  - Groups (default)
+  - Groups page
     - Sortable: Drag and drop management
-  - Moderators
+  - Moderators page
     - Select the style of the blocks (boards or users based)
     - Select the boards included for the page
   - BBC Text Page
@@ -26,7 +24,7 @@
 - Layout/view options
   - Groups badges
   - Groups descriptions
-  - Members avatar
+  - Avatars
     - Set height
     - Set width
   - Members registered date
@@ -36,11 +34,10 @@
   - Members personal text
   - Members custom text
 
-## Requirements
-* Team Page can be installed on either SMF 2.0.x or SMF 2.1 (Download the correct branch, master is 2.1)
-
-## How to install
-* You can install Team Page through the package manager of your forum administration.
-
-## Changelog
-You can find the changelog for Team Page on SMF Tricks: [Changelog](https://smftricks.com/index.php?topic=2093.0)
+### Localization
+- ![English](https://www.simplemachines.org/site_images/lang/english.gif) English
+- ![Spanish](https://www.simplemachines.org/site_images/lang/spanish_es.gif) Spanish
+- ![Russian](https://www.simplemachines.org/site_images/lang/russian.gif) Russian by [Bugo](https://www.simplemachines.org/community/index.php?action=profile;u=608635)
+---
+### [Changelog](https://github.com/SMFTricks/Team-Page/blob/master/CHANGELOG.md)
+### [GitHub](https://github.com/SMFTricks/Team-Page)
