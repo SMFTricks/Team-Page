@@ -33,8 +33,8 @@ class Settings
 			'function' => __NAMESPACE__ . '\Settings::Index',
 			'icon' => 'server',
 			'subsections' => [
-				'settings' => [$txt['TeamPage_page_settings']],
 				'pages' => [$txt['TeamPage_page_pages']],
+				'settings' => [$txt['TeamPage_page_settings']],
 			],
 		];
 
@@ -52,7 +52,7 @@ class Settings
 	 * @param array $permissionList An associative array with all the possible permissions.
 	 * @return void
 	 */
-	public static function Permissions(&$permissionGroups, &$permissionList, &$leftPermissionGroups, &$hiddenPermissions, &$relabelPermissions)
+	public static function Permissions(&$permissionGroups, &$permissionList, &$leftPermissionGroups, &$hiddenPermissions)
 	{
 		global $modSettings;
 
@@ -95,18 +95,18 @@ class Settings
 			'order' => 'Pages::Order',
 			'modsave' => 'Moderators::Save',
 		];
-		$sa = isset($_GET['sa'], $subactions[$_GET['sa']]) ? $_GET['sa'] : 'settings';
+		$sa = isset($_GET['sa'], $subactions[$_GET['sa']]) ? $_GET['sa'] : 'pages';
 
 		// Create the tabs for the template.
 		$context[$context['admin_menu_name']]['tab_data'] = [
 			'title' => $txt['TeamPage_page_settings'],
 			'description' => $txt['TeamPage_page_settings_desc'],
 			'tabs' => [
-				'settings' => ['description' => $txt['TeamPage_page_settings_desc']],
 				'pages' => ['description' => $txt['TeamPage_page_pages_desc']],
+				'settings' => ['description' => $txt['TeamPage_page_settings_desc']],
 			],
 		];
-		call_helper(__NAMESPACE__ . '\\' . $subactions[$sa]);
+		call_helper(__NAMESPACE__ . '\\' . $subactions[$sa] . '#');
 	}
 
 	public static function Main($return_config = false)
