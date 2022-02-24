@@ -2,6 +2,7 @@
 
 #### 5.2 - 24 February 2022
 - ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Minor fixes.
+- ![Improvement](https://smftricks.com/assets/changelog/tag--pencil.png) Database fixes and improvements.
 - ![Improvement](https://smftricks.com/assets/changelog/tag--pencil.png) Improved logic.
 - ![Improvement](https://smftricks.com/assets/changelog/tag--pencil.png) Code changes.
 - ![Improvement](https://smftricks.com/assets/changelog/tag--pencil.png) Support for SMF 2.1.0
