@@ -2,9 +2,9 @@
 
 /**
  * @package Team Page
- * @version 5.0
+ * @version 5.2
  * @author Diego Andrés <diegoandres_cortes@outlook.com>
- * @copyright Copyright (c) 2020, SMF Tricks
+ * @copyright Copyright (c) 2022, SMF Tricks
  * @license https://www.mozilla.org/en-US/MPL/2.0/
  */
 
@@ -16,7 +16,7 @@ if (!defined('SMF'))
 class TeamPage
 {
 	public static $name = 'TeamPage';
-	public static $version = '5.1.3';
+	public static $version = '5.2';
 
 	public static function initialize()
 	{
@@ -57,7 +57,6 @@ class TeamPage
 	 *
 	 * Load hooks quietly
 	 * @return void
-	 * @author Peter Spicer (Arantor)
 	 */
 	public static function defineHooks()
 	{
@@ -65,6 +64,7 @@ class TeamPage
 			'autoload' => 'autoload',
 			'actions' => 'hookActions',
 			'menu_buttons' => 'hookButtons',
+			'pre_css_output' => 'preCSS',
 		];
 		foreach ($hooks as $point => $callable)
 			add_integration_function('integrate_' . $point, __CLASS__ . '::'.$callable, false);
@@ -87,7 +87,6 @@ class TeamPage
 	 * Insert the actions needed by this mod
 	 * @param array $actions An array containing all possible SMF actions. This includes loading different hooks for certain areas.
 	 * @return void
-	 * @author Peter Spicer (Arantor)
 	 */
 	public static function hookActions(&$actions)
 	{
@@ -95,7 +94,8 @@ class TeamPage
 		$actions['team'] = ['TeamPage/View.php', __NAMESPACE__  . '\View::Main#'];
 
 		// Add some hooks by action
-		switch ($_REQUEST['action']) {
+		switch ($_REQUEST['action'])
+		{
 			case 'admin':
 				add_integration_function('integrate_admin_areas', __NAMESPACE__ . '\Settings::hookAreas', false, '$sourcedir/TeamPage/Settings.php');
 				break;
@@ -130,7 +130,7 @@ class TeamPage
 				$temp_buttons['team'] = array(
 					'title' => $txt['TeamPage_main_button'],
 					'href' => $scripturl . '?action=team',
-					'icon' => 'icons/team.png',
+					'icon' => 'team',
 					'show' => allowedTo('teampage_canAccess') && !empty($modSettings['TeamPage_enable']),
 				);
 			}
@@ -149,9 +149,8 @@ class TeamPage
 	/**
 	 * TeamPage::Layer()
 	 *
-	 * Used for adding the team page tabs quickly
+	 * Used for adding the team page wrapper to the page
 	 * @return void
-	 * @author Diego Andrés
 	 */
 	public static function Layer()
 	{
@@ -177,7 +176,7 @@ class TeamPage
 	 * @param boolean $return decide between returning a string or append it to a known context var.
 	 * @return string A link for copyright notice
 	 */
-	public static function Credits($return = false)
+	public static function Credits()
 	{
 		global $context;
 
@@ -213,7 +212,26 @@ class TeamPage
 		// Show this only in the who's online action.
 		if (isset($actions['action']) && ($actions['action'] === 'team'))
 			return $txt['TeamPage_whoall_teampage'];
-			
 	}
 
+	/**
+	 * TeamPage::preCSS()
+	 * 
+	 * Add the icon via CSS
+	 * 
+	 * @return void
+	 */
+	public static function preCSS()
+	{
+		global $settings;
+
+		// Add the icon using inline css
+		addInlineCss('
+			.main_icons.team::before {
+				background-position: 0;
+				background-image: url("' . $settings['default_images_url'] . '/icons/team.png");
+				background-size: contain;
+			}
+		');
+	}
 }

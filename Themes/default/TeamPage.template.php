@@ -1,11 +1,16 @@
 <?php
-// TeamPage Modification v3.5
-// Created by ccbtimewiz (ccbtimewiz@dream-portal.net)
 
+/**
+ * @package Team Page
+ * @version 5.2
+ * @author Diego Andrés <diegoandres_cortes@outlook.com>
+ * @copyright Copyright (c) 2022, SMF Tricks
+ * @license https://www.mozilla.org/en-US/MPL/2.0/
+ */
 
 function template_TeamPage_above()
 {
-	global $context, $txt, $scripturl;
+	global $context, $scripturl;
 
 	echo '
 		<div class="buttonlist floatright">';
@@ -30,10 +35,10 @@ function template_teampage_view()
 	global $context;
 
 	// Groups or Mods
-	if (!empty($context['teampage']['team']) || !empty($context['teampage']['moderators']))
+	if ($context['teampage']['page_type'] === 'Groups' || $context['teampage']['page_type'] === 'Mods')
 		echo '
 		<div class="roundframe" id="', !empty($context['teampage']['team']) ? 'tp_main_box' : 'tp_main_boards', '">
-			', !empty($context['teampage']['team']) ? display_group() : display_moderators(), '
+			', !empty($context['teampage']['groups']) ? display_group() : display_moderators(), '
 		</div>';
 	// Text
 	else
@@ -52,7 +57,11 @@ function template_TeamPage_below()
 
 function display_group()
 {
-	global $context, $modSettings;
+	global $context, $modSettings, $txt;
+
+	// Nothing?
+	if (empty($context['teampage']['team']))
+		return $txt['TeamPage_groups_empty'];
 
 	// Blocks
 	foreach($context['teampage']['team'] as $placement => $groups)
@@ -98,7 +107,11 @@ function display_group()
 
 function display_moderators()
 {
-	global $context, $modSettings;
+	global $context, $modSettings, $txt;
+
+	// Nothing?
+	if (empty($context['teampage']['moderators']))
+		return $txt['TeamPage_groups_empty'];
 
 	// Blocks
 	foreach($context['teampage']['moderators'] as $boards => $board)
@@ -123,10 +136,16 @@ function display_moderators()
 			echo '
 				<ul>';
 
+			// Nothing?
+			if (empty($board['members']))
+				return '<li class="windowbg">' . $txt['TeamPage_groups_empty'] . '</li>';
+
 			// Moderators
 			foreach($board['members'] as $user)
+			{
 				// User display
 				display_member($user);
+			}
 
 		echo '
 			</ul>

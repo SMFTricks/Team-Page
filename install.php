@@ -4,9 +4,9 @@
  * install.php
  *
  * @package Team Page
- * @version 5.0
+ * @version 5.2
  * @author Diego Andrés <diegoandres_cortes@outlook.com>
- * @copyright Copyright (c) 2020, Diego Andrés
+ * @copyright Copyright (c) 2022, SMF Tricks
  * @license https://www.mozilla.org/en-US/MPL/2.0/
  */
 
@@ -28,10 +28,11 @@
 			'columns' => [
 				[
 					'name' => 'id_group',
-					'type' => 'int',
-					'size' => 10,
+					'type' => 'smallint',
+					'size' => 5,
 					'unsigned' => true,
 					'not_null' => true,
+					'default' => 0,
 				],
 				[
 					'name' => 'id_page',
@@ -77,18 +78,24 @@
 					'size' => 3,
 					'not_null' => true,
 					'auto' => true,
+					'unsigned' => true,
 				],
 				[
 					'name' => 'page_name',
-					'type' => 'text',
+					'type' => 'varchar',
+					'size' => 35,
+					'not_null' => true,
 				],
 				[
 					'name' => 'page_action',
-					'type' => 'text',
+					'type' => 'varchar',
+					'size' => 15,
+					'not_null' => true,
 				],
 				[
 					'name' => 'page_type',
 					'type' => 'text',
+					'not_null' => true,
 				],
 				[
 					'name' => 'page_body',
@@ -96,16 +103,19 @@
 				],
 				[
 					'name' => 'page_order',
-					'type' => 'int',
-					'size' => 5,
+					'type' => 'smallint',
+					'size' => 3,
 					'default' => 0,
 					'not_null' => true,
+					'unsigned' => true,
 				],
 				[
 					'name' => 'mods_style',
 					'type' => 'smallint',
 					'size' => 3,
 					'not_null' => true,
+					'default' => 0,
+					'unsigned' => true,
 				],
 				[
 					'name' => 'page_boards',

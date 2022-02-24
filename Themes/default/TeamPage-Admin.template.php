@@ -32,7 +32,7 @@ function template_pages_post_below()
 						</select>
 					</dd>
 				</dl>
-				<input class="button floatleft" type="submit" value="', $txt['TeamPage_add_page'], '" />
+				<button class="button floatleft">', $txt['TeamPage_add_page'], '</button>
 			</form>
 		</div>';
 }
@@ -109,16 +109,16 @@ function template_pages_edit()
 
 	echo '
 			</dl>
-			<input class="button floatleft" type="submit" value="', $txt['save'], '" />
+			<button class="button floatleft">', $txt['save'], '</button>
 		</form>
 	</div>';
 }
 
 function template_pages_edit_below()
 {
-	global $txt, $context, $scripturl, $modSettings;
+	global $txt, $context, $scripturl;
 
-	if ($context['page_details']['page_type'] == 'Groups' || $context['page_details']['page_type'] == 'Mods')
+	if ($context['page_details']['page_type'] === 'Groups' || $context['page_details']['page_type'] === 'Mods')
 	{
 		echo '
 		<hr class="divider" />
@@ -133,7 +133,7 @@ function template_pages_edit_below()
 	}
 
 	// Page groups
-	if ($context['page_details']['page_type'] == 'Groups')
+	if ($context['page_details']['page_type'] === 'Groups')
 	{
 		echo '
 		<div class="half_content">
@@ -167,7 +167,7 @@ function template_pages_edit_below()
 	}
 
 	// Moderators
-	if ($context['page_details']['page_type'] == 'Mods')
+	if ($context['page_details']['page_type'] === 'Mods')
 	{
 		echo '
 		<div class="title_bar">
@@ -198,7 +198,7 @@ function template_pages_edit_below()
 						', boards_list(true, 'mods_settings'), '
 					</dd>
 				</dl>
-				<input class="button floatleft" type="submit" value="', $txt['save'], '" />
+				<button class="button floatleft" >', $txt['save'], '</button>
 			</form>
 		</div>';
 	}
@@ -213,7 +213,7 @@ function template_pages_edit_below()
  */
 function boards_list($collapse = true, $form_id = 'mods_settings')
 {
-	global $context, $txt, $modSettings;
+	global $context, $txt;
 
 	echo '
 							<fieldset id="visible_boards">
