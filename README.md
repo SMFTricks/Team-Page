@@ -37,7 +37,7 @@ Team Page lets you add multiple custom pages to a team/staff page with groups, m
 ### Localization
 - ![English](https://www.simplemachines.org/site_images/lang/english.gif) English
 - ![Spanish](https://www.simplemachines.org/site_images/lang/spanish_es.gif) Spanish
-- ![Russian](https://www.simplemachines.org/site_images/lang/russian.gif) Russian by [Bugo](https://www.simplemachines.org/community/index.php?action=profile;u=608635)
+- ![Russian](https://www.simplemachines.org/site_images/lang/russian.gif) Russian by [wylekk](https://www.simplemachines.org/community/index.php?action=profile;u=608635)
 ---
 ### [Changelog](https://github.com/SMFTricks/Team-Page/blob/master/CHANGELOG.md)
 ### [GitHub](https://github.com/SMFTricks/Team-Page)
