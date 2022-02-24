@@ -64,6 +64,7 @@ class TeamPage
 			'autoload' => 'autoload',
 			'actions' => 'hookActions',
 			'menu_buttons' => 'hookButtons',
+			'pre_css_output' => 'preCSS',
 		];
 		foreach ($hooks as $point => $callable)
 			add_integration_function('integrate_' . $point, __CLASS__ . '::'.$callable, false);
@@ -129,7 +130,7 @@ class TeamPage
 				$temp_buttons['team'] = array(
 					'title' => $txt['TeamPage_main_button'],
 					'href' => $scripturl . '?action=team',
-					'icon' => 'icons/team.png',
+					'icon' => 'team',
 					'show' => allowedTo('teampage_canAccess') && !empty($modSettings['TeamPage_enable']),
 				);
 			}
@@ -175,7 +176,7 @@ class TeamPage
 	 * @param boolean $return decide between returning a string or append it to a known context var.
 	 * @return string A link for copyright notice
 	 */
-	public static function Credits($return = false)
+	public static function Credits()
 	{
 		global $context;
 
@@ -211,5 +212,26 @@ class TeamPage
 		// Show this only in the who's online action.
 		if (isset($actions['action']) && ($actions['action'] === 'team'))
 			return $txt['TeamPage_whoall_teampage'];
+	}
+
+	/**
+	 * TeamPage::preCSS()
+	 * 
+	 * Add the icon via CSS
+	 * 
+	 * @return void
+	 */
+	public static function preCSS()
+	{
+		global $settings;
+
+		// Add the icon using inline css
+		addInlineCss('
+			.main_icons.team::before {
+				background-position: 0;
+				background-image: url("' . $settings['default_images_url'] . '/icons/team.png");
+				background-size: contain;
+			}
+		');
 	}
 }
