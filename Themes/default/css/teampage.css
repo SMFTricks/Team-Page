@@ -75,10 +75,7 @@ img.tp_avatar {
 	float: right;
 	width: 64px;
 	height: 64px;
-	border-radius: 100%;
-	border-style: solid;
-	border-width: 1px;
-	border-color: rgba(0,0,0,0.2);
+	border-radius: 50%;
 }
 /* User Info */
 div.tp_user_info > span {
@@ -154,5 +151,11 @@ ul.tp_boards_moderating li {
 			"left"
 			"right"
 			"bottom";
+	}
+}
+@media (max-width: 480px)
+{
+	img.tp_avatar {
+		display: none;
 	}
 }
