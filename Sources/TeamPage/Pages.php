@@ -240,7 +240,7 @@ class Pages
 			$context['page_groups'] = $this->_groups->PageSort($_REQUEST['id']);
 
 			// The forum groups
-			$context['forum_groups'] = Helper::Get(0, 10000, 'm.group_name', 'membergroups AS m', $this->_groups->groups_columns, 'WHERE m.min_posts = -1 AND m.id_group != 3 AND  m.id_group NOT IN (' . implode(',', !empty($context['page_groups']['all']) ? $context['page_groups']['all'] : [0]).')');
+			$context['forum_groups'] = Helper::Get(0, 10000, 'm.group_name', 'membergroups AS m', $this->_groups->groups_columns, 'WHERE m.min_posts = -1 AND m.id_group != 3 AND  m.id_group NOT IN ({array_int:all_groups})', false, '', ['all_groups' => !empty($context['page_groups']['all']) ? $context['page_groups']['all'] : [0]]);
 		}
 
 		// Moderators
