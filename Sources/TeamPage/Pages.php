@@ -17,14 +17,25 @@ class Pages
 {
 	public static $table = 'teampage_pages';
 	public static $columns = ['cp.id_page', 'cp.page_name', 'cp.page_action', 'cp.page_type', 'cp.page_body', 'cp.page_order', 'cp.page_boards', 'cp.mods_style'];
-	public static $page_type = ['Groups', 'Mods', 'BBC', 'HTML'];
-	private static $additional_query = '';
-	private static $fields_data = [];
-	private static $fields_type = [];
+	public $page_type = ['Groups', 'Mods', 'BBC', 'HTML'];
+	private $fields_data = [];
+	private $fields_type = [];
 
-	public static function List()
+	/**
+	 * @var object The groups
+	 */
+	private $_groups;
+
+	/**
+	 * Pages::List()
+	 * 
+	 * Display a list of custom pages
+	 * 
+	 * @return void
+	 */
+	public function List()
 	{
-		global $context, $scripturl, $sourcedir, $modSettings, $txt;
+		global $context, $scripturl, $sourcedir, $txt;
 
 		require_once($sourcedir . '/Subs-List.php');
 		$context['template_layers'][] = 'pages_post';
@@ -34,7 +45,7 @@ class Pages
 		$context[$context['admin_menu_name']]['tab_data']['title'] = $context['page_title'];
 		$context['TeamPage_pages_title'] = $txt['TeamPage_add_page'];
 
-		// The entire list
+		// The entire list of pages
 		$listOptions = [
 			'id' => 'pageslist',
 			'title' => $txt['TeamPage_page_pages'],
@@ -180,32 +191,30 @@ class Pages
 		createList($listOptions);
 	}
 
-	public static function Delete()
+	public function Delete()
 	{
-		global $txt;
-
 		// Delete
 		Helper::Delete(self::$table, 'id_page', $_REQUEST['id']);
 		redirectexit('action=admin;area=teampage;sa=pages;deleted');
 	}
 
-	public static function Edit()
+	public function Edit()
 	{
-		global $context, $scripturl, $sourcedir, $modSettings, $txt;
+		global $context, $sourcedir, $txt;
 
 		// Load the sort script :P
-		loadCSSFile('tempage.css', ['default_theme' => true]);
-		loadJavaScriptFile('https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js', ['external' => true]);
-		loadJavaScriptFile('teampage.js', ['default_theme' => true]);
+		loadCSSFile('teampage.css', ['default_theme' => true]);
+		loadJavaScriptFile('https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js', ['external' => true, 'defer' => true]);
+		loadJavaScriptFile('teampage.js', ['default_theme' => true, 'defer' => true]);
 
 		// Page information
-		$where_query = 'WHERE cp.id_page = "'. (int) (isset($_REQUEST['id']) ? $_REQUEST['id'] : 0) . '"';
-		$context['page_details'] = Helper::Get('', '', '', self::$table . ' AS cp', self::$columns, $where_query, true);
+		$context['page_details'] = Helper::Get('', '', '', self::$table . ' AS cp', self::$columns, 'WHERE cp.id_page = {int:page}', true, '', ['page' => (int) (isset($_REQUEST['id']) ? $_REQUEST['id'] : 0)]);
 		$context[$context['admin_menu_name']]['current_subsection'] = 'pages';
+		$this->_groups = new Groups();
 
 		// We found a page
 		if (empty($context['page_details']))
-			fatal_error($txt['TeamPage_page_noexist'], false);
+			fatal_lang_error('TeamPage_page_noexist', false);
 
 		// Text and BBC?
 		if ($context['page_details']['page_type'] == 'BBC') {
@@ -227,15 +236,11 @@ class Pages
 		// Groups
 		if ($context['page_details']['page_type'] == 'Groups')
 		{
-
-			// Load the sort scripts and cute css :P
-			loadCSSFile('teampage.css', ['default_theme' => true]);
-			loadJavaScriptFile('https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js', ['external' => true]);
-			loadJavaScriptFile('teampage.js', ['default_theme' => true]);
-
 			// Fill the groups
-			$context['page_groups'] = !empty(Helper::Find(Groups::$table . ' AS tp', 'tp.id_page', $_REQUEST['id'])) ? Groups::PageSort($_REQUEST['id']) : [];
-			$context['forum_groups'] = Helper::Get(0, 10000, 'm.group_name', 'membergroups AS m', Groups::$groups_columns, 'WHERE m.min_posts = -1 AND m.id_group != 3 AND  m.id_group NOT IN (' . implode(',', !empty($context['page_groups']['all']) ? $context['page_groups']['all'] : [0]).')');
+			$context['page_groups'] = $this->_groups->PageSort($_REQUEST['id']);
+
+			// The forum groups
+			$context['forum_groups'] = Helper::Get(0, 10000, 'm.group_name', 'membergroups AS m', $this->_groups->groups_columns, 'WHERE m.min_posts = -1 AND m.id_group != 3 AND  m.id_group NOT IN (' . implode(',', !empty($context['page_groups']['all']) ? $context['page_groups']['all'] : [0]).')');
 		}
 
 		// Moderators
@@ -251,8 +256,10 @@ class Pages
 
 			// Now, let's sort the list of categories into the boards for templates that like that.
 			foreach ($context['forum_categories'] as $category)
+			{
 				// Include a list of boards per category for easy toggling.
 				$context['forum_categories'][$category['id_cat']]['child_ids'] = array_keys($category['boards']);
+			}
 		}
 
 		// Page details
@@ -262,74 +269,72 @@ class Pages
 		$context['TeamPage_pages_title'] = $context['page_title'];
 	}
 
-	public static function Save()
+	public function Save()
 	{
 		global $smcFunc, $txt;
 
 		// Data
-		self::$fields_data = [
+		$this->fields_data = [
 			'id_page' => (int) isset($_REQUEST['id']) && !empty($_REQUEST['id']) ? $_REQUEST['id'] : 0,
 			'page_name' => (string) isset($_REQUEST['title']) ? $smcFunc['htmlspecialchars']($_REQUEST['title'], ENT_QUOTES) : '',
 			'page_action' => (string) isset($_REQUEST['page_action']) ? strtolower($smcFunc['htmlspecialchars']($_REQUEST['page_action'], ENT_QUOTES)) : '',
-			'page_type' => (string) isset($_REQUEST['type']) && in_array($_REQUEST['type'], self::$page_type) ? $_REQUEST['type'] : $txt['TeamPage_page_type_groups'],
+			'page_type' => (string) isset($_REQUEST['type']) && in_array($_REQUEST['type'], $this->page_type) ? $_REQUEST['type'] : $txt['TeamPage_page_type_groups'],
 			'page_body' => (string) isset($_REQUEST['page_body']) ? $smcFunc['htmlspecialchars']($_REQUEST['page_body'], ENT_QUOTES) : '',
 		];
 
 		// Validate info
-		self::Validate(self::$fields_data);
+		$this->Validate($this->fields_data);
 		checkSession();
 		$status = 'updated';
 
-		if (empty(self::$fields_data['id_page']))
+		if (empty($this->fields_data['id_page']))
 		{
 			// Type
-			foreach(self::$fields_data as $column => $type)
-				self::$fields_type[$column] = str_replace('integer', 'int', gettype($type));
+			foreach($this->fields_data as $column => $type)
+				$this->fields_type[$column] = str_replace('integer', 'int', gettype($type));
 
 			// Insert
-			Helper::Insert(self::$table, self::$fields_data, self::$fields_type);
+			Helper::Insert(self::$table, $this->fields_data, $this->fields_type);
 			$status = 'added';
 		}
 		else
 		{
-			self::$fields_type = '';
+			$this->fields_type = '';
 			
 			// Remove those that don't require updating
-			unset(self::$fields_data['page_type']);
+			unset($this->fields_data['page_type']);
 
 			// Type
-			foreach(self::$fields_data as $column => $type)
-				self::$fields_type .= $column . ' = {'.str_replace('integer', 'int', gettype($type)).':'.$column.'}, ';
+			foreach($this->fields_data as $column => $type)
+				$this->fields_type .= $column . ' = {'.str_replace('integer', 'int', gettype($type)).':'.$column.'}, ';
 
 			// Update
-			Helper::Update(self::$table, self::$fields_data, self::$fields_type, 'WHERE id_page = ' . self::$fields_data['id_page']);
+			Helper::Update(self::$table, $this->fields_data, $this->fields_type, 'WHERE id_page = {int:id_page}');
 		}
 
 		redirectexit('action=admin;area=teampage;sa=pages;'.$status);
 	}
 
-	public static function Validate($data)
+	public function Validate($data)
 	{
-		global $txt;
-
 		// Empty name
 		if (empty($data['page_name']) || empty($data['page_action']))
-			fatal_error($txt['TeamPage_error_title_sub'], false);
+			fatal_lang_error('TeamPage_error_title_sub', false);
 
 		// Only lowercase and alphanumeric
 		elseif (!ctype_alnum($data['page_action']))
-			fatal_error($txt['TeamPage_error_alnum_sub'], false);
+			fatal_lang_error('TeamPage_error_alnum_sub', false);
 
 		// Duplicated action?
-		if (empty($data['id_page']) && !empty(Helper::Find(self::$table . ' AS cp', 'cp.page_action', $data['page_action'])))
-			fatal_error($txt['TeamPage_error_already_sub'], false);
+		if (empty($data['id_page']) && !empty(Helper::Get('', '', '', self::$table . ' AS cp', ['cp.page_action'], 'WHERE cp.page_action = {string:action}', true, '',['action' => $data['page_action']])))
+			fatal_lang_error('TeamPage_error_already_sub', false);
 
 		// Doesn't exist
-		elseif (!empty($data['id_page']) && empty(Helper::Find(self::$table . ' AS cp', 'cp.id_page', $data['id_page'])))
-			fatal_error($txt['TeamPage_page_noexist'], false);
+		elseif (!empty($data['id_page']) && empty(Helper::Get('', '', '', self::$table . ' AS cp', ['cp.id_page'], 'WHERE cp.id_page = {int:page}', true, '', ['page' => $data['id_page']])))
+			fatal_lang_error('TeamPage_page_noexist', false);
 	}
 
-	public static function Order()
+	public function Order()
 	{
 		global $context, $txt;
 
@@ -343,7 +348,7 @@ class Pages
 		if (!empty($_REQUEST['page_order']))
 			foreach ($_REQUEST['page_order'] as $page => $order)
 				Helper::Update(self::$table, ['id_page' => $page, 'page_order' => $order], 'page_order = {int:page_order}', 'WHERE id_page = {int:id_page}');
-		
+
 		redirectexit('action=admin;area=teampage;sa=pages;updated');
 	}
 }
