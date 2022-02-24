@@ -43,6 +43,7 @@ $txt['TeamPage_error_title_sub'] = 'You have to enter a title and a subaction fo
 $txt['TeamPage_error_alnum_sub'] = 'The subaction must contain only alphanumeric characters.';
 $txt['TeamPage_error_already_sub'] = 'There is already a page with that subaction.';
 $txt['TeamPage_page_noexist'] = 'Unable to find a custom page.';
+$txt['TeamPage_groups_empty'] = 'The groups are empty or no users were found.';
 
 // Pages
 $txt['TeamPage_page_title'] = 'Page title';
