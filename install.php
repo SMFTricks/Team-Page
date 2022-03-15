@@ -62,6 +62,10 @@
 					'type' => 'primary',
 					'columns' => ['id_group', 'id_page']
 				],
+				[
+					'type' => 'index',
+					'columns' => ['placement']
+				],
 			],
 			'if_exists' => 'ignore',
 			'error' => 'fatal',
@@ -120,7 +124,7 @@
 				[
 					'name' => 'page_boards',
 					'type' => 'text',
-					'not_null' => true,
+					'not_null' => false,
 				],
 			],
 			'indexes' => [
@@ -128,6 +132,10 @@
 					'type' => 'primary',
 					'columns' => ['id_page']
 				],
+				[
+					'type' => 'index',
+					'columns' => ['page_order', 'page_action']
+				]
 			],
 			'if_exists' => 'ignore',
 			'error' => 'fatal',
