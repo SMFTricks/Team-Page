@@ -289,6 +289,9 @@ class Pages
 
 		if (empty($this->fields_data['id_page']))
 		{
+			// Postgres will lose it's shit if the id is zero
+			unset($this->fields_data['id_page']);
+
 			// Type
 			foreach($this->fields_data as $column => $type)
 				$this->fields_type[$column] = str_replace('integer', 'int', gettype($type));
