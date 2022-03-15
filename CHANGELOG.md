@@ -1,5 +1,8 @@
 # Changelog
 
+#### 5.2.1 - 14 March 2022
+- ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Database fixes.
+
 #### 5.2 - 24 February 2022
 - ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Minor fixes.
 - ![Improvement](https://smftricks.com/assets/changelog/tag--pencil.png) Database fixes and improvements.
