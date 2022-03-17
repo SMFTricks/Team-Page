@@ -44,8 +44,8 @@
 				],
 				[
 					'name' => 'placement',
-					'type' => 'text',
-					'size' => 7,
+					'type' => 'varchar',
+					'size' => 10,
 					'not_null' => true,
 				],
 				[

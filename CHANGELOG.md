@@ -1,5 +1,8 @@
 # Changelog
 
+#### 5.2.2 - 17 March 2022
+- ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed issues with install file.
+
 #### 5.2.1 - 14 March 2022
 - ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Database fixes.
 
