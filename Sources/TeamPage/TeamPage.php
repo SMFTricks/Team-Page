@@ -16,7 +16,7 @@ if (!defined('SMF'))
 class TeamPage
 {
 	public static $name = 'TeamPage';
-	public static $version = '5.3.1';
+	public static $version = '5.3.2';
 
 	public static function initialize()
 	{

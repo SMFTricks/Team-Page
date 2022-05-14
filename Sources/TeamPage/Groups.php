@@ -95,7 +95,7 @@ class Groups
 		
 			// Update!
 			foreach($this->fields_data as $group) {
-				Helper::Insert($this->table, $this->fields_data[$group['position']], $this->fields_insert[$group['position']], 'ignore');
+				Helper::Insert($this->table, $this->fields_data[$group['position']], $this->fields_insert[$group['position']], 'replace', ['id_group', 'id_page']);
 				Helper::Update($this->table . ' AS tp', $this->fields_data[$group['position']], $this->fields_update[$group['position']], 'WHERE tp.id_group = {int:id_group}
 				AND tp.id_page = {int:id_page}');
 			}
