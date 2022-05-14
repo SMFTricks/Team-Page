@@ -201,11 +201,11 @@ class Helper
 		);
 	}
 
-	public static function Insert($table, $columns, $types)
+	public static function Insert($table, $columns, $types, $method = '')
 	{
 		global $smcFunc;
 
-		$smcFunc['db_insert']('',
+		$smcFunc['db_insert']($method,
 			'{db_prefix}'.$table,
 			$types,
 			$columns,

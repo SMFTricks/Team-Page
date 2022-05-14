@@ -1,5 +1,8 @@
 # Changelog
 
+#### 5.3.1 - 14 May 2022
+- ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed sorting issues.
+
 #### 5.3 - 14 May 2022
 - ![New Feature](https://smftricks.com/assets/changelog/tag--plus.png) Added setting to display members on additional groups.
 ---
