@@ -49,6 +49,7 @@
 [li][size=0.8em]Members website[/size][/li]
 [li][size=0.8em]Members personal text[/size][/li]
 [li][size=0.8em]Members custom text[/size][/li]
+[li][size=0.8em]Display members on additional groups[/size][/li]
 [/list]
 [/li]
 [/list]

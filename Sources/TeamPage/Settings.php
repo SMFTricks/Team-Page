@@ -137,6 +137,7 @@ class Settings
 			['check', 'TeamPage_show_registered', 'subtext' => $txt['TeamPage_addinfo_desc']],
 			['check', 'TeamPage_show_posts', 'subtext' => $txt['TeamPage_addinfo_desc']],
 			['check', 'TeamPage_show_website', 'subtext' => $txt['TeamPage_addinfo_desc']],
+			['check', 'TeamPage_show_members_ag'],
 		];
 
 		// Save!

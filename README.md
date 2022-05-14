@@ -33,6 +33,7 @@ Team Page lets you add multiple custom pages to a team/staff page with groups, m
   - Members website
   - Members personal text
   - Members custom text
+  - Display members on additional groups
 
 ### Localization
 - ![English](https://www.simplemachines.org/site_images/lang/english.gif) English

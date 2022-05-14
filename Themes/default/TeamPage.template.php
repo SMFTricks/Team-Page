@@ -94,7 +94,7 @@ function display_group()
 				// Members
 				foreach($group['members'] as $user)
 					// User display
-					display_member($user, $placement);
+					display_member($user, $placement, (isset($group['online_color']) ? $group['online_color'] : ''));
 
 				echo '
 				</ul>
@@ -153,7 +153,7 @@ function display_moderators()
 	}
 }
 
-function display_member($user, $placement = 'left')
+function display_member($user, $placement = 'left', $group_color = false)
 {
 	global $modSettings, $scripturl, $boardurl, $txt;
 
@@ -161,7 +161,7 @@ function display_member($user, $placement = 'left')
 	<li', ($placement != 'bottom' ? ' class="windowbg"' : '') , '>
 		', !empty($modSettings['TeamPage_show_avatars']) ? '<img class="tp_avatar" src="'.(!empty($user['avatar']['href']) ? $user['avatar']['href'] : $boardurl. '/avatars/default.png').'" alt="" style="'.(!empty($modSettings['TeamPage_avatars_width']) ? 'width:'.$modSettings['TeamPage_avatars_width'].'px;' : '').(!empty($modSettings['TeamPage_avatars_height']) ? 'height:'.$modSettings['TeamPage_avatars_height'].'px;' : '').'" />' : '', '
 		<h2 class="tp_user_name">
-			<a href="', $scripturl, '?action=profile;u=', $user['id_member'], '">', $user['real_name'], '</a>
+			<a href="', $scripturl, '?action=profile;u=', $user['id_member'], '"', !empty($group_color) ? ' style="color: '. $group_color . ';"' : '', '>', $user['real_name'], '</a>
 			', !empty($modSettings['TeamPage_show_custom']) && !empty($user['usertitle']) ? ' - <strong>'. $user['usertitle']. '</strong>' : '', '
 		</h2>
 		<div class="tp_user_info">

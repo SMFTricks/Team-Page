@@ -89,7 +89,7 @@ class View
 
 	public function Load()
 	{
-		global $context, $scripturl;
+		global $context, $scripturl, $modSettings;
 
 		// Get the correct page details, or the first found
 		$page_details = !empty($this->tabs[isset($_REQUEST['sa']) ? $_REQUEST['sa'] : '']) && isset($_REQUEST['sa']) ? $this->tabs[$_REQUEST['sa']] : $this->tabs[array_key_first($this->tabs)];
@@ -136,6 +136,45 @@ class View
 			if (empty($context['teampage']['groups']))
 				redirectexit('action=admin;area=teampage;sa=edit;id='.$page_details['id_page']);
 
+			// Get additional groups
+			if (!empty($modSettings['TeamPage_show_members_ag']))
+			{
+				$context['teampage']['ag_members'] = [];
+				foreach ($context['teampage']['groups']['all'] as $group)
+				{
+					$context['teampage']['ag_members'][$group] = Helper::Nested('mem.id_member',
+						'members AS mem', $this->_groups->groups_columns, $this->columns, 'members',
+						'WHERE FIND_IN_SET({int:group}, mem.additional_groups)',
+						'LEFT JOIN {db_prefix}membergroups AS m ON (m.id_group = mem.id_group)
+						LEFT JOIN {db_prefix}attachments as a ON (a.id_member = mem.id_member)',
+						$this->attachments,
+						[
+							'group' => $group,
+						]
+					);
+
+					// Query the group info if it's empty
+					if (!isset($context['teampage']['members'][$group]))
+					{
+						$context['teampage']['members'][$group] = Helper::Get(0, 10000, 'm.id_group',
+							'membergroups AS m', $this->_groups->groups_columns,
+							'WHERE m.id_group = {int:group}', true, '',
+							[
+								'group' => $group,
+							]
+						);
+					}
+				}
+
+				// Now, go through the members and add them to the main array
+				foreach ($context['teampage']['ag_members'] as $id_group => $a_groups)
+				{
+					foreach ($a_groups as $group)
+						$context['teampage']['members'][$id_group]['members'] = isset($context['teampage']['members'][$id_group]['members']) ? array_merge($context['teampage']['members'][$id_group]['members'], $group['members']) : $group['members'];
+				}
+			}
+
+
 			// We got groups
 			$context['teampage']['team'] = [];
 			// Populate the users into the groups
@@ -148,7 +187,7 @@ class View
 				// Asign each group where it belongs
 				foreach ($groups as $group)
 				{
-					if (!empty($context['teampage']['members'][$group['id_group']]))
+					if (!empty($context['teampage']['members'][$group['id_group']]['members']))
 						$context['teampage']['team'][$placement][$group['id_group']] = $context['teampage']['members'][$group['id_group']];
 				}
 			}
