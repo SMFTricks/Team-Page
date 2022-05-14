@@ -1,5 +1,8 @@
 # Changelog
 
+#### 5.3.2 - 14 May 2022
+- ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Added some more tweaks to keep PG happy.
+
 #### 5.3.1 - 14 May 2022
 - ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed sorting issues.
 
