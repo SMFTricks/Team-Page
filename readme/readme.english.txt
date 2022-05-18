@@ -58,6 +58,7 @@
 [img]https://www.simplemachines.org/site_images/lang/english.gif[/img] English
 [img]https://www.simplemachines.org/site_images/lang/spanish_es.gif[/img] Spanish
 [img]https://www.simplemachines.org/site_images/lang/russian.gif[/img] Russian by [url="https://www.simplemachines.org/community/index.php?action=profile;u=608635"]wylekk[/url]
+[img]https://www.simplemachines.org/site_images/lang/italian.gif[/img] Italian by [url="https://www.simplemachines.org/community/index.php?action=profile;u=44765"]Max22[/url]
 [hr]
 
 [size=3][url="https://github.com/SMFTricks/Team-Page/blob/master/CHANGELOG.md"][color=#cc5d31]Changelog[/color][/url][/size]
