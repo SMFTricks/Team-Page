@@ -103,6 +103,7 @@ $txt['TeamPage_show_registered'] = 'Mostrar fecha de registro';
 $txt['TeamPage_manage_Groups'] = 'Configurar grupos';
 $txt['TeamPage_manage_Mods'] = 'Manage the moderators';
 $txt['TeamPage_manage_editor'] = 'Configurar el contenido de la página';
+$txt['TeamPage_show_members_ag'] = 'Mostrar usuarios en grupos adicionales';
 
 // Outside strings
 $txt['TeamPage_whoall_teampage'] = 'viendo la página de <a href="' . $scripturl . '?action=team">Equipo</a>.';

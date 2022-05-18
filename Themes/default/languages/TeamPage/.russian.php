@@ -105,6 +105,7 @@ $txt['TeamPage_show_registered'] = 'Показать дату регистрац
 $txt['TeamPage_manage_Groups'] = 'Управление группами';
 $txt['TeamPage_manage_Mods'] = 'Управление модераторами';
 $txt['TeamPage_manage_editor'] = 'Управление содержанием страницы';
+$txt['TeamPage_show_members_ag'] = 'Показать пользователей в дополнительных группах';
 
 // Outside strings
 $txt['TeamPage_whoall_teampage'] = 'Просмотр страницы <a href="' . $scripturl . '?action=team">команды форума</a>.';

@@ -104,6 +104,7 @@ $txt['TeamPage_show_registered'] = 'Display register date';
 $txt['TeamPage_manage_Groups'] = 'Manage the groups';
 $txt['TeamPage_manage_Mods'] = 'Manage the moderators';
 $txt['TeamPage_manage_editor'] = 'Manage the page content';
+$txt['TeamPage_show_members_ag'] = 'Display members in additional groups';
 
 // Outside strings
 $txt['TeamPage_whoall_teampage'] = 'Viewing the forum <a href="' . $scripturl . '?action=team">Team</a> page.';

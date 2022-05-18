@@ -104,6 +104,7 @@ $txt['TeamPage_show_registered'] = 'Mostra data di registrazione';
 $txt['TeamPage_manage_Groups'] = 'Configura i gruppi';
 $txt['TeamPage_manage_Mods'] = 'Configura i moderatori';
 $txt['TeamPage_manage_editor'] = 'Configura il contenuto della pagina';
+$txt['TeamPage_show_members_ag'] = 'Mostra gruppi secondari';
 
 // Outside strings
 $txt['TeamPage_whoall_teampage'] = 'Sta visualizzando la pagina del <a href="' . $scripturl . '?action=team">Team</a>.';
