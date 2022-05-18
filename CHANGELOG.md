@@ -1,6 +1,6 @@
 # Changelog
 
-#### 5.3.2 18 May 2022
+#### 5.3.3 18 May 2022
 - ![Translation](https://smftricks.com/assets/changelog/language.png) Italian translation provided by [Max22](https://www.simplemachines.org/community/index.php?action=profile;u=44765)
 - ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Added missing language strings.
 
