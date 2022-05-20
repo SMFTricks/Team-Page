@@ -41,7 +41,7 @@ class Settings
 		// Permissions
 		add_integration_function('integrate_load_permissions', __CLASS__.'::Permissions', false);
 		// Delete membergroup
-		add_integration_function('integrate_delete_membergroups', __NAMESPACE__ . '\Groups::Delete', false);
+		add_integration_function('integrate_delete_membergroups', __NAMESPACE__ . '\Groups::Delete#', false);
 	}
 
 	/**

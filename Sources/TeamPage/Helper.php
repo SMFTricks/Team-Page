@@ -187,17 +187,22 @@ class Helper
 		return $result;
 	}
 
-	public static function Delete($table, $column, $search, $additional_query = '')
+	public static function Delete($table, $column, $search, $additional_query = '', $values =[])
 	{
 		global $smcFunc;
+
+		$data = array_merge(
+			[
+				'table' => $table,
+				'search' => $search,
+			],
+			$values
+		);
 
 		$smcFunc['db_query']('', '
 			DELETE FROM {db_prefix}{raw:table}
 			WHERE '. $column . (is_array($search) ? ' IN ({array_int:search})' : (' = ' . $search)) . $additional_query,
-			[
-				'table' => $table,
-				'search' => $search,
-			]
+			$data
 		);
 	}
 
