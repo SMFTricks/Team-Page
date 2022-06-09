@@ -16,7 +16,7 @@ if (!defined('SMF'))
 class TeamPage
 {
 	public static $name = 'TeamPage';
-	public static $version = '5.3.2';
+	public static $version = '5.3.5';
 
 	public static function initialize()
 	{
@@ -137,36 +137,9 @@ class TeamPage
 			$temp_buttons[$k] = $v;
 		}
 		$buttons = $temp_buttons;
-		
-		// Too lazy for adding the menu on all the sub-templates
-		if (!empty($modSettings['TeamPage_enable']))
-			self::Layer();
 
 		// DUH! winning!
 		self::Credits();
-	}
-
-	/**
-	 * TeamPage::Layer()
-	 *
-	 * Used for adding the team page wrapper to the page
-	 * @return void
-	 */
-	public static function Layer()
-	{
-		global $context;
-
-		if (isset($context['current_action']) && $context['current_action'] === 'team' && allowedTo('teampage_canAccess')) {
-			$position = array_search('body', $context['template_layers']);
-			if ($position === false)
-				$position = array_search('main', $context['template_layers']);
-
-			if ($position !== false) {
-				$before = array_slice($context['template_layers'], 0, $position + 1);
-				$after = array_slice($context['template_layers'], $position + 1);
-				$context['template_layers'] = array_merge($before, array('TeamPage'), $after);
-			}
-		}
 	}
 
 	/**
