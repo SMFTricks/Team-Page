@@ -28,7 +28,6 @@
 [/list]
 [/li]
 [li][size=0.8em]BBC Text Page[/size][/li]
-[li][size=0.8em]HTML Text Page[/size][/li]
 [li][size=0.8em]Subaction name for the custom page[/size][/li]
 [/list]
 [/li]

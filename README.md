@@ -18,7 +18,6 @@ Team Page lets you add multiple custom pages to a team/staff page with groups, m
     - Select the style of the blocks (boards or users based)
     - Select the boards included for the page
   - BBC Text Page
-  - HTML Text Page
   - Subaction name for the custom page
 - Permissions to view the Team Page
 - Layout/view options
