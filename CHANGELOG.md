@@ -1,5 +1,9 @@
 # Changelog
 
+#### 5.3.5 - 09 June 2022
+- ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed broken template layer.
+- ![Improvement](https://smftricks.com/assets/changelog/tag--pencil.png) Removed 'HTML' page type.
+
 #### 5.3.4 - 19 May 2022
 - ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed a bug preventing the removal of member groups.
 - ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed a strange scenario where the page could have 'ghost' groups.
