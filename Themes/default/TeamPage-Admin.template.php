@@ -27,7 +27,6 @@ function template_pages_post_below()
 								<option value="Groups" selected>', $txt['TeamPage_page_type_groups'], '</option>
 								<option value="Mods">', $txt['TeamPage_page_type_mods'], '</option>
 								<option value="BBC">', $txt['TeamPage_page_type_bbc'], '</option>
-								<option value="HTML">', $txt['TeamPage_page_type_html'], '</option>
 							</optgroup>
 						</select>
 					</dd>
@@ -74,7 +73,7 @@ function template_pages_edit()
 	global $txt, $context;
 
 	// Text Page?
-	if ($context['page_details']['page_type'] == 'BBC' || $context['page_details']['page_type'] == 'HTML')
+	if ($context['page_details']['page_type'] === 'BBC')
 	{
 		echo '
 				<dt>
@@ -83,9 +82,6 @@ function template_pages_edit()
 				</dt>
 				<dd style="width:100%">';
 
-		// BBC?
-		if ($context['page_details']['page_type'] == 'BBC')
-		{
 			// Showing BBC?
 			if (!empty($context['show_bbc']))
 				echo '
@@ -98,10 +94,6 @@ function template_pages_edit()
 
 					// Show BBC buttons, smileys and textbox.
 					template_control_richedit($context['page_details']['body_bbc'], 'smileyBox_message', 'bbcBox_message');
-		}
-		else
-			echo '
-					<textarea name="page_body" id="page_body" rows="2" style="width: 100%">', !empty($context['page_details']['page_body']) ? $context['page_details']['page_body'] : '', '</textarea>';
 
 			echo '
 				</dd>';
