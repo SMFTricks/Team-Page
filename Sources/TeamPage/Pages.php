@@ -17,7 +17,7 @@ class Pages
 {
 	public static $table = 'teampage_pages';
 	public static $columns = ['cp.id_page', 'cp.page_name', 'cp.page_action', 'cp.page_type', 'cp.page_body', 'cp.page_order', 'cp.page_boards', 'cp.mods_style'];
-	public $page_type = ['Groups', 'Mods', 'BBC', 'HTML'];
+	public $page_type = ['Groups', 'Mods', 'BBC'];
 	private $fields_data = [];
 	private $fields_type = [];
 

@@ -42,6 +42,7 @@ class View
 			'name' => $txt['TeamPage_main_button'],
 		);
 		$context['sub_template'] = 'teampage_view';
+		$context['template_layers'][] = 'TeamPage';
 
 		// Load the pages
 		$this->list = Helper::Get(0, 10000, 'cp.page_order ASC', Pages::$table . ' AS cp', Pages::$columns);
@@ -270,12 +271,8 @@ class View
 			if (empty($page_details['page_body']))
 				redirectexit('action=admin;area=teampage;sa=edit;id='.$page_details['id_page']);
 
-			// HTML
-			if ($page_details['page_type'] == 'HTML')
-				$context['teampage']['body'] = un_htmlspecialchars($page_details['page_body']);
 			// BBC
-			else
-				$context['teampage']['body'] = parse_bbc($page_details['page_body']);
+			$context['teampage']['body'] = parse_bbc($page_details['page_body']);
 		}
 	}
 }
