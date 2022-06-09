@@ -104,6 +104,7 @@
 				[
 					'name' => 'page_body',
 					'type' => 'text',
+					'not_null' => false,
 				],
 				[
 					'name' => 'page_order',
