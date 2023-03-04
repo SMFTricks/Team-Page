@@ -186,8 +186,33 @@ function display_member($user, $placement = 'left', $group_color = false)
 			<span class="tp_user_joined">
 				<strong>' . $txt['TeamPage_website'] . ': </strong><a href="' . $user['website_url']. '" target="_blank" rel="noopener">' . $user['website_title']. '</a>
 			</span>' : '', '
+
+			', user_custom_fields($user), '
 		</div>
 	</li>';
+}
+
+function user_custom_fields($user)
+{
+	global $modSettings;
+
+	if (empty($modSettings['TeamPage_show_custom_fields']))
+		return;
+
+	$custom_fields = json_decode($modSettings['TeamPage_show_custom_fields']);
+
+	foreach($custom_fields as $custom_field)
+	{
+		// Check if the user has it
+		if (empty($user['custom_fields'][$custom_field]))
+			continue;
+
+		// Alright, add it
+		echo '
+			<span class="tp_user_joined">
+				<strong>' . tokenTxtReplace($user['custom_fields'][$custom_field]['field_name']) . ': </strong>', $user['custom_fields'][$custom_field]['value'], '</a>
+			</span>';
+	}
 }
 
 function boards_list($boards)

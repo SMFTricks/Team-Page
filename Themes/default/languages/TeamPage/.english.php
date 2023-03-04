@@ -115,3 +115,6 @@ $txt['TeamPage_last_login'] = 'Last active';
 $txt['TeamPage_date_registered'] = 'Member since';
 $txt['TeamPage_website'] = 'Website';
 $txt['TeamPages_boards_moderating'] = 'Boards Moderating';
+
+// Custom Fields
+$txt['TeamPage_show_custom_fields'] = 'Show custom profile fields';

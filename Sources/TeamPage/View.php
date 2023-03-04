@@ -42,7 +42,6 @@ class View
 			'name' => $txt['TeamPage_main_button'],
 		);
 		$context['sub_template'] = 'teampage_view';
-		$context['template_layers'][] = 'TeamPage';
 
 		// Load the pages
 		$this->list = Helper::Get(0, 10000, 'cp.page_order ASC', Pages::$table . ' AS cp', Pages::$columns);
@@ -63,6 +62,7 @@ class View
 
 		// Setup the tabs
 		$context['teampage_tabs'] = $this->Tabs();
+		$context['template_layers'][] = 'TeamPage';
 
 		// Load the page
 		$this->Load();
@@ -175,6 +175,34 @@ class View
 				}
 			}
 
+			// Load the custom fields
+			if (!empty($modSettings['TeamPage_show_custom_fields']))
+			{
+				// Get all the members
+				$cust_members = [];
+				foreach ($context['teampage']['members'] as $team_group)
+				{
+					foreach($team_group['members'] as $team_member)
+					{
+						$cust_members[] = $team_member['id_member'];
+					}
+				}
+
+				// Get the custom fields
+				$search_custom_fields = json_decode($modSettings['TeamPage_show_custom_fields'], true);
+				$search_custom_fields[] = 'team_page_dummy';
+				$custom_fields = loadMemberCustomFields($cust_members, $search_custom_fields);
+
+				// Add the custom field to the users
+				foreach ($context['teampage']['members'] as $id_group => $team_group)
+				{
+					foreach($team_group['members'] as $id_member => $team_member)
+					{
+						if (in_array($id_member, array_keys($custom_fields)))
+							$context['teampage']['members'][$id_group]['members'][$id_member]['custom_fields'] = $custom_fields[$id_member];
+					}
+				}
+			}
 
 			// We got groups
 			$context['teampage']['team'] = [];

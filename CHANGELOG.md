@@ -1,5 +1,8 @@
 # Changelog
 
+#### 5.4 - 04 March 2023
+- ![New Feature](https://smftricks.com/assets/changelog/tag--plus.png) Added option to display custom profile fields.
+---
 #### 5.3.5 - 09 June 2022
 - ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed broken template layer.
 - ![Improvement](https://smftricks.com/assets/changelog/tag--pencil.png) Removed 'HTML' page type.

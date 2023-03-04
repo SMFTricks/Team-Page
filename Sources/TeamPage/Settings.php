@@ -16,13 +16,18 @@ if (!defined('SMF'))
 class Settings
 {
 	/**
+	 * @var array The custom fields
+	 */
+	public static $_custom_fields = [];
+
+	/**
 	 * Settings::hookAreas()
 	 *
 	 * Adding the admin section
 	 * @param array $admin_areas An array with all the admin areas
-	 * @return
+	 * @return void
 	 */
-	public static function hookAreas(&$admin_areas)
+	public static function hookAreas(&$admin_areas) : void
 	{
 		global $txt;
 
@@ -52,7 +57,7 @@ class Settings
 	 * @param array $permissionList An associative array with all the possible permissions.
 	 * @return void
 	 */
-	public static function Permissions(&$permissionGroups, &$permissionList, &$leftPermissionGroups, &$hiddenPermissions)
+	public static function Permissions(&$permissionGroups, &$permissionList, &$leftPermissionGroups, &$hiddenPermissions) : void
 	{
 		global $modSettings;
 
@@ -72,14 +77,22 @@ class Settings
 	 * Settings::helpadmin()
 	 *
 	 * Loads the language file for the help popups in the permissions page
-	 * 
+	 *
+	 * @return void
 	 */
-	public static function helpadmin()
+	public static function helpadmin() : void
 	{
 		loadLanguage('TeamPage/');
 	}
 
-	public static function Index()
+	/**
+	 * Settings::Index()
+	 * 
+	 * The list of subactions for the teampage area
+	 * 
+	 * @return void
+	 */
+	public static function Index() : void
 	{
 		global $txt, $context;
 
@@ -109,7 +122,14 @@ class Settings
 		call_helper(__NAMESPACE__ . '\\' . $subactions[$sa] . '#');
 	}
 
-	public static function Main($return_config = false)
+	/**
+	 * Settings:Main()
+	 * 
+	 * The main settings for the team page
+	 * 
+	 * @return void
+	 */
+	public static function Main($return_config = false) : void
 	{
 		global $context, $txt, $sourcedir;
 
@@ -119,6 +139,18 @@ class Settings
 		$context['sub_template'] = 'show_settings';
 		$context['page_title'] = $txt['TeamPage']. ' - ' . $txt['TeamPage_page_settings'];
 		$context[$context['admin_menu_name']]['tab_data']['title'] = $context['page_title'];
+
+		// Custom Fields
+		self::$_custom_fields = Helper::Get(0, 100000, 'field_name', 'custom_fields',
+			['col_name', 'field_name'],
+			'WHERE active = {int:active}',
+			false, '',
+			[
+				'active' => 1				
+			]
+		);
+		foreach (self::$_custom_fields as $custom_field)
+			$context['TeamPage_custom_fields'][$custom_field['col_name']] = $custom_field['field_name'];
 
 		$config_vars = [
 			['title', 'TeamPage_page_settings'],
@@ -138,6 +170,8 @@ class Settings
 			['check', 'TeamPage_show_posts', 'subtext' => $txt['TeamPage_addinfo_desc']],
 			['check', 'TeamPage_show_website', 'subtext' => $txt['TeamPage_addinfo_desc']],
 			['check', 'TeamPage_show_members_ag'],
+			'',
+			['select', 'TeamPage_show_custom_fields', $context['TeamPage_custom_fields'], 'multiple' => true],
 		];
 
 		// Save!
