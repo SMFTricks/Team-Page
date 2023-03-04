@@ -2,6 +2,7 @@
 
 #### 5.4 - 04 March 2023
 - ![New Feature](https://smftricks.com/assets/changelog/tag--plus.png) Added option to display custom profile fields.
+- ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed attempting to load the team menu without access.
 ---
 #### 5.3.5 - 09 June 2022
 - ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed broken template layer.
