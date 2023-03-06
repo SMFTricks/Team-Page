@@ -207,7 +207,9 @@ function display_member($user, $group_color = false)
 				height:' . $modSettings['TeamPage_avatars_height'] . 'px;' : '') . '
 		">' : '', '
 		<h4 class="teamuser_name">
-			<a href="', $scripturl, '?action=profile;u=', $user['id_member'], '"', !empty($group_color) ? ' style="color: '. $group_color . ' !important;"' : '', '>', $user['real_name'], '</a>
+			<a href="', $scripturl, '?action=profile;u=', $user['id_member'], '"', !empty($group_color) ? ' style="color: '. $group_color . ' !important;"' : '', '>
+				', $user['real_name'], '
+			</a>
 			', !empty($modSettings['TeamPage_show_custom']) && !empty($user['usertitle']) ? ' 
 			- <strong>'. $user['usertitle']. '</strong>' : '', '
 		</h4>
@@ -287,7 +289,8 @@ function user_custom_fields($user) : void
 		// Alright, add it
 		echo '
 			<span class="custom_', $field, '">
-				<strong>' . tokenTxtReplace($values['field_name']) . ': </strong>', $values['value'], '</a>
+				<strong>', tokenTxtReplace($values['field_name']), ':</strong>
+				', $values['value'], '
 			</span>';
 	}
 }
@@ -311,7 +314,7 @@ function boards_list($user)
 	// Return the list of boards
 	return '
 		<span class="tp_user_boards">
-			<strong>' . $txt['TeamPages_boards_moderating'] . ': </strong>
+			<strong>' . $txt['TeamPages_boards_moderating'] . ':</strong>
 			' . implode(', ', $b_list) . '
 		</span>';
 }
