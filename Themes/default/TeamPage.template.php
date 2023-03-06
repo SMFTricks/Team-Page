@@ -286,7 +286,7 @@ function user_custom_fields($user) : void
 
 		// Alright, add it
 		echo '
-			<span>
+			<span class="custom_', $field, '">
 				<strong>' . tokenTxtReplace($values['field_name']) . ': </strong>', $values['value'], '</a>
 			</span>';
 	}
