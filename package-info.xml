@@ -23,14 +23,14 @@
 		<!-- Database -->
 		<database>install.php</database>
 		<!-- Hooks -->
-		<hook hook="integrate_pre_load" function="TeamPage\TeamPage::initialize" file="$sourcedir/TeamPage/TeamPage.php" />
+		<hook hook="integrate_pre_load" function="TeamPage\TeamPage::initialize#" file="$sourcedir/TeamPage/TeamPage.php" />
 		<!-- Redirect -->
 		<redirect url="?action=admin;area=teampage" />
 	</install>
 
 	<uninstall for="2.1 - 2.1.99">
 		<!-- Hooks -->
-		<hook hook="integrate_pre_load" function="TeamPage\TeamPage::initialize" file="$sourcedir/TeamPage/TeamPage.php" reverse="true" />
+		<hook hook="integrate_pre_load" function="TeamPage\TeamPage::initialize#" file="$sourcedir/TeamPage/TeamPage.php" reverse="true" />
 		<!-- Sources -->
 		<remove-dir name="$sourcedir/TeamPage">Source files</remove-dir>
 		<!-- Templates -->
