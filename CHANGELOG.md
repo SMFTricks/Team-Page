@@ -1,5 +1,12 @@
 # Changelog
 
+#### 5.4.1 - 05 March 2023
+- ![New Feature](https://smftricks.com/assets/changelog/tag--plus.png) Added a new setting to select the sorting method (ID or Name).
+- ![Improvement](https://smftricks.com/assets/changelog/tag--pencil.png) Minor layout improvements and fixes.
+- ![Improvement](https://smftricks.com/assets/changelog/tag--pencil.png) Added custom fields to moderators.
+- ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed issues when listing members.
+- ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed order of the custom fields not matching their real order.
+
 #### 5.4 - 04 March 2023
 - ![New Feature](https://smftricks.com/assets/changelog/tag--plus.png) Added option to display custom profile fields.
 - ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed attempting to load the team menu without access.
