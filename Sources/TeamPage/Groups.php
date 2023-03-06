@@ -2,9 +2,9 @@
 
 /**
  * @package Team Page
- * @version 5.2
+ * @version 5.4
  * @author Diego Andrés <diegoandres_cortes@outlook.com>
- * @copyright Copyright (c) 2022, SMF Tricks
+ * @copyright Copyright (c) 2023, SMF Tricks
  * @license https://www.mozilla.org/en-US/MPL/2.0/
  */
 
@@ -15,14 +15,48 @@ if (!defined('SMF'))
 
 class Groups
 {
+	/**
+	 * @var string The table name
+	 */
 	public $table = 'teampage_groups';
+
+	/**
+	 * @var array The table columns
+	 */
 	public $columns = ['tp.id_group', 'tp.id_page', 'tp.placement', 'tp.position'];
+
+	/**
+	 * @var array The groups columns
+	 */
 	public $groups_columns = ['m.id_group', 'm.group_name', 'm.description', 'm.online_color', 'm.icons'];
+
+	/**
+	 * @var array The groups
+	 */
 	private $groups = [];
+
+	/**
+	 * @var array The data fields
+	 */
 	private $fields_data = [];
+
+	/**
+	 * @var array The data to insert
+	 */
 	private $fields_insert = [];
+
+	/**
+	 * @var array The data to update
+	 */
 	private $fields_update = [];
 
+	/**
+	 * Groups::PageSort
+	 * 
+	 * Sort the pages accordingly
+	 * 
+	 * @return array|bool
+	 */
 	public function PageSort($id)
 	{
 		global $context;
@@ -58,7 +92,14 @@ class Groups
 		return $this->groups;
 	}
 
-	public function Save()
+	/**
+	 * Groups::Save()
+	 * 
+	 * Save the groups
+	 * 
+	 * @return void
+	 */
+	public function Save() : void
 	{
 		global $context, $txt;
 

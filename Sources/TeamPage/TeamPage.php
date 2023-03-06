@@ -2,9 +2,9 @@
 
 /**
  * @package Team Page
- * @version 5.2
+ * @version 5.4
  * @author Diego Andrés <diegoandres_cortes@outlook.com>
- * @copyright Copyright (c) 2022, SMF Tricks
+ * @copyright Copyright (c) 2023, SMF Tricks
  * @license https://www.mozilla.org/en-US/MPL/2.0/
  */
 
@@ -15,13 +15,27 @@ if (!defined('SMF'))
 
 class TeamPage
 {
+	/**
+	 * @var string The namespace
+	 */
 	public static $name = 'TeamPage';
-	public static $version = '5.4';
 
-	public static function initialize()
+	/**
+	 * @var string The mod version
+	 */
+	public static $version = '5.4.1';
+
+	/**
+	 * TeamPage::initialize
+	 * 
+	 * Load the hooks
+	 * 
+	 * @return void
+	 */
+	public function initialize() : void
 	{
-		self::defineHooks();
-		self::setDefaults();
+		$this->defineHooks();
+		$this->setDefaults();
 	}
 
 	/**
@@ -30,7 +44,7 @@ class TeamPage
 	 * Sets almost every setting to a default value
 	 * @return void
 	 */
-	public static function setDefaults()
+	public static function setDefaults() : void
 	{
 		global $modSettings;
 
@@ -58,7 +72,7 @@ class TeamPage
 	 * Load hooks quietly
 	 * @return void
 	 */
-	public static function defineHooks()
+	public function defineHooks() : void
 	{
 		$hooks = [
 			'autoload' => 'autoload',
@@ -67,7 +81,7 @@ class TeamPage
 			'pre_css_output' => 'preCSS',
 		];
 		foreach ($hooks as $point => $callable)
-			add_integration_function('integrate_' . $point, __CLASS__ . '::'.$callable, false);
+			add_integration_function('integrate_' . $point, __CLASS__ . '::'.$callable . '#', false);
 	}
 
 	/**
@@ -76,7 +90,7 @@ class TeamPage
 	 * @param array $classMap
 	 * @return void
 	 */
-	public static function autoload(&$classMap)
+	public function autoload(&$classMap) : void
 	{
 		$classMap['TeamPage\\'] = 'TeamPage/';
 	}
@@ -88,7 +102,7 @@ class TeamPage
 	 * @param array $actions An array containing all possible SMF actions. This includes loading different hooks for certain areas.
 	 * @return void
 	 */
-	public static function hookActions(&$actions)
+	public function hookActions(&$actions) : void
 	{
 		// The main action
 		$actions['team'] = ['TeamPage/View.php', __NAMESPACE__  . '\View::Main#'];
@@ -97,15 +111,15 @@ class TeamPage
 		switch ($_REQUEST['action'])
 		{
 			case 'admin':
-				add_integration_function('integrate_admin_areas', __NAMESPACE__ . '\Settings::hookAreas', false, '$sourcedir/TeamPage/Settings.php');
+				add_integration_function('integrate_admin_areas', __NAMESPACE__ . '\Settings::hookAreas#', false, '$sourcedir/TeamPage/Settings.php');
 				break;
 			case 'helpadmin':
-				add_integration_function('integrate_helpadmin', __NAMESPACE__ . '\Settings::helpadmin', false, '$sourcedir/TeamPage/Settings.php');
+				add_integration_function('integrate_helpadmin', __NAMESPACE__ . '\Settings::helpadmin#', false, '$sourcedir/TeamPage/Settings.php');
 				break;
 			case 'who':
 				loadLanguage('TeamPage/');
-				add_integration_function('who_allowed', __CLASS__ . '::whoAllowed', false);
-				add_integration_function('integrate_whos_online', __CLASS__ . '::whoData', false);
+				add_integration_function('who_allowed', __CLASS__ . '::whoAllowed#', false);
+				add_integration_function('integrate_whos_online', __CLASS__ . '::whoData#', false);
 				break;
 		}
 	}
@@ -117,44 +131,48 @@ class TeamPage
 	 * @param array $buttons An array containing all possible tabs for the main menu.
 	 * @return void
 	 */
-	public static function hookButtons(&$buttons)
+	public function hookButtons(&$buttons) : void
 	{
 		global $txt, $scripturl, $modSettings;
 
 		loadLanguage('TeamPage/');
 
 		$before = 'admin';
-		$temp_buttons = array();
-		foreach ($buttons as $k => $v) {
-			if ($k == $before) {
-				$temp_buttons['team'] = array(
+		$temp_buttons = [];
+		foreach ($buttons as $k => $v)
+		{
+			if ($k == $before)
+			{
+				$temp_buttons['team'] = [
 					'title' => $txt['TeamPage_main_button'],
 					'href' => $scripturl . '?action=team',
 					'icon' => 'team',
 					'show' => allowedTo('teampage_canAccess') && !empty($modSettings['TeamPage_enable']),
-				);
+				];
 			}
 			$temp_buttons[$k] = $v;
 		}
 		$buttons = $temp_buttons;
 
 		// DUH! winning!
-		self::Credits();
+		$this->Credits();
 	}
 
 	/**
 	 * TeamPage::Credits()
 	 *
 	 * Used in the credits action.
-	 * @param boolean $return decide between returning a string or append it to a known context var.
+	 * 
 	 * @return string A link for copyright notice
 	 */
-	public static function Credits()
+	public function Credits() : string
 	{
 		global $context;
 
-		if (isset($context['current_action']) && $context['current_action'] === 'team')
-			return '<br /><div style="text-align: center;"><span class="smalltext">Powered by <a href="https://smftricks.com" target="_blank" rel="noopener">Team Page</a></span></div>';
+		if (!isset($context['current_action']) || $context['current_action'] !== 'team')
+			return '';
+
+		return '<br /><div style="text-align: center;"><span class="smalltext">Powered by <a href="https://smftricks.com" target="_blank" rel="noopener">Team Page</a></span></div>';
 	}
 
 	/**
@@ -164,11 +182,9 @@ class TeamPage
 	 * @param $allowedActions is the array of actions that require a specific permission.
 	 * @return void
 	 */
-	public static function whoAllowed(&$allowedActions)
+	public function whoAllowed(&$allowedActions) : void
 	{
-		$allowedActions += array(
-			'teampage' => array('admin_forum'),
-		);
+		$allowedActions['teampage'] = ['admin_forum'];
 	}
 
 	/**
@@ -178,7 +194,7 @@ class TeamPage
 	 * @param $action It gets the request parameters 
 	 * @return string for the current action
 	 */
-	public static function whoData($actions)
+	public function whoData($actions) : string
 	{
 		global $txt;
 
@@ -194,7 +210,7 @@ class TeamPage
 	 * 
 	 * @return void
 	 */
-	public static function preCSS()
+	public function preCSS() : void
 	{
 		global $settings;
 
