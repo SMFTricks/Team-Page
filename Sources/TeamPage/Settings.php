@@ -141,16 +141,16 @@ class Settings
 		$context[$context['admin_menu_name']]['tab_data']['title'] = $context['page_title'];
 
 		// Custom Fields
-		$this->_custom_fields = Helper::Get(0, 100000, 'field_name', 'custom_fields',
+		$this->_custom_fields = Helper::Get(0, 100000, 'field_order', 'custom_fields',
 			['col_name', 'field_name'],
 			'WHERE active = {int:active}',
 			false, '',
 			[
-				'active' => 1				
+				'active' => 1
 			]
 		);
 		foreach ($this->_custom_fields as $custom_field)
-			$context['TeamPage_custom_fields'][$custom_field['col_name']] = $custom_field['field_name'];
+			$context['TeamPage_custom_fields'][$custom_field['col_name']] = tokenTxtReplace($custom_field['field_name']);
 
 		$config_vars = [
 			['title', 'TeamPage_page_settings'],
