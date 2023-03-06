@@ -205,7 +205,7 @@ function display_member($user, $group_color = false)
 			style="' . (!empty($modSettings['TeamPage_avatars_width']) ? '
 				width:' . $modSettings['TeamPage_avatars_width'] . 'px;' : '') . (!empty($modSettings['TeamPage_avatars_height']) ? '
 				height:' . $modSettings['TeamPage_avatars_height'] . 'px;' : '') . '
-		" />' : '', '
+		">' : '', '
 		<h4 class="teamuser_name">
 			<a href="', $scripturl, '?action=profile;u=', $user['id_member'], '"', !empty($group_color) ? ' style="color: '. $group_color . ' !important;"' : '', '>', $user['real_name'], '</a>
 			', !empty($modSettings['TeamPage_show_custom']) && !empty($user['usertitle']) ? ' 
