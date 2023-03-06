@@ -2,9 +2,9 @@
 
 /**
  * @package Team Page
- * @version 5.2
+ * @version 5.4
  * @author Diego Andrés <diegoandres_cortes@outlook.com>
- * @copyright Copyright (c) 2022, SMF Tricks
+ * @copyright Copyright (c) 2023, SMF Tricks
  * @license https://www.mozilla.org/en-US/MPL/2.0/
  */
 
@@ -18,7 +18,7 @@ class Settings
 	/**
 	 * @var array The custom fields
 	 */
-	public static $_custom_fields = [];
+	private $_custom_fields = [];
 
 	/**
 	 * Settings::hookAreas()
@@ -27,7 +27,7 @@ class Settings
 	 * @param array $admin_areas An array with all the admin areas
 	 * @return void
 	 */
-	public static function hookAreas(&$admin_areas) : void
+	public function hookAreas(&$admin_areas) : void
 	{
 		global $txt;
 
@@ -35,7 +35,7 @@ class Settings
 		
 		$admin_areas['config']['areas']['teampage'] = [
 			'label' => $txt['TeamPage_button'],
-			'function' => __NAMESPACE__ . '\Settings::Index',
+			'function' => __NAMESPACE__ . '\Settings::Index#',
 			'icon' => 'server',
 			'subsections' => [
 				'pages' => [$txt['TeamPage_page_pages']],
@@ -44,7 +44,7 @@ class Settings
 		];
 
 		// Permissions
-		add_integration_function('integrate_load_permissions', __CLASS__.'::Permissions', false);
+		add_integration_function('integrate_load_permissions', __CLASS__.'::Permissions#', false);
 		// Delete membergroup
 		add_integration_function('integrate_delete_membergroups', __NAMESPACE__ . '\Groups::Delete#', false);
 	}
@@ -57,7 +57,7 @@ class Settings
 	 * @param array $permissionList An associative array with all the possible permissions.
 	 * @return void
 	 */
-	public static function Permissions(&$permissionGroups, &$permissionList, &$leftPermissionGroups, &$hiddenPermissions) : void
+	public function Permissions(&$permissionGroups, &$permissionList, &$leftPermissionGroups, &$hiddenPermissions) : void
 	{
 		global $modSettings;
 
@@ -80,7 +80,7 @@ class Settings
 	 *
 	 * @return void
 	 */
-	public static function helpadmin() : void
+	public function helpadmin() : void
 	{
 		loadLanguage('TeamPage/');
 	}
@@ -92,7 +92,7 @@ class Settings
 	 * 
 	 * @return void
 	 */
-	public static function Index() : void
+	public function Index() : void
 	{
 		global $txt, $context;
 
@@ -129,7 +129,7 @@ class Settings
 	 * 
 	 * @return void
 	 */
-	public static function Main($return_config = false) : void
+	public function Main($return_config = false) : void
 	{
 		global $context, $txt, $sourcedir;
 
@@ -141,7 +141,7 @@ class Settings
 		$context[$context['admin_menu_name']]['tab_data']['title'] = $context['page_title'];
 
 		// Custom Fields
-		self::$_custom_fields = Helper::Get(0, 100000, 'field_name', 'custom_fields',
+		$this->_custom_fields = Helper::Get(0, 100000, 'field_name', 'custom_fields',
 			['col_name', 'field_name'],
 			'WHERE active = {int:active}',
 			false, '',
@@ -149,7 +149,7 @@ class Settings
 				'active' => 1				
 			]
 		);
-		foreach (self::$_custom_fields as $custom_field)
+		foreach ($this->_custom_fields as $custom_field)
 			$context['TeamPage_custom_fields'][$custom_field['col_name']] = $custom_field['field_name'];
 
 		$config_vars = [
@@ -159,6 +159,10 @@ class Settings
 			['title', 'TeamPage_page_settings_layout'],
 			['check', 'TeamPage_show_badges'],
 			['check', 'TeamPage_show_description'],
+			['select', 'TeamPage_sort_by', 'subtext' => $txt['TeamPage_sort_by_desc'], [
+				$txt['TeamPage_sort_by_id'],
+				$txt['TeamPage_sort_by_name']
+			]],
 			'',
 			['check', 'TeamPage_show_custom'],
 			['check', 'TeamPage_show_avatars', 'subtext' => $txt['TeamPage_addinfo_desc']],
