@@ -68,6 +68,9 @@
 #tp_main_boards .team_members {
 	grid-template-columns: 1fr 1fr;
 }
+#team_block_bottom .team_members {
+	grid-template-columns: 1fr 1fr 1fr;
+}
 .team_members .windowbg {
 	margin: 0;
 }
@@ -106,6 +109,11 @@ div:where(#team_block_bottom) .team_members img.teamuser_avatar {
 }
 
 /* Responsive ez */
+@media (max-width: 1200px) {
+	#team_block_bottom .team_members {
+		grid-template-columns: 1fr 1fr;
+	}
+}
 @media (max-width: 991px) {
 	div:where(#team_block_left, #team_block_right, #team_block_bottom) .team_group_container .team_members,
 	#tp_main_boards .team_members  {
@@ -117,6 +125,9 @@ div:where(#team_block_bottom) .team_members img.teamuser_avatar {
 			"left"
 			"right"
 			"bottom";
+	}
+	#team_block_bottom .team_members {
+		grid-template-columns: 1fr;
 	}
 }
 @media (max-width: 480px)
