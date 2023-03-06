@@ -4,9 +4,9 @@
  * TeamPage.english
  *
  * @package Team Page
- * @version 5.0
+ * @version 5.4
  * @author Diego Andrés <diegoandres_cortes@outlook.com>
- * @copyright Copyright (c) 2020, SMF Tricks
+ * @copyright Copyright (c) 2023, SMF Tricks
  * @license https://www.mozilla.org/en-US/MPL/2.0/
  */
 
@@ -86,6 +86,7 @@ $txt['TeamPage_mods_type_select'] = 'Select type of list';
 $txt['TeamPage_mods_type_user'] = 'Users based';
 $txt['TeamPage_mods_type_board'] = 'Boards based';
 $txt['TeamPage_mods_boards'] = 'Select boards';
+$txt['TeamPage_mods_boards_description'] = 'These are the forum moderators.';
 
 // Settings.
 $txt['TeamPage_enable'] = 'Enable the team page?';
@@ -118,3 +119,9 @@ $txt['TeamPages_boards_moderating'] = 'Boards Moderating';
 
 // Custom Fields
 $txt['TeamPage_show_custom_fields'] = 'Show custom profile fields';
+
+// Sorting
+$txt['TeamPage_sort_by'] = 'Sort by';
+$txt['TeamPage_sort_by_id'] = 'ID';
+$txt['TeamPage_sort_by_name'] = 'Name';
+$txt['TeamPage_sort_by_desc'] = 'Select the default order for users in all pages.<br>Members in additional groups are sorted separately below the primary members.';
