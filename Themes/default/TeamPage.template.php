@@ -280,8 +280,8 @@ function user_custom_fields($user) : void
 	// Display each custom field
 	foreach($custom_fields as $custom_field)
 	{
-		// Check if the user has it
-		if (empty($user['custom_fields'][$custom_field]))
+		// Check if the user has it and it's active
+		if (empty($user['custom_fields'][$custom_field]) || empty($user['custom_fields'][$custom_field]['active']))
 			continue;
 
 		// Alright, add it
