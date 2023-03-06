@@ -227,7 +227,7 @@ function display_member($user, $group_color = false)
 
 			<!-- Date Registered -->
 			', !empty($modSettings['TeamPage_show_registered']) ? '
-			<span class="tp_user_joined">
+			<span>
 				<strong>' . $txt['TeamPage_date_registered'] . ':</strong>
 				<span>' . timeformat($user['date_registered']) . '</span>
 			</span>' : '', '
@@ -235,7 +235,7 @@ function display_member($user, $group_color = false)
 
 			<!-- Last Activity -->
 			', !empty($modSettings['TeamPage_show_login']) ? '
-			<span class="tp_user_joined">
+			<span>
 				<strong>' . $txt['TeamPage_last_login'] . ':</strong>
 				<span>' . timeformat($user['last_login']) . '</span>
 			</span>' : '', '
@@ -243,7 +243,7 @@ function display_member($user, $group_color = false)
 
 			<!-- Posts -->
 			', !empty($modSettings['TeamPage_show_posts']) ? '
-			<span class="tp_user_joined">
+			<span>
 				<strong>' . $txt['posts'] . ':</strong>
 				<span>' . $user['posts'] .  '</span>
 			</span>' : '', '
@@ -251,7 +251,7 @@ function display_member($user, $group_color = false)
 
 			<!-- Website -->
 			', !empty($modSettings['TeamPage_show_website']) && !empty($user['website_url']) ? '
-			<span class="tp_user_joined">
+			<span>
 				<strong>' . $txt['TeamPage_website'] . ': </strong>
 				<a href="' . $user['website_url'] . '" target="_blank" rel="noopener">' . $user['website_title'] . '</a>
 			</span>' : '', '
@@ -278,16 +278,16 @@ function user_custom_fields($user) : void
 	$custom_fields = json_decode($modSettings['TeamPage_show_custom_fields']);
 
 	// Display each custom field
-	foreach($custom_fields as $custom_field)
+	foreach ($user['custom_fields'] as $field => $values)
 	{
 		// Check if the user has it and it's active
-		if (empty($user['custom_fields'][$custom_field]) || empty($user['custom_fields'][$custom_field]['active']))
+		if (!in_array($field, $custom_fields) || empty($values['active']))
 			continue;
 
 		// Alright, add it
 		echo '
-			<span class="tp_user_joined">
-				<strong>' . tokenTxtReplace($user['custom_fields'][$custom_field]['field_name']) . ': </strong>', $user['custom_fields'][$custom_field]['value'], '</a>
+			<span>
+				<strong>' . tokenTxtReplace($values['field_name']) . ': </strong>', $values['value'], '</a>
 			</span>';
 	}
 }
