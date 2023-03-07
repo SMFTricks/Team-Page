@@ -194,15 +194,13 @@ class TeamPage
 	 * @param $action It gets the request parameters 
 	 * @return string for the current action
 	 */
-	public function whoData($actions) : string
+	public function whoData($actions)
 	{
 		global $txt;
 
 		// Show this only in the who's online action.
 		if (isset($actions['action']) && ($actions['action'] === 'team'))
 			return $txt['TeamPage_whoall_teampage'];
-
-		return '';
 	}
 
 	/**
