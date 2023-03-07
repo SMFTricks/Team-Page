@@ -23,7 +23,7 @@ class TeamPage
 	/**
 	 * @var string The mod version
 	 */
-	public static $version = '5.4.1';
+	public static $version = '5.4.2';
 
 	/**
 	 * TeamPage::initialize
@@ -201,6 +201,8 @@ class TeamPage
 		// Show this only in the who's online action.
 		if (isset($actions['action']) && ($actions['action'] === 'team'))
 			return $txt['TeamPage_whoall_teampage'];
+
+		return '';
 	}
 
 	/**

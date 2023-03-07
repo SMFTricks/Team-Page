@@ -1,5 +1,8 @@
 # Changelog
 
+#### 5.4.2 - 06 March 2023
+- ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed issue in the 'who' action.
+
 #### 5.4.1 - 05 March 2023
 - ![New Feature](https://smftricks.com/assets/changelog/tag--plus.png) Added a new setting to select the sorting method (ID or Name).
 - ![Improvement](https://smftricks.com/assets/changelog/tag--pencil.png) Minor layout improvements and fixes.
