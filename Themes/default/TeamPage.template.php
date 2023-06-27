@@ -210,7 +210,7 @@ function display_member($user, $group_color = false)
 			<a href="', $scripturl, '?action=profile;u=', $user['id_member'], '"', !empty($group_color) ? ' style="color: '. $group_color . ' !important;"' : '', '>
 				', $user['real_name'], '
 			</a>
-			', !empty($modSettings['TeamPage_show_custom']) && !empty($user['usertitle']) ? ' 
+			', (!empty($modSettings['TeamPage_show_custom']) && !empty($user['usertitle']) && !empty($modSettings['titlesEnable'])) ? ' 
 			- <strong>'. $user['usertitle']. '</strong>' : '', '
 		</h4>
 		<div class="teamuser_info">

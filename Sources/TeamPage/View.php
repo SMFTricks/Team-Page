@@ -155,7 +155,7 @@ class View
 		// Details
 		$context['teampage']['page_id'] = $this->_page_details['id_page'];
 		$context['teampage_title'] = $this->_page_details['page_name'];
-		$context['page_title'] .= ' - ' . $this->_page_details['page_name'];
+		$context['page_title'] .= ' - ' . un_htmlspecialchars($this->_page_details['page_name']);
 		$context['teampage']['page_type'] = $this->_page_details['page_type'];
 		$context['teampage']['moderators'] = [];
 		$context['teampage']['groups'] = [];

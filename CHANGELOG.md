@@ -1,5 +1,10 @@
 # Changelog
 
+#### 5.4.3 - 26 June 2023
+- ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed displaying disabled Custom Titles.
+- ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed HTML entities not displaying.
+- ![Improvement](https://smftricks.com/assets/changelog/tag--pencil.png) Changed settings descriptions.
+
 #### 5.4.2 - 06 March 2023
 - ![Bug Fix](https://smftricks.com/assets/changelog/bug--minus.png) Fixed issue in the 'who' action.
 

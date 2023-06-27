@@ -73,7 +73,7 @@ class Pages
 							'format' => '<a href="'. $scripturl. '?action=team;sa=%1$s">%2$s</a>',
 							'params' => [
 								'page_action' => true,
-								'page_name' => true,
+								'page_name' => false,
 							],
 						],
 						'style' => 'width: 8%',
@@ -265,7 +265,7 @@ class Pages
 		// Page details
 		$context['template_layers'][] = 'pages_edit';
 		$context['sub_template'] = 'pages_edit';
-		$context['page_title'] = $txt['TeamPage']. ' - ' . sprintf($txt['TeamPage_pages_editing_page'], $context['page_details']['page_name']);
+		$context['page_title'] = $txt['TeamPage']. ' - ' . sprintf($txt['TeamPage_pages_editing_page'], un_htmlspecialchars($context['page_details']['page_name']));
 		$context['TeamPage_pages_title'] = $context['page_title'];
 	}
 
